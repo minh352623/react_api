@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
+body {
+  line-height: 1.5;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  outline: none;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+//pagination
+.pagination {
+  margin-top: 12px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 10px;
+  li {
+    display: inline-block;
+    padding: 5px;
+    cursor: pointer;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #21c25d;
+    a {
+      color: #fff;
+    }
+  }
+  .selected {
+    color: #03411a;
+    transform: scale(1.2);
+  }
+}
