@@ -1,7 +1,8 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
 import Header from "../../components/layouts/Header";
+import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,23 +10,71 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Swal from "sweetalert2";
 import Form from "react-bootstrap/Form";
-import lodash from "lodash";
 import ReactPaginate from "react-paginate";
-import { useSelector } from "react-redux";
-import { formatter } from "../../trait/FormatMoney";
-import parse from "html-react-parser";
-const ListProduct = () => {
-  const { user } = useSelector((state) => state.user);
+import moment from "moment-timezone";
+import lodash from "lodash";
+import Swal from "sweetalert2";
 
-  const [product, setProduct] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState("");
+const ListUser = () => {
+  const navigate = useNavigate();
+
+  const { user } = useSelector((state) => state.user);
+  const [users, setUsers] = useState();
+  const [groups, setGroups] = useState();
+
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [query, setQuery] = useState("");
+  const [groupSeach, setGroupSearch] = useState("");
+  const FetchGroups = async () => {
+    setLoading(true);
+    try {
+      const respone = await axios.get(
+        `http://127.0.0.1:8000/api/users/list?page=${page}&keyword=${query}&group=${groupSeach}`,
+        {
+          headers: { Authorization: "Bearer " + user?.token },
+        }
+      );
+      if (respone.status == 200 && respone.data) {
+        //console.log(respone.data);
+        setUsers(respone.data.users);
+        setGroups(respone.data.groups);
+        setLoading(false);
+      }
+    } catch (err) {
+      //console.log(err);
+      navigate("/login");
+    }
+  };
+  useEffect(() => {
+    FetchGroups();
+  }, [page, query, groupSeach]);
+
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
-  const deleteProduct = async (id) => {
+  const { per_page } = users || [];
+  //   //console.log(per_page);
+  useEffect(() => {
+    if (!users || !users.total) return;
+
+    users && setPageCount(Math.ceil(users.total / per_page));
+  }, [itemOffset, users]);
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * per_page) % users.total;
+    setItemOffset(newOffset);
+    setPage(event.selected + 1);
+  };
+
+  //search
+  const handleSearch = lodash.debounce((e) => {
+    setQuery(e.target.value);
+  }, 700);
+  const searchGroup = (e) => {
+    setGroupSearch(e.target.value);
+  };
+
+  const handleDelete = (id) => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -38,92 +87,53 @@ const ListProduct = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `http://127.0.0.1:8000/api/product/delete/${id}`,
+            `http://127.0.0.1:8000/api/users/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }
           );
-
-          FetchData();
+          FetchGroups();
+          //console.log(data);
           Swal.fire("Deleted!", "Your post has been deleted.", "success");
         }
       });
-    } catch (e) {
-      //console.log(e);
+    } catch (err) {
+      console.log(err);
     }
   };
-
-  const navigate = useNavigate();
-
-  const handleSearch = lodash.debounce((e) => {
-    setQuery(e.target.value);
-  }, 500);
-
-  const FetchData = async () => {
-    try {
-      setLoading(true);
-      ////console.log(page);
-      const respone = await axios.get(
-        "http://127.0.0.1:8000/api/product/list?query=" +
-          query +
-          "&page=" +
-          page,
-        {
-          headers: { Authorization: "Bearer " + user?.token },
-        }
-      );
-      console.log(respone);
-      if (respone.data.data) {
-        setProduct(respone.data);
-
-        setLoading(false);
-      }
-    } catch (e) {
-      ////console.log(e);
-      // alert("bạn chưa đăng nhập");
-      navigate("/login");
-    }
-  };
-
-  useEffect(() => {
-    FetchData();
-    ////console.log(product);
-  }, [query, page]);
-  const { current_page, total, per_page } = product || [];
-  ////console.log(total);
-
-  useEffect(() => {
-    if (!product || !product.total) return;
-
-    product && setPageCount(Math.ceil(product.total / per_page));
-  }, [itemOffset, product]);
-  const handlePageClick = (event) => {
-    const newOffset = (event.selected * per_page) % product.total;
-    setItemOffset(newOffset);
-    setPage(event.selected + 1);
-  };
-
-  //console.log(product);
   return (
     <>
       <Header></Header>
-
-      <div className="container mt-3">
+      <div className="container mt-5">
         <div className="text-end">
           <Link
             className="py-3 px-8 bg-green-500 mb-3 rounded-lg text-white inline-block text-lg"
-            to="/addProduct"
+            to="/addUser"
           >
             Create
           </Link>
         </div>
-        <Form.Control
-          className="my-3"
-          type="text"
-          name="name"
-          placeholder="Enter search"
-          onChange={handleSearch}
-        />
+        <div className="flex items-center gap-x-5">
+          <Form.Select
+            aria-label="Default select example"
+            onChange={searchGroup}
+          >
+            <option value="">Group</option>
+            {groups?.length > 0 &&
+              groups.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+          </Form.Select>
+          <Form.Control
+            className="my-3"
+            type="text"
+            name="name"
+            placeholder="Enter search"
+            onChange={handleSearch}
+          />
+        </div>
         {loading && (
           <span className="text-center mx-auto flex justify-center w-8 h-8 rounded-full border-slate-600 border-4 border-r-4 border-r-transparent animate-spin inline-block"></span>
         )}
@@ -134,30 +144,24 @@ const ListProduct = () => {
                 <TableRow className="text-center">
                   <TableCell className="w-[5%]">#</TableCell>
                   <TableCell align="left">Name</TableCell>
-                  <TableCell align="left">Price</TableCell>
+                  <TableCell align="left">Email</TableCell>
+                  <TableCell align="left">Group</TableCell>
 
-                  <TableCell className="w-[20%]" align="left">
-                    Image
-                  </TableCell>
-                  <TableCell align="left">Description</TableCell>
-                  <TableCell className="w-[10%]" align="left">
-                    Category
-                  </TableCell>
-                  <TableCell className="w-[10%]" align="left">
-                    View
+                  <TableCell align="left" className="w-[20%]">
+                    Created
                   </TableCell>
 
-                  <TableCell className="w-[5%]" align="left">
+                  <TableCell className="w-[10%]" align="left">
                     Edit
                   </TableCell>
-                  <TableCell className="w-[5%]" align="left">
+                  <TableCell className="w-[10%]" align="left">
                     Delete
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {product?.data?.length > 0 &&
-                  product.data?.map((item) => (
+                {users.data.length > 0 &&
+                  users.data.map((item) => (
                     <TableRow
                       key={item.id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -169,56 +173,23 @@ const ListProduct = () => {
                         {item.name}
                       </TableCell>
                       <TableCell align="left" scope="row">
-                        {formatter.format(item.price)}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        component="th"
-                        scope="row"
-                        className="max-w-[50px] h-[150px] inline-block"
-                      >
-                        <img
-                          className="w-full h-full object-cover"
-                          src={`http://127.0.0.1:8000${item.file_path}`}
-                          alt=""
-                        />
+                        {item.email}
                       </TableCell>
                       <TableCell align="left" scope="row">
-                        {parse(item.description)}
-                      </TableCell>
-                      <TableCell align="left" scope="row">
-                        <span className="font-bold text-green-500">
-                          {item.category_name}
+                        <span className="font-bold text-green-600">
+                          {item.name_group}
                         </span>
                       </TableCell>
                       <TableCell align="left" scope="row">
-                        <p className="flex items-center gap-x-2 m-0">
-                          <span>{item.view}</span>
-                          <span>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-6 w-6"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              strokeWidth={2}
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                              />
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                              />
-                            </svg>
-                          </span>
-                        </p>
+                        <>
+                          {moment(item.created_at)
+                            .tz("Asia/Bangkok")
+                            .format("DD/MM/YYYY h:mm:ss")}
+                        </>
                       </TableCell>
+
                       <TableCell align="left">
-                        <Link to={"/updateProduct/" + item.id}>
+                        <Link to={"/updateUser/" + item.id}>
                           <span>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -238,8 +209,8 @@ const ListProduct = () => {
                         </Link>
                       </TableCell>
                       <TableCell align="left" className="flex justify-end">
-                        {!loading && (
-                          <span onClick={() => deleteProduct(item.id)}>
+                        {user.id != item.id && (
+                          <span onClick={() => handleDelete(item.id)}>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               className="h-6 w-6 text-red-500 hover:scale-125 cursor-pointer"
@@ -256,9 +227,20 @@ const ListProduct = () => {
                             </svg>
                           </span>
                         )}
+                        {user.id === item.id && <span>----</span>}
                       </TableCell>
                     </TableRow>
                   ))}
+                {users.data.length <= 0 && (
+                  <TableRow>
+                    <TableCell colSpan="7">
+                      <span className="text-center text-red-500 block text-xl">
+                        {" "}
+                        Không có dữ liệu
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>
@@ -308,4 +290,4 @@ const ListProduct = () => {
   );
 };
 
-export default ListProduct;
+export default ListUser;

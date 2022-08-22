@@ -5,16 +5,12 @@ import axios from "axios";
 import Header from "../components/layouts/Header";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import HeaderClient from "../components/layouts/HeaderClient";
 // import { useHistory } from "react-router-dom";
 // let history = useHistory();
 
 const Register = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    if (localStorage.getItem("user-info")) {
-      navigate("/");
-    }
-  }, []);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -34,8 +30,9 @@ const Register = () => {
         }
       );
       console.log(result);
-      localStorage.setItem("user-info", JSON.stringify(result.data));
-      navigate("/");
+      if (result.status == 201) {
+        navigate("/login");
+      }
     } catch (e) {
       console.log(e.response.data.errors);
       setErrors("Thông tin không hợp lệ");
@@ -44,7 +41,8 @@ const Register = () => {
   };
   return (
     <>
-      <Header />
+      <HeaderClient check={false}></HeaderClient>
+
       <Form
         method="post"
         onSubmit={handleSubmit}

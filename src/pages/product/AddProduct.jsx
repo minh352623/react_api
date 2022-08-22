@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Header from "../../components/layouts/Header";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
@@ -7,23 +7,26 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
-
+import { useSelector } from "react-redux";
+import { Editor } from "@tinymce/tinymce-react";
 const schema = yup.object({
   name: yup.string().min(6, "Tên sản phẩm ít nhất 6 kí tự"),
   price: yup
-    .number("Giá Sản phẩm phải là số")
-    .required("Giá bắt buộc phải nhập")
-    .min(1, "Giá sản phẩm ít nhất 1 kí tự"),
+    .number()
+    .min(1, "Giá sản phẩm ít nhất 1 số")
+    .required("Giá bắt buộc phải nhập"),
 
-  description: yup
+  category: yup
     .string()
-    .required("Thông tin bắt buộc phải nhập")
-    .min(10, "Thông tin sản phẩm ít nhất 10 kí tự"),
+    .required("Danh mục bắt buộc phải chọn")
+    .min(1, "Danh mục bắt buộc phải chọn"),
 });
 const AddProduct = () => {
+  const { user } = useSelector((state) => state.user);
+  const [category, setCategory] = useState();
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-
+  const editorRef = useRef(null);
   const navigate = useNavigate();
   const {
     register,
@@ -34,12 +37,22 @@ const AddProduct = () => {
     resolver: yupResolver(schema),
     mode: "onChange",
   });
-  useEffect(() => {
-    if (!localStorage.getItem("user-info")) {
-      navigate("/login");
+  const fetchCate = async () => {
+    const response = await axios({
+      method: "get",
+      url: "http://127.0.0.1:8000/api/category/all",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + user?.token,
+      },
+    });
+    if (response) {
+      setCategory(response.data);
     }
+  };
+  useEffect(() => {
+    fetchCate();
   }, []);
-
   const onSubmitAdd = async (values) => {
     console.log(values);
     if (!isValid) return;
@@ -47,27 +60,34 @@ const AddProduct = () => {
     // file_path: values.file_path[0].name,
     // console.log(values);
 
-    console.log(values.file_path);
+    // console.log([...values.image_detail]);
+    // console.log(values.file_path[0]);
     formData.append("name", values.name);
     formData.append("price", values.price);
-    formData.append("description", values.description);
+    formData.append("category", values.category);
+
+    formData.append("description", editorRef.current.getContent());
     formData.append("file_path", values.file_path[0]);
+    [...values.image_detail].forEach((file) => {
+      formData.append("image_detail[]", file);
+    });
 
     try {
       const result = await axios({
         method: "post",
         url: "http://127.0.0.1:8000/api/product/add",
         headers: {
-          authorization: "you token",
           "Content-Type": "application/json",
+          Authorization: "Bearer " + user?.token,
         },
         data: formData,
       });
       reset({
         name: "",
         price: "",
-        description: "",
         file_path: "",
+        image_detail: "",
+        category: "",
       });
       if (result) {
         setMessage("Thêm thành công");
@@ -125,10 +145,29 @@ const AddProduct = () => {
               </p>
             )}
           </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Category</Form.Label>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Select
+              aria-label="Default select example"
+              name="category"
+              required
+              {...register("category")}
+            >
+              <option value="">Category</option>
+              {category?.length > 0 &&
+                category.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+            </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formControlsFile">
             <Form.Label>Image</Form.Label>
             <Form.Control
+              required
               type="file"
               name="file_path"
               {...register("file_path")}
@@ -140,19 +179,61 @@ const AddProduct = () => {
               </p>
             )}
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Description</Form.Label>
+          <Form.Group className="mb-3" controlId="formControlsFile">
+            <Form.Label>Image Detail</Form.Label>
             <Form.Control
-              as="textarea"
-              name="description"
-              {...register("description")}
-              placeholder="description"
+              type="file"
+              multiple
+              name="image_detail"
+              {...register("image_detail")}
+              placeholder="Password"
             />
-            {errors?.description && (
+            {errors?.image_detail && (
               <p className="text-red-500 mt-1 text-sm">
-                {errors.description.message}
+                {errors.image_detail.message}
               </p>
             )}
+          </Form.Group>
+       
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Description</Form.Label>
+
+            <Editor
+              apiKey="1dnd16pp1u3k2hu5r68h113r39yu55bku2pc760cem97t0t3"
+              onInit={(evt, editor) => (editorRef.current = editor)}
+              initialValue="<p>This is the initial content of the editor.</p>"
+              init={{
+                height: 500,
+                menubar: false,
+                plugins: [
+                  "advlist",
+                  "autolink",
+                  "lists",
+                  "link",
+                  "image",
+                  "charmap",
+                  "preview",
+                  "anchor",
+                  "searchreplace",
+                  "visualblocks",
+                  "code",
+                  "fullscreen",
+                  "insertdatetime",
+                  "media",
+                  "table",
+                  "code",
+                  "help",
+                  "wordcount",
+                ],
+                toolbar:
+                  "undo redo | blocks | " +
+                  "bold italic forecolor | alignleft aligncenter " +
+                  "alignright alignjustify | bullist numlist outdent indent | " +
+                  "removeformat | help",
+                content_style:
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+              }}
+            />
           </Form.Group>
         </div>
 

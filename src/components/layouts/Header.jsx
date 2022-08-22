@@ -6,14 +6,40 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading, setUser } from "../../redux-thunk/userSlice";
+import axios from "axios";
+import Cookies from "universal-cookie";
+import Loader from "../Loader";
 
-const Header = () => {
+const cookies = new Cookies();
+
+const Header = ({ check = true }) => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user-info"));
-  const handleLogout = () => {
-    localStorage.removeItem("user-info");
-    navigate("/login");
-  };
+  const { user, loading } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const handleLogout = React.useCallback(async () => {
+    try {
+      dispatch(setUser(null));
+      cookies.remove("jwt");
+      cookies.remove("user");
+
+      const result = await axios({
+        method: "get",
+        url: "http://127.0.0.1:8000/api/logout",
+        headers: {
+          Authorization: "Bearer " + user?.token,
+        },
+      });
+      ////console.log(result);
+
+      navigate("/login");
+    } catch (err) {
+      navigate("/login");
+    }
+  }, [user]);
+  if (loading) return <Loader></Loader>;
   return (
     <>
       <Navbar className="bg-white shadow-lg" expand="lg">
@@ -41,61 +67,125 @@ const Header = () => {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
-            {localStorage.getItem("user-info") ? (
-              <div className="flex justify-around items-center flex-1">
-                <Nav
-                  className="me-auto my-2 my-lg-0 flex gap-3 text-black"
-                  style={{ maxHeight: "100px" }}
-                  navbarScroll
+            <div className="flex justify-around items-center flex-1">
+              <Nav
+                className="me-auto my-2 my-lg-0 flex gap-3 text-black"
+                style={{ maxHeight: "100px" }}
+                navbarScroll
+              >
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/"
                 >
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive ? "text-green-500" : "text-black"
-                    }
-                    to="/"
-                  >
-                    Home
-                  </NavLink>
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive ? "text-green-500" : "text-black"
-                    }
-                    to="/product"
-                  >
-                    Product
-                  </NavLink>
-                </Nav>
-                <Nav>
-                  <NavDropdown title={user && user.name}>
-                    <NavDropdown.Item onClick={handleLogout}>
-                      Logout
-                    </NavDropdown.Item>
-                  </NavDropdown>
-                </Nav>
-              </div>
-            ) : (
-              <>
-                <p></p>
-                <Nav className="flex gap-3 justify-end">
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive ? "text-green-500" : "text-black"
-                    }
-                    to="/login"
-                  >
-                    Login
-                  </NavLink>
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive ? "text-green-500" : "text-black"
-                    }
-                    to="/register"
-                  >
-                    Register
-                  </NavLink>
-                </Nav>
-              </>
-            )}
+                  Home
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/product"
+                >
+                  Product
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/category"
+                >
+                  Categoty
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/group"
+                >
+                  Group
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/users"
+                >
+                  Users
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/slider"
+                >
+                  Slider
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/settings"
+                >
+                  Settings
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/menu"
+                >
+                  Menu
+                </NavLink>
+              </Nav>
+              {user && user != null && check ? (
+                <>
+                  <Nav>
+                    <NavDropdown
+                      className="admin"
+                      title={user && "Hi ! " + user?.name}
+                    >
+                      <NavDropdown.Item onClick={handleLogout}>
+                        Logout
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  </Nav>
+                  <span>
+                    <img
+                      src={
+                        user.image
+                          ? `http://127.0.0.1:8000${user.image}`
+                          : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+                      }
+                      className="w-10 h-10 object-cover rounded-full shadow-lg"
+                      alt=""
+                    />
+                  </span>
+                </>
+              ) : (
+                <>
+                  <p></p>
+                  <Nav className="flex gap-3 justify-end">
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? "text-green-500" : "text-black"
+                      }
+                      to="/login"
+                    >
+                      Login
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? "text-green-500" : "text-black"
+                      }
+                      to="/register"
+                    >
+                      Register
+                    </NavLink>
+                  </Nav>
+                </>
+              )}
+            </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>
