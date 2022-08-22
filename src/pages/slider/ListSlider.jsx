@@ -1,6 +1,4 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/layouts/Header";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,23 +7,67 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Swal from "sweetalert2";
-import Form from "react-bootstrap/Form";
-import lodash from "lodash";
-import ReactPaginate from "react-paginate";
+import axios from "axios";
 import { useSelector } from "react-redux";
-import { formatter } from "../../trait/FormatMoney";
-import parse from "html-react-parser";
-const ListProduct = () => {
-  const { user } = useSelector((state) => state.user);
+import { Link, useNavigate } from "react-router-dom";
+import moment from "moment-timezone";
+import Swal from "sweetalert2";
+import ReactPaginate from "react-paginate";
+import lodash from "lodash";
+import Form from "react-bootstrap/Form";
 
-  const [product, setProduct] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState("");
+const ListSlider = () => {
+  const navigate = useNavigate();
+
+  const { user } = useSelector((state) => state.user);
+  const [sliders, setSlider] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [query, setQuery] = useState("");
+
+  const FetchSlider = async () => {
+    setLoading(true);
+    try {
+      const respone = await axios.get(
+        `http://127.0.0.1:8000/api/slider/list/?page=${page}&query=${query}`,
+        {
+          headers: { Authorization: "Bearer " + user?.token },
+        }
+      );
+      if (respone.data.data) {
+        respone.data.data && setSlider(respone.data);
+        setLoading(false);
+      }
+      console.log(respone);
+    } catch (err) {
+      console.log(err);
+      navigate("/login");
+    }
+  };
+
+  useEffect(() => {
+    FetchSlider();
+  }, [page, query]);
+  const { current_page, total, per_page } = sliders || [];
+  ////console.log(total);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
-  const deleteProduct = async (id) => {
+  useEffect(() => {
+    if (!sliders || !sliders.total) return;
+
+    sliders && setPageCount(Math.ceil(sliders.total / per_page));
+  }, [itemOffset, sliders]);
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * per_page) % sliders.total;
+    setItemOffset(newOffset);
+    setPage(event.selected + 1);
+  };
+
+  const handleSearch = lodash.debounce((e) => {
+    setQuery(e.target.value);
+  }, 500);
+
+  const handleDelete = async (id) => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -38,13 +80,13 @@ const ListProduct = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `http://127.0.0.1:8000/api/product/delete/${id}`,
+            `http://127.0.0.1:8000/api/slider/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }
           );
 
-          FetchData();
+          FetchSlider();
           Swal.fire("Deleted!", "Your post has been deleted.", "success");
         }
       });
@@ -52,67 +94,14 @@ const ListProduct = () => {
       //console.log(e);
     }
   };
-
-  const navigate = useNavigate();
-
-  const handleSearch = lodash.debounce((e) => {
-    setQuery(e.target.value);
-  }, 500);
-
-  const FetchData = async () => {
-    try {
-      setLoading(true);
-      ////console.log(page);
-      const respone = await axios.get(
-        "http://127.0.0.1:8000/api/product/list?query=" +
-          query +
-          "&page=" +
-          page,
-        {
-          headers: { Authorization: "Bearer " + user?.token },
-        }
-      );
-      console.log(respone);
-      if (respone.data.data) {
-        setProduct(respone.data);
-
-        setLoading(false);
-      }
-    } catch (e) {
-      ////console.log(e);
-      // alert("bạn chưa đăng nhập");
-      navigate("/login");
-    }
-  };
-
-  useEffect(() => {
-    FetchData();
-    ////console.log(product);
-  }, [query, page]);
-  const { current_page, total, per_page } = product || [];
-  ////console.log(total);
-
-  useEffect(() => {
-    if (!product || !product.total) return;
-
-    product && setPageCount(Math.ceil(product.total / per_page));
-  }, [itemOffset, product]);
-  const handlePageClick = (event) => {
-    const newOffset = (event.selected * per_page) % product.total;
-    setItemOffset(newOffset);
-    setPage(event.selected + 1);
-  };
-
-  //console.log(product);
   return (
     <>
       <Header></Header>
-
-      <div className="container mt-3">
+      <div className="container mt-5">
         <div className="text-end">
           <Link
             className="py-3 px-8 bg-green-500 mb-3 rounded-lg text-white inline-block text-lg"
-            to="/addProduct"
+            to="/addSlider"
           >
             Create
           </Link>
@@ -133,31 +122,24 @@ const ListProduct = () => {
               <TableHead>
                 <TableRow className="text-center">
                   <TableCell className="w-[5%]">#</TableCell>
-                  <TableCell align="left">Name</TableCell>
-                  <TableCell align="left">Price</TableCell>
-
-                  <TableCell className="w-[20%]" align="left">
+                  <TableCell className="w-[25%]" align="left">
                     Image
                   </TableCell>
+                  <TableCell align="left">Caption</TableCell>
+                  <TableCell align="left">Heading</TableCell>
                   <TableCell align="left">Description</TableCell>
+                  <TableCell align="left">Created</TableCell>
                   <TableCell className="w-[10%]" align="left">
-                    Category
-                  </TableCell>
-                  <TableCell className="w-[10%]" align="left">
-                    View
-                  </TableCell>
-
-                  <TableCell className="w-[5%]" align="left">
                     Edit
                   </TableCell>
-                  <TableCell className="w-[5%]" align="left">
+                  <TableCell className="w-[10%]" align="left">
                     Delete
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {product?.data?.length > 0 &&
-                  product.data?.map((item) => (
+                {sliders.data.length > 0 &&
+                  sliders.data.map((item) => (
                     <TableRow
                       key={item.id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -166,59 +148,33 @@ const ListProduct = () => {
                         {item.id}
                       </TableCell>
                       <TableCell align="left" scope="row">
-                        {item.name}
-                      </TableCell>
-                      <TableCell align="left" scope="row">
-                        {formatter.format(item.price)}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        component="th"
-                        scope="row"
-                        className="max-w-[50px] h-[150px] inline-block"
-                      >
-                        <img
-                          className="w-full h-full object-cover"
-                          src={`http://127.0.0.1:8000${item.file_path}`}
-                          alt=""
-                        />
-                      </TableCell>
-                      <TableCell align="left" scope="row">
-                        {parse(item.description)}
-                      </TableCell>
-                      <TableCell align="left" scope="row">
-                        <span className="font-bold text-green-500">
-                          {item.category_name}
+                        <span>
+                          <img
+                            src={`http://127.0.0.1:8000${item.file_path}`}
+                            alt=""
+                            className="max-h-[150px]"
+                          />
                         </span>
                       </TableCell>
+
                       <TableCell align="left" scope="row">
-                        <p className="flex items-center gap-x-2 m-0">
-                          <span>{item.view}</span>
-                          <span>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-6 w-6"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              strokeWidth={2}
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                              />
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                              />
-                            </svg>
-                          </span>
-                        </p>
+                        {item.caption}
+                      </TableCell>
+                      <TableCell align="left" scope="row">
+                        {item.heading}
+                      </TableCell>
+                      <TableCell align="left" scope="row">
+                        {item.description}
+                      </TableCell>
+                      <TableCell align="left" scope="row">
+                        <>
+                          {moment(item.created_at)
+                            .tz("Asia/Bangkok")
+                            .format("DD/MM/YYYY h:mm:ss A")}
+                        </>
                       </TableCell>
                       <TableCell align="left">
-                        <Link to={"/updateProduct/" + item.id}>
+                        <Link to={"/updateSlider/" + item.id}>
                           <span>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -238,27 +194,36 @@ const ListProduct = () => {
                         </Link>
                       </TableCell>
                       <TableCell align="left" className="flex justify-end">
-                        {!loading && (
-                          <span onClick={() => deleteProduct(item.id)}>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-6 w-6 text-red-500 hover:scale-125 cursor-pointer"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                              />
-                            </svg>
-                          </span>
-                        )}
+                        <span onClick={() => handleDelete(item.id)}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6 text-red-500 hover:scale-125 cursor-pointer"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
+                          </svg>
+                        </span>
                       </TableCell>
                     </TableRow>
                   ))}
+                {(sliders?.data?.length <= 0 || sliders.length <= 0) && (
+                  <TableRow
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell colSpan="8">
+                      <span className="text-center text-red-500 block text-xl">
+                        Không có dữ liệu
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>
@@ -308,4 +273,4 @@ const ListProduct = () => {
   );
 };
 
-export default ListProduct;
+export default ListSlider;

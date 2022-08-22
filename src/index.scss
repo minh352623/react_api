@@ -52,10 +52,13 @@ h6 {
 .pagination {
   margin-top: 12px;
   color: white;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: end;
   gap: 10px;
+  padding: 5px;
+  background-color: #fff;
+  font-weight: bold;
   li {
     display: inline-block;
     padding: 5px;
@@ -66,13 +69,67 @@ h6 {
     align-items: center;
     height: 30px;
     border-radius: 50%;
-    background-color: #21c25d;
+    // background-color: #21c25d;
+
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.538);
     a {
-      color: #fff;
+      color: black;
+    }
+    &:hover {
+      background: #ccc;
+    }
+    &.disabled a {
+      color: #ccc;
     }
   }
   .selected {
-    color: #03411a;
-    transform: scale(1.2);
+    background-color: #ccc;
   }
+}
+.admin .nav-link {
+  display: inline-block;
+  color: #000 !important;
+}
+.nav-link {
+  display: inline-block;
+  color: #fff !important;
+  font-weight: 700 !important;
+}
+
+// THE LOADING EFFECT
+.skeleton {
+  background-color: #e2e5e7;
+  // The shine that's going to move across the skeleton:
+  background-image: linear-gradient(
+    90deg,
+    rgba(#fff, 0),
+    rgba(#fff, 0.5),
+    rgba(#fff, 0)
+  );
+  background-size: 40px 100%; // width of the shine
+  background-repeat: no-repeat; // No need to repeat the shine effect
+  background-position: left -40px top 0; // Place shine on the left side, with offset on the left based on the width of the shine - see background-size
+  animation: shine 1s ease infinite; // increase animation time to see effect in 'slow-mo'
+}
+
+@keyframes shine {
+  to {
+    // Move shine from left to right, with offset on the right based on the width of the shine - see background-size
+    background-position: right -40px top 0;
+  }
+}
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px !important;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  background: #ea580c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
 }

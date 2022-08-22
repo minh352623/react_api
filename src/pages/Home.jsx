@@ -4,11 +4,6 @@ import Header from "../components/layouts/Header";
 import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!localStorage.getItem("user-info")) {
-      navigate("/login");
-    }
-  }, []);
 
   return (
     <>
