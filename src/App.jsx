@@ -6,7 +6,6 @@ import Register from "./pages/Register";
 import AddProduct from "./pages/product/AddProduct";
 import UpdateProduct from "./pages/product/UpdateProduct";
 import ListProduct from "./pages/product/ListProduct";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrentUser, setLoading } from "./redux-thunk/userSlice";
 import Cookies from "universal-cookie";
@@ -32,7 +31,16 @@ import AddMenu from "./pages/menu/AddMenu";
 import UpdateMenu from "./pages/menu/UpdateMenu";
 import HomeClient from "./pages/client/HomeClient";
 import PrivateRoute from "./PrivateRoute";
-
+import ListPartner from "./pages/partner/ListPartner";
+import AddPartner from "./pages/partner/AddPartner";
+import UpdatePartner from "./pages/partner/UpdatePartner";
+import ListDiscount from "./pages/discount/ListDiscount";
+import AddDiscount from "./pages/discount/AddDiscount";
+import UpdateDiscount from "./pages/discount/UpdateDiscount";
+import AOS from "aos";
+import "aos/dist/aos.css"; // You can also use <link> for styles
+// ..
+AOS.init();
 const cookies = new Cookies();
 
 function App() {
@@ -68,6 +76,8 @@ function App() {
             ></Route>
 
             <Route path="/login" element={<Login></Login>}></Route>
+            <Route path="/" element={<Login></Login>}></Route>
+
             <Route path="/register" element={<Register></Register>}></Route>
             <Route
               path="/product"
@@ -242,6 +252,55 @@ function App() {
               }
             ></Route>
 
+            <Route
+              path="/partner"
+              element={
+                <PrivateRoute roles={[1]}>
+                  <ListPartner></ListPartner>
+                </PrivateRoute>
+              }
+            ></Route>
+            <Route
+              path="/addPartner"
+              element={
+                <PrivateRoute roles={[1]}>
+                  <AddPartner></AddPartner>
+                </PrivateRoute>
+              }
+            ></Route>
+            <Route
+              path="/updatePartner/:partner"
+              element={
+                <PrivateRoute roles={[1]}>
+                  <UpdatePartner></UpdatePartner>
+                </PrivateRoute>
+              }
+            ></Route>
+
+            <Route
+              path="/discount"
+              element={
+                <PrivateRoute roles={[1]}>
+                  <ListDiscount></ListDiscount>
+                </PrivateRoute>
+              }
+            ></Route>
+            <Route
+              path="/addDiscount"
+              element={
+                <PrivateRoute roles={[1]}>
+                  <AddDiscount></AddDiscount>
+                </PrivateRoute>
+              }
+            ></Route>
+            <Route
+              path="/updateDiscount/:discount"
+              element={
+                <PrivateRoute roles={[1]}>
+                  <UpdateDiscount></UpdateDiscount>
+                </PrivateRoute>
+              }
+            ></Route>
             {/* client */}
             <Route path="/home" element={<HomeClient></HomeClient>}></Route>
           </Routes>

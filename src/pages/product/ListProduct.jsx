@@ -184,7 +184,9 @@ const ListProduct = () => {
                         />
                       </TableCell>
                       <TableCell align="left" scope="row">
-                        {parse(item.description)}
+                        <div className="h-[150px] max-h-[140px] overflow-hidden overflow-ellipsis">
+                          {parse(item.description)}
+                        </div>
                       </TableCell>
                       <TableCell align="left" scope="row">
                         <span className="font-bold text-green-500">

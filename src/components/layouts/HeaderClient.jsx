@@ -40,8 +40,8 @@ const HeaderClient = ({ check, data = [], settings = [] }) => {
   if (loading) return <Loader></Loader>;
   return (
     <>
-      <div className="header">
-        <div className="header-top py-2 px-5 bg-black text-white text-sm flex items-center justify-between">
+      <div className="header sticky">
+        <div className="header-top py-1 px-5 bg-black text-white text-sm flex items-center justify-between">
           <div className="contact-left flex items-center gap-x-2">
             <div className="flex items-center gap-x-2">
               <span>
