@@ -77,7 +77,7 @@ const Header = ({ check = true }) => {
                   className={({ isActive }) =>
                     isActive ? "text-green-500" : "text-black"
                   }
-                  to="/"
+                  to="/admin"
                 >
                   Home
                 </NavLink>
@@ -152,6 +152,22 @@ const Header = ({ check = true }) => {
                   to="/discount"
                 >
                   Discount
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/bills"
+                >
+                  Bills
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/comments"
+                >
+                  Comments
                 </NavLink>
               </Nav>
               {user && user != null && check ? (

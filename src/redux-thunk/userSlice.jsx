@@ -2,13 +2,14 @@ import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 
 export const fetchCurrentUser = createAction("getUser");
 export const setLoading = createAction("setLoading");
+export const setInfoPayment = createAction("setInfoPayment");
 
 const newUser = createSlice({
   name: "user",
   initialState: {
     user: null,
-    cart: null,
     loading: true,
+    infoPayment: null,
   },
   reducers: {
     setUser: (state, action) => ({
@@ -25,6 +26,9 @@ const newUser = createSlice({
     });
     builder.addCase(setLoading, (state, action) => {
       state.loading = action.payload;
+    });
+    builder.addCase(setInfoPayment, (state, action) => {
+      state.infoPayment = action.payload;
     });
   },
 });

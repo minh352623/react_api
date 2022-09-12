@@ -66,7 +66,8 @@ const Category = () => {
             return (
               <div
                 data-aos="zoom-in-up"
-                data-aos-duration="800"
+                data-aos-duration="1000"
+                data-aos-delay="300"
                 key={item.id}
                 className={`w-full ${order} row-span-2 col-span-2 relative`}
               >
@@ -84,7 +85,8 @@ const Category = () => {
             return (
               <div
                 data-aos="zoom-in-up"
-                data-aos-duration="800"
+                data-aos-duration="1000"
+                data-aos-delay="300"
                 key={item.id}
                 className={`w-full ${order} relative`}
               >

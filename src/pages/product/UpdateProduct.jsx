@@ -39,7 +39,7 @@ const UpdateProduct = () => {
     try {
       setLoading(true);
       const result = await axios.get(
-        "http://127.0.0.1:8000/api/product/" + id,
+        "http://127.0.0.1:8000/api/product/update/" + id,
         {
           headers: {
             "Content-Type": "application/json",
@@ -89,7 +89,7 @@ const UpdateProduct = () => {
     try {
       const result = await axios({
         method: "POST",
-        url: "http://127.0.0.1:8000/api/product/" + id,
+        url: "http://127.0.0.1:8000/api/product/update/" + id,
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",

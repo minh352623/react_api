@@ -45,7 +45,8 @@ const Partner = () => {
         partners.map((item) => (
           <div
             data-aos="zoom-in-up"
-            data-aos-duration="800"
+            data-aos-duration="1000"
+            data-aos-delay="300"
             key={item.id}
             className="item bg-white first:rounded-l-2xl last:rounded-r-2xl border border-[.1px] text-center"
           >

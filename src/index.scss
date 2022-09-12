@@ -133,3 +133,31 @@ h6 {
   align-items: center;
   color: #fff;
 }
+
+.swiper-pagination-bullets {
+  // padding-top: 100px;
+  // top: 50px;
+  bottom: 5px !important;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.swiper-wrapper {
+  height: 80%;
+}
+.swiper-pagination-bullets img {
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+.swiper-pagination-bullet-active {
+  border: 1px solid blue;
+}
+.mySwiper .swiper-pagination-bullet {
+  // padding-bottom: 40px;
+  width: 70px;
+  height: 70px;
+  opacity: unset;
+}
+.mySwiper .swiper-pagination-bullet-active {
+  border: 1px solid orangered;
+}

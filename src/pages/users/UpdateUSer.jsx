@@ -8,7 +8,6 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { isBuffer } from "lodash";
 const schema = yup.object({
   name: yup.string().min(2, "Tên user ít nhất 2 kí tự"),
   email: yup
@@ -39,14 +38,6 @@ const UpdateUSer = () => {
   const [loading, setLoading] = useState(true);
   const [groups, setGroups] = useState();
 
-  //   function onChange(e) {
-  //     let name = e.target.name;
-  //     let value = e.target.value;
-  //     setUserInfo((groupInfo) => {
-  //       const nextFromData = { ...groupInfo, [name]: value };
-  //       return nextFromData;
-  //     });
-  //   }
   const {
     register,
     handleSubmit,

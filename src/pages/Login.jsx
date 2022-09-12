@@ -55,7 +55,7 @@ const Login = () => {
       {loading && <Loader></Loader>}
       {!loading && (
         <>
-          <HeaderClient check={false} ></HeaderClient>
+          <HeaderClient check={false}></HeaderClient>
           <Form
             onSubmit={handleSubmit}
             className="w-[600px] mx-auto mt-5 shadow-lg p-5 rounded-lg"

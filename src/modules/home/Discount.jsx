@@ -56,7 +56,13 @@ const Discount = () => {
     <div className="grid grid-cols-2 my-3 gap-4">
       {discounts &&
         discounts.map((item, index) => (
-          <div className="rounded-2xl shadow-2xl " key={item.id}>
+          <div
+            data-aos="zoom-out-right"
+            data-aos-duration="1000"
+            data-aos-delay="300"
+            className="rounded-2xl shadow-2xl"
+            key={item.id}
+          >
             <div className="content relative">
               <img
                 className="rounded-2xl w-full hover:scale-105 transition-all cursor-pointer"

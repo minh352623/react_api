@@ -54,6 +54,9 @@ const TopCategory = () => {
         {data &&
           data.map((item) => (
             <div
+              data-aos="flip-down"
+              data-aos-duration="1000"
+              data-aos-delay="200"
               key={item.id}
               className="p-3 cursor-pointer hover:scale-110 transition-all rounded-2xl shadow-lg bg-white"
             >
