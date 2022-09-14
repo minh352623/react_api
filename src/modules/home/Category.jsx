@@ -11,7 +11,7 @@ const Category = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://127.0.0.1:8000/api/category/all",
+        url: "https://shoppet-tm.herokuapp.com/api/category/all",
 
         headers: {
           "Content-Type": "application/json",
@@ -61,18 +61,19 @@ const Category = () => {
       {categorys &&
         categorys.map((item, index) => {
           let order = "order-" + index;
-          if (item.name == "Best sale") {
+          if (item.name == "Best Seller") {
             order = "order-0";
             return (
               <div
                 data-aos="zoom-in-up"
-                data-aos-duration="800"
+                data-aos-duration="1000"
+                data-aos-delay="300"
                 key={item.id}
                 className={`w-full ${order} row-span-2 col-span-2 relative`}
               >
                 <img
                   className="w-full h-full object-cover rounded-lg"
-                  src={`http://127.0.0.1:8000${item.image}`}
+                  src={`${item.image}`}
                   alt=""
                 />
                 <a className="text-orange-500 transition-all absolute top-2/4 left-2/4 -translate-x-2/4 rounded-3xl cursor-pointer leading-none text-2xl -translate-y-2/4 hover:text-white shadow-sm px-16 py-4 font-bold bg-orange-50 hover:bg-orange-500">
@@ -84,13 +85,14 @@ const Category = () => {
             return (
               <div
                 data-aos="zoom-in-up"
-                data-aos-duration="800"
+                data-aos-duration="1000"
+                data-aos-delay="300"
                 key={item.id}
                 className={`w-full ${order} relative`}
               >
                 <img
                   className="w-full h-full object-cover rounded-lg"
-                  src={`http://127.0.0.1:8000${item.image}`}
+                  src={`${item.image}`}
                   alt=""
                 />
                 <a className="text-orange-500 transition-all absolute top-3/4 left-2/4 -translate-x-2/4 rounded-3xl cursor-pointer leading-none text-2xl -translate-y-2/4 hover:text-white shadow-sm px-8 py-2 font-bold bg-orange-50 hover:bg-orange-500">

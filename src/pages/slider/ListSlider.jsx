@@ -29,13 +29,14 @@ const ListSlider = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `http://127.0.0.1:8000/api/slider/list/?page=${page}&query=${query}`,
+        `https://shoppet-tm.herokuapp.com/api/slider/list?page=${page}&query=${query}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
       );
-      if (respone.data.data) {
-        respone.data.data && setSlider(respone.data);
+      if (respone) {
+        console.log(respone);
+        setSlider(respone.data);
         setLoading(false);
       }
       console.log(respone);
@@ -80,7 +81,7 @@ const ListSlider = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `http://127.0.0.1:8000/api/slider/delete/${id}`,
+            `https://shoppet-tm.herokuapp.com/api/slider/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }
@@ -150,7 +151,7 @@ const ListSlider = () => {
                       <TableCell align="left" scope="row">
                         <span>
                           <img
-                            src={`http://127.0.0.1:8000${item.file_path}`}
+                            src={`${item.file_path}`}
                             alt=""
                             className="max-h-[150px]"
                           />

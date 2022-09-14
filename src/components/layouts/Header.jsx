@@ -27,7 +27,7 @@ const Header = ({ check = true }) => {
 
       const result = await axios({
         method: "get",
-        url: "http://127.0.0.1:8000/api/logout",
+        url: "https://shoppet-tm.herokuapp.com/api/logout",
         headers: {
           Authorization: "Bearer " + user?.token,
         },
@@ -77,7 +77,7 @@ const Header = ({ check = true }) => {
                   className={({ isActive }) =>
                     isActive ? "text-green-500" : "text-black"
                   }
-                  to="/"
+                  to="/admin"
                 >
                   Home
                 </NavLink>
@@ -153,6 +153,22 @@ const Header = ({ check = true }) => {
                 >
                   Discount
                 </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/bills"
+                >
+                  Bills
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/comments"
+                >
+                  Comments
+                </NavLink>
               </Nav>
               {user && user != null && check ? (
                 <>
@@ -170,7 +186,7 @@ const Header = ({ check = true }) => {
                     <img
                       src={
                         user.image
-                          ? `http://127.0.0.1:8000${user.image}`
+                          ? `${user.image}`
                           : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
                       }
                       className="w-10 h-10 object-cover rounded-full shadow-lg"

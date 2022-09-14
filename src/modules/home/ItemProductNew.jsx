@@ -1,19 +1,30 @@
-import React from "react";
+import * as React from "react";
+import Rating from "@mui/material/Rating";
+import Stack from "@mui/material/Stack";
 import { formatter } from "../../trait/FormatMoney";
-// import { v4 as uuidv4 } from "uuid";
-const ItemProductNew = ({ item }) => {
+import { useDispatch } from "react-redux";
+import { handleAddCart } from "../../redux-thunk/cartSlice";
+import { Link } from "react-router-dom";
+
+const ItemProductNew = ({ item, shop = false }) => {
+  const dispatch = useDispatch();
   return (
     <div className="rounded-2xl">
-      <div className="image relative z-20 overflow-hidden group">
+      <Link
+        to={"/product/" + item.id}
+        className={`image block relative z-20 overflow-hidden group ${
+          shop ? "border border-gray-400 rounded-2xl" : ""
+        }`}
+      >
         <img
           className="rounded-2xl shape-2xl cursor-pointer"
-          src={`http://127.0.0.1:8000${item.file_path}`}
+          src={`${item.file_path}`}
           alt=""
         />
-        {item?.images[0] && (
+        {item?.images && (
           <img
             className="rounded-2xl shape-2xl group-hover:right-0   group-hover:opacity-100  z-10 cursor-pointer transition-all duration-300 absolute top-0 right-full"
-            src={`http://127.0.0.1:8000${item.images[0]?.image_path}`}
+            src={`${item?.images[0]?.image_path}`}
             alt=""
           />
         )}
@@ -21,7 +32,7 @@ const ItemProductNew = ({ item }) => {
           <span className="cursor-pointer leading-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-10 hover:bg-orange-500 hover:text-white transition-all w-10 p-2 border border-gray rounded-full"
+              className="h-10 text-slate-900 hover:bg-orange-500 hover:text-white transition-all w-10 p-2 border border-gray rounded-full"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -35,9 +46,9 @@ const ItemProductNew = ({ item }) => {
             </svg>
           </span>
         </div>
-      </div>
+      </Link>
       <div className="content mt-3 px-2">
-        <div className="start flex items-center gap-1">
+        {/* <div className="start flex items-center gap-1">
           {Array(5)
             .fill()
             .map((index) => (
@@ -58,12 +69,28 @@ const ItemProductNew = ({ item }) => {
                 </svg>
               </span>
             ))}
-        </div>
-        <p className="name font-bold my-2">{item.name}</p>
+        </div> */}
+        <Stack spacing={1}>
+          {/* <Rating name="half-rating" defaultValue={2.5} precision={1} /> */}
+          <Rating
+            name="half-rating-read"
+            defaultValue={+item.start}
+            precision={0.5}
+            readOnly
+          />
+        </Stack>
+        <Link
+          to={"/product/" + item.id}
+          className="text-slate-900 hover:text-orange-400 transition-all name font-bold my-2"
+        >
+          {item.name}
+        </Link>
         <p className="text-2xl font-semibold text-orange-500">
           {formatter.format(item.price)}
         </p>
         <p
+          // onClick={() => addToCart(item.id)}
+          onClick={() => dispatch(handleAddCart({ idpro: item.id, number: 1 }))}
           data-id={item.id}
           className="mt-3 font-semibold px-6 py-2 bg-slate-900 hover:bg-orange-500 transition-all w-[150px] cursor-pointer rounded-3xl text-white text-center"
         >

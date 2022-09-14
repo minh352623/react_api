@@ -28,7 +28,7 @@ const ListPartner = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `http://127.0.0.1:8000/api/partner/list/?page=${page}&query=${query}`,
+        `https://shoppet-tm.herokuapp.com/api/partner/list?page=${page}&query=${query}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -75,7 +75,7 @@ const ListPartner = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `http://127.0.0.1:8000/api/partner/delete/${id}`,
+            `https://shoppet-tm.herokuapp.com/api/partner/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }
@@ -152,7 +152,7 @@ const ListPartner = () => {
                       </TableCell>
                       <TableCell align="left" scope="row">
                         <img
-                          src={`http://127.0.0.1:8000${item.image}`}
+                          src={`${item.image}`}
                           alt=""
                           className="shadow-lg"
                         />

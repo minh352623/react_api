@@ -10,7 +10,7 @@ const Partner = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://127.0.0.1:8000/api/partner/all",
+        url: "https://shoppet-tm.herokuapp.com/api/partner/all",
 
         headers: {
           "Content-Type": "application/json",
@@ -45,15 +45,12 @@ const Partner = () => {
         partners.map((item) => (
           <div
             data-aos="zoom-in-up"
-            data-aos-duration="800"
+            data-aos-duration="1000"
+            data-aos-delay="300"
             key={item.id}
             className="item bg-white first:rounded-l-2xl last:rounded-r-2xl border border-[.1px] text-center"
           >
-            <img
-              className="mx-auto"
-              src={`http://127.0.0.1:8000${item.image}`}
-              alt=""
-            />
+            <img className="mx-auto" src={`${item.image}`} alt="" />
           </div>
         ))}
     </div>

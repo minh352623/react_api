@@ -9,6 +9,7 @@ import * as yup from "yup";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { Editor } from "@tinymce/tinymce-react";
+import Loading from "../../components/Loading";
 const schema = yup.object({
   name: yup.string().min(6, "Tên sản phẩm ít nhất 6 kí tự"),
   price: yup
@@ -27,6 +28,7 @@ const AddProduct = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const editorRef = useRef(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -40,7 +42,7 @@ const AddProduct = () => {
   const fetchCate = async () => {
     const response = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/api/category/all",
+      url: "https://shoppet-tm.herokuapp.com/api/category/all",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + user?.token,
@@ -73,9 +75,10 @@ const AddProduct = () => {
     });
 
     try {
+      setLoading(true);
       const result = await axios({
         method: "post",
-        url: "http://127.0.0.1:8000/api/product/add",
+        url: "https://shoppet-tm.herokuapp.com/api/product/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -92,6 +95,7 @@ const AddProduct = () => {
       if (result) {
         setMessage("Thêm thành công");
         setError("");
+        setLoading(false);
       }
       console.log(result);
     } catch (e) {
@@ -194,7 +198,7 @@ const AddProduct = () => {
               </p>
             )}
           </Form.Group>
-       
+
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Description</Form.Label>
 
@@ -238,7 +242,7 @@ const AddProduct = () => {
         </div>
 
         <Button variant="primary" type="submit">
-          Submit
+          {loading ? <Loading></Loading> : "Submit"}
         </Button>
       </Form>
     </>

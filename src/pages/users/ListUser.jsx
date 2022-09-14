@@ -31,13 +31,13 @@ const ListUser = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `http://127.0.0.1:8000/api/users/list?page=${page}&keyword=${query}&group=${groupSeach}`,
+        `https://shoppet-tm.herokuapp.com/api/users/list?page=${page}&keyword=${query}&group=${groupSeach}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
       );
       if (respone.status == 200 && respone.data) {
-        //console.log(respone.data);
+        console.log(respone.data);
         setUsers(respone.data.users);
         setGroups(respone.data.groups);
         setLoading(false);
@@ -87,7 +87,7 @@ const ListUser = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `http://127.0.0.1:8000/api/users/delete/${id}`,
+            `https://shoppet-tm.herokuapp.com/api/users/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }

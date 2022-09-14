@@ -7,6 +7,7 @@ import * as yup from "yup";
 import Header from "../../components/layouts/Header";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import Loading from "../../components/Loading";
 const schema = yup.object({
   caption: yup.string().min(5, "Caption phải lớn hơn 5 kí tự"),
   heading: yup.string().min(5, "Heading phải lớn hơn 5 kí tự"),
@@ -15,7 +16,7 @@ const schema = yup.object({
 const AddSlider = () => {
   const { user } = useSelector((state) => state.user);
   const [message, setMessage] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -35,9 +36,10 @@ const AddSlider = () => {
     formData.append("file_path", values.file_path[0]);
 
     try {
+      setLoading(true);
       const respone = await axios({
         method: "post",
-        url: "http://127.0.0.1:8000/api/slider/add",
+        url: "https://shoppet-tm.herokuapp.com/api/slider/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -53,6 +55,7 @@ const AddSlider = () => {
           file_path: "",
         });
         setMessage("Thêm slider thành công!");
+        setLoading(false);
       }
     } catch (err) {
       console.log(err);
@@ -136,7 +139,7 @@ const AddSlider = () => {
         </div>
 
         <Button variant="primary" type="submit">
-          Submit
+          {loading ? <Loading></Loading> : "submit"}
         </Button>
       </Form>
     </>

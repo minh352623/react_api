@@ -10,13 +10,16 @@ import { setLoading, setUser } from "../../redux-thunk/userSlice";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import Loader from "../Loader";
+import { ShowCart } from "../../redux-thunk/cartSlice";
 const cookies = new Cookies();
 
-const HeaderClient = ({ check, data = [], settings = [] }) => {
+const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
   const navigate = useNavigate();
+  const { carts } = useSelector((state) => state.cart);
+  const [isShowInfo, setIsShowInfo] = React.useState(false);
   const { user, loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  console.log(settings);
+  // console.log(settings);
   const handleLogout = React.useCallback(async () => {
     try {
       dispatch(setUser(null));
@@ -25,7 +28,7 @@ const HeaderClient = ({ check, data = [], settings = [] }) => {
 
       const result = await axios({
         method: "get",
-        url: "http://127.0.0.1:8000/api/logout",
+        url: "https://shoppet-tm.herokuapp.com/api/logout",
         headers: {
           Authorization: "Bearer " + user?.token,
         },
@@ -38,9 +41,10 @@ const HeaderClient = ({ check, data = [], settings = [] }) => {
     }
   }, [user]);
   if (loading) return <Loader></Loader>;
+
   return (
     <>
-      <div className="header sticky">
+      <div className={`header transition-all `}>
         <div className="header-top py-1 px-5 bg-black text-white text-sm flex items-center justify-between">
           <div className="contact-left flex items-center gap-x-2">
             <div className="flex items-center gap-x-2">
@@ -122,7 +126,7 @@ const HeaderClient = ({ check, data = [], settings = [] }) => {
                   <img
                     src={
                       user.image
-                        ? `http://127.0.0.1:8000${user.image}`
+                        ? `${user.image}`
                         : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
                     }
                     className="w-10 h-10 object-cover rounded-full shadow-lg"
@@ -155,10 +159,14 @@ const HeaderClient = ({ check, data = [], settings = [] }) => {
             )}
           </div>
         </div>
-        <div className="header-bot  py-4 px-5 bg-[#72129b]">
+        <div
+          className={`header-bot  ${
+            fixed ? "fixed top-0 left-0 right-0 z-50" : ""
+          }  py-4 px-5 bg-[#72129b] `}
+        >
           <div className="header-bot__info flex items-center justify-between">
             <div className="logo cursor-pointer">
-              <img src="./logo.webp" alt="" />
+              <img src="../logo.webp" alt="" />
             </div>
             <form className="header-search flex items-center">
               <input
@@ -185,7 +193,7 @@ const HeaderClient = ({ check, data = [], settings = [] }) => {
               </button>
             </form>
             <div className="flex items-center gap-x-3 text-white">
-              <span className="cursor-pointer">
+              <div className="cursor-pointer relative">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-8 w-8  hover:scale-110"
@@ -193,6 +201,7 @@ const HeaderClient = ({ check, data = [], settings = [] }) => {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                   strokeWidth="2"
+                  onClick={() => setIsShowInfo((isShowInfo) => !isShowInfo)}
                 >
                   <path
                     strokeLinecap="round"
@@ -200,8 +209,36 @@ const HeaderClient = ({ check, data = [], settings = [] }) => {
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                   />
                 </svg>
-              </span>
-              <span className="cursor-pointer relative">
+                {isShowInfo && (
+                  <ul className="absolute z-10 p-0 w-[200px] rounded-lg right-0 bg-gray-300">
+                    <li className="text-center">
+                      <Link
+                        to="/"
+                        className="text-slate-900 rounded-lg hover:text-white hover:bg-orange-400 p-2 block"
+                      >
+                        Đổi mật khẩu
+                      </Link>
+                    </li>
+                    <li className="text-center">
+                      <Link
+                        to="/info"
+                        className="text-slate-900 rounded-lg hover:text-white hover:bg-orange-400 p-2 block"
+                      >
+                        Thông tin cá nhân
+                      </Link>
+                    </li>
+                    <li className="text-center">
+                      <Link
+                        to="/mybill"
+                        className="text-slate-900 rounded-lg hover:text-white hover:bg-orange-400 p-2 block"
+                      >
+                        Đơn hàng của tôi
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </div>
+              <span className="cursor-pointer icon-cart relative">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-8 w-8 hover:scale-110"
@@ -209,6 +246,7 @@ const HeaderClient = ({ check, data = [], settings = [] }) => {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                   strokeWidth="2"
+                  onClick={() => dispatch(ShowCart(true))}
                 >
                   <path
                     strokeLinecap="round"
@@ -217,7 +255,7 @@ const HeaderClient = ({ check, data = [], settings = [] }) => {
                   />
                 </svg>
                 <span className="absolute top-[-10px] right-[-10px] text-black w-5 h-5 flex items-center justify-center rounded-full leading-none bg-white">
-                  0
+                  {carts ? carts.length : 0}
                 </span>
               </span>
             </div>
@@ -225,8 +263,8 @@ const HeaderClient = ({ check, data = [], settings = [] }) => {
           <div className="header-bot__menu mt-6 text-white">
             <div className="menu flex items-center justify-between">
               <ul className="menu__list p-0 m-0 flex gap-x-10">
-                {data.length > 0 &&
-                  data.map((item) => (
+                {data?.length > 0 &&
+                  data?.map((item) => (
                     <li key={item.id}>
                       <Link
                         className="text-xl no-underline transi hover:text-orange-500 text-orange-50 font-semibold"
