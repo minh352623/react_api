@@ -10,7 +10,7 @@ const Discount = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://127.0.0.1:8000/api/discount/all",
+        url: "https://shoppet-tm.herokuapp.com/api/discount/all",
 
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +66,7 @@ const Discount = () => {
             <div className="content relative">
               <img
                 className="rounded-2xl w-full hover:scale-105 transition-all cursor-pointer"
-                src={`http://127.0.0.1:8000${item.image}`}
+                src={`${item.image}`}
                 alt=""
               />
               <div

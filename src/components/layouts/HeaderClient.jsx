@@ -28,7 +28,7 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
 
       const result = await axios({
         method: "get",
-        url: "http://127.0.0.1:8000/api/logout",
+        url: "https://shoppet-tm.herokuapp.com/api/logout",
         headers: {
           Authorization: "Bearer " + user?.token,
         },
@@ -126,7 +126,7 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
                   <img
                     src={
                       user.image
-                        ? `http://127.0.0.1:8000${user.image}`
+                        ? `${user.image}`
                         : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
                     }
                     className="w-10 h-10 object-cover rounded-full shadow-lg"

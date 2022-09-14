@@ -41,7 +41,7 @@ const UpdateGroup = () => {
       setLoading(true);
       const respone = await axios({
         method: "GET",
-        url: "http://127.0.0.1:8000/api/groups/update/" + group,
+        url: "https://shoppet-tm.herokuapp.com/api/groups/update/" + group,
 
         headers: {
           "Content-Type": "application/json",
@@ -71,7 +71,7 @@ const UpdateGroup = () => {
     try {
       const respone = await axios({
         method: "post",
-        url: "http://127.0.0.1:8000/api/groups/update/" + group,
+        url: "https://shoppet-tm.herokuapp.com/api/groups/update/" + group,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

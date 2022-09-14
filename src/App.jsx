@@ -20,6 +20,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Loader from "./components/Loader";
 import PrivateRoute from "./PrivateRoute";
 import axios from "axios";
+const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
@@ -93,7 +94,7 @@ function App() {
     try {
       const response = await axios({
         method: "get",
-        url: "http://127.0.0.1:8000/api/caculator",
+        url: "https://shoppet-tm.herokuapp.com/api/caculator",
       });
       if (response) {
         console.log(response);
@@ -112,6 +113,20 @@ function App() {
         <Fragment>
           <Suspense fallback={<></>}>
             <Routes>
+              <Route path="*" element={<PageNotFound></PageNotFound>}></Route>
+              <Route
+                path="/feature"
+                element={<PageNotFound></PageNotFound>}
+              ></Route>
+              <Route
+                path="/contact"
+                element={<PageNotFound></PageNotFound>}
+              ></Route>
+              <Route
+                path="about"
+                element={<PageNotFound></PageNotFound>}
+              ></Route>
+
               <Route
                 path="/admin"
                 element={

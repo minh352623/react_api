@@ -35,7 +35,7 @@ const UpdateSlider = () => {
       setLoading(true);
       const response = await axios({
         method: "GET",
-        url: "http://127.0.0.1:8000/api/slider/update/" + slider,
+        url: "https://shoppet-tm.herokuapp.com/api/slider/update/" + slider,
 
         headers: {
           "Content-Type": "application/json",
@@ -73,7 +73,7 @@ const UpdateSlider = () => {
     try {
       const respone = await axios({
         method: "post",
-        url: "http://127.0.0.1:8000/api/slider/update/" + slider,
+        url: "https://shoppet-tm.herokuapp.com/api/slider/update/" + slider,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

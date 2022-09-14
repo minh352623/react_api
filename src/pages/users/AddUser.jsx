@@ -49,7 +49,7 @@ const AddUser = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://127.0.0.1:8000/api/groups/all",
+        url: "https://shoppet-tm.herokuapp.com/api/groups/all",
 
         headers: {
           "Content-Type": "application/json",
@@ -82,7 +82,7 @@ const AddUser = () => {
     try {
       const result = await axios({
         method: "post",
-        url: "http://127.0.0.1:8000/api/users/add",
+        url: "https://shoppet-tm.herokuapp.com/api/users/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

@@ -28,7 +28,7 @@ const ListCategory = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `http://127.0.0.1:8000/api/category/list/?page=${page}&query=${query}`,
+        `https://shoppet-tm.herokuapp.com/api/category/list?page=${page}&query=${query}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -40,7 +40,6 @@ const ListCategory = () => {
       console.log(respone);
     } catch (err) {
       console.log(err);
-      navigate("/login");
     }
   };
   useEffect(() => {
@@ -77,7 +76,7 @@ const ListCategory = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `http://127.0.0.1:8000/api/category/delete/${id}`,
+            `https://shoppet-tm.herokuapp.com/api/category/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }
@@ -152,14 +151,14 @@ const ListCategory = () => {
                       </TableCell>
                       <TableCell align="left" scope="row">
                         <img
-                          src={`http://127.0.0.1:8000${item.image}`}
+                          src={`${item.image}`}
                           alt=""
                           className="max-w-[150px] max-h-[100px]  object-cover"
                         />
                       </TableCell>
                       <TableCell align="left" scope="row">
                         <img
-                          src={`http://127.0.0.1:8000${item.icon_image}`}
+                          src={`${item.icon_image}`}
                           alt=""
                           className="max-w-[150px] max-h-[100px]  object-cover"
                         />

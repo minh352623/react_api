@@ -18,13 +18,13 @@ const ItemProductNew = ({ item, shop = false }) => {
       >
         <img
           className="rounded-2xl shape-2xl cursor-pointer"
-          src={`http://127.0.0.1:8000${item.file_path}`}
+          src={`${item.file_path}`}
           alt=""
         />
         {item?.images && (
           <img
             className="rounded-2xl shape-2xl group-hover:right-0   group-hover:opacity-100  z-10 cursor-pointer transition-all duration-300 absolute top-0 right-full"
-            src={`http://127.0.0.1:8000${item?.images[0]?.image_path}`}
+            src={`${item?.images[0]?.image_path}`}
             alt=""
           />
         )}
@@ -74,7 +74,7 @@ const ItemProductNew = ({ item, shop = false }) => {
           {/* <Rating name="half-rating" defaultValue={2.5} precision={1} /> */}
           <Rating
             name="half-rating-read"
-            defaultValue={item.start}
+            defaultValue={+item.start}
             precision={0.5}
             readOnly
           />

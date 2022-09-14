@@ -37,7 +37,7 @@ const UpdateDiscount = () => {
     setLoading(true);
     const result = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/api/discount/update/" + discount,
+      url: "https://shoppet-tm.herokuapp.com/api/discount/update/" + discount,
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + user?.token,
@@ -62,7 +62,7 @@ const UpdateDiscount = () => {
     try {
       const result = await axios({
         method: "post",
-        url: "http://127.0.0.1:8000/api/discount/update/" + discount,
+        url: "https://shoppet-tm.herokuapp.com/api/discount/update/" + discount,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

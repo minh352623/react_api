@@ -29,7 +29,7 @@ const ListComment = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `http://127.0.0.1:8000/api/comment/getAll/?page=${page}&query=${query}`,
+        `https://shoppet-tm.herokuapp.com/api/comment/getAll?page=${page}&query=${query}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -76,7 +76,7 @@ const ListComment = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `http://127.0.0.1:8000/api/comment/delete/${id}`,
+            `https://shoppet-tm.herokuapp.com/api/comment/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }

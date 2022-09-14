@@ -15,7 +15,7 @@ const Payment = () => {
   const fetchBill = async () => {
     const response = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/api/bill/detail/" + bill,
+      url: "https://shoppet-tm.herokuapp.com/api/bill/detail/" + bill,
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + user?.token,

@@ -26,7 +26,7 @@ const DetailProduct = () => {
   const FetchDetail = async () => {
     const response = await axios({
       method: "GET",
-      url: "http://127.0.0.1:8000/api/product/update/" + product,
+      url: "https://shoppet-tm.herokuapp.com/api/product/update/" + product,
 
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const DetailProduct = () => {
     try {
       const response = await axios({
         method: "get",
-        url: "http://127.0.0.1:8000/api/setting/all",
+        url: "https://shoppet-tm.herokuapp.com/api/setting/all",
         headers: {
           Authorization: "Bearer " + user?.token,
         },
@@ -63,7 +63,7 @@ const DetailProduct = () => {
 
       const data = await axios({
         method: "POST",
-        url: "http://127.0.0.1:8000/api/comment/caculatorComment",
+        url: "https://shoppet-tm.herokuapp.com/api/comment/caculatorComment",
 
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +88,7 @@ const DetailProduct = () => {
         return (
           '<img class="' +
           className +
-          '" src="http://127.0.0.1:8000' +
+          '" src="' +
           data?.images[index]?.image_path +
           '"' +
           'class="w-[80px]" />'
@@ -97,7 +97,7 @@ const DetailProduct = () => {
         return (
           '<img class="' +
           className +
-          '" src="http://127.0.0.1:8000' +
+          '" src="' +
           data?.file_path +
           '"' +
           'class="w-[80px]" />'
@@ -141,7 +141,7 @@ const DetailProduct = () => {
                           <div className="item rounded-lg">
                             <img
                               className="w-full h-[80%] object-cover"
-                              src={`http://127.0.0.1:8000${item.image_path}`}
+                              src={`${item.image_path}`}
                             ></img>
                           </div>
                         </SwiperSlide>
@@ -151,7 +151,7 @@ const DetailProduct = () => {
                     <div className="item rounded-lg">
                       <img
                         className="w-full h-[80%] object-cover"
-                        src={`http://127.0.0.1:8000${data?.file_path}`}
+                        src={`${data?.file_path}`}
                       ></img>
                     </div>
                   </SwiperSlide>
@@ -287,7 +287,7 @@ const DetailProduct = () => {
                     <div className="socials flex items-center gap-2">
                       <Link
                         className="text-gray-400"
-                        to={settings && settings[0]?.config_value}
+                        to={(settings && settings[0]?.config_value) || ""}
                       >
                         <span className="text-white hover:bg-orange-500 transition-all leading-none h-full w-full block flex items-center justify-center max-h-[32px]  max-w-[32px] rounded-full p-[20px] bg-slate-800">
                           <i className="fa-brands fa-facebook-f leading-none"></i>
@@ -295,7 +295,7 @@ const DetailProduct = () => {
                       </Link>
                       <Link
                         className="text-gray-400"
-                        to={settings && settings[0]?.config_value}
+                        to={(settings && settings[0]?.config_value) || ""}
                       >
                         <span className="text-white hover:bg-orange-500 transition-all leading-none h-full w-full block flex items-center justify-center max-h-[32px]  max-w-[32px] rounded-full p-[20px] bg-slate-800">
                           <i className="fa-brands fa-twitter"></i>
@@ -303,7 +303,7 @@ const DetailProduct = () => {
                       </Link>
                       <Link
                         className="text-gray-400"
-                        to={settings && settings[2]?.config_value}
+                        to={(settings && settings[2]?.config_value) || ""}
                       >
                         <span className="text-white hover:bg-orange-500 transition-all leading-none h-full w-full block flex items-center justify-center max-h-[32px]  max-w-[32px] rounded-full p-[20px] bg-slate-800">
                           <i className="fa-brands fa-linkedin-in"></i>
@@ -311,7 +311,7 @@ const DetailProduct = () => {
                       </Link>
                       <Link
                         className="text-gray-400"
-                        to={settings && settings[1]?.config_value}
+                        to={(settings && settings[1]?.config_value) || ""}
                       >
                         <span className="text-white hover:bg-orange-500 transition-all leading-none h-full w-full block flex items-center justify-center max-h-[32px]  max-w-[32px] rounded-full p-[20px] bg-slate-800">
                           <i className="fa-brands fa-instagram"></i>
@@ -331,11 +331,12 @@ const DetailProduct = () => {
               description={data?.description}
             ></TabDetail>
           </div>
-
-          <MayLikeDetail
-            idCate={data?.category_id}
-            idPro={data?.id}
-          ></MayLikeDetail>
+          {data && (
+            <MayLikeDetail
+              idCate={data?.category_id}
+              idPro={data?.id}
+            ></MayLikeDetail>
+          )}
         </div>
       </div>
     </Layout>

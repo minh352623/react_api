@@ -32,7 +32,7 @@ const Vnpay = ({ user, info, sum }) => {
 
         const result = await axios({
           method: "post",
-          url: "http://127.0.0.1:8000/api/bill/add",
+          url: "https://shoppet-tm.herokuapp.com/api/bill/add",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + user?.token,
@@ -41,7 +41,7 @@ const Vnpay = ({ user, info, sum }) => {
         });
         const response = await axios({
           method: "post",
-          url: "http://127.0.0.1:8000/api/bill/vnPay",
+          url: "https://shoppet-tm.herokuapp.com/api/bill/vnPay",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + user?.token,

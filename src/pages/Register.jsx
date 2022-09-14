@@ -15,15 +15,17 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+
   const [errors, setErrors] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let user = { name, email, password };
+    let user = { name, email, password, phone };
     user = JSON.stringify(user);
     try {
       let result = await axios.post(
-        "http://127.0.0.1:8000/api/register",
+        "https://shoppet-tm.herokuapp.com/api/register",
         user,
         {
           headers: { "Content-Type": "application/json" },
@@ -79,6 +81,16 @@ const Register = () => {
             name="password"
             value={password}
             placeholder="Password"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Phone</Form.Label>
+          <Form.Control
+            onChange={(e) => setPhone(e.target.value)}
+            type="text"
+            name="password"
+            value={phone}
+            placeholder="Phone"
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicCheckbox">

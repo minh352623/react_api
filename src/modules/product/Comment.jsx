@@ -9,7 +9,7 @@ const Comment = ({ item, handleFeedBack }) => {
         <div className="image w-[50px] h-[50px]">
           <img
             className="w-full h-full rounded-full"
-            src={`http://127.0.0.1:8000${item.user.image}`}
+            src={`${item.user.image}`}
             alt=""
           />
         </div>

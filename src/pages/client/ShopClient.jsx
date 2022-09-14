@@ -50,7 +50,7 @@ const ShopClient = () => {
   const FetchCate = async () => {
     const response = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/api/category/all",
+      url: "https://shoppet-tm.herokuapp.com/api/category/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -84,6 +84,7 @@ const ShopClient = () => {
       });
     }
     if (deboundValue.length > 0) {
+      console.log("lllllllllllll");
       deboundValue.forEach((item) => {
         formData.append("price[]", +item);
       });
@@ -93,20 +94,21 @@ const ShopClient = () => {
 
     try {
       setLoading(true);
-      setProduct(null);
+      // setProduct(null);
 
       const response = await axios({
         method: "POST",
-        url: "http://127.0.0.1:8000/api/product/filter/?page=" + page,
+        url: `https://shoppet-tm.herokuapp.com/api/product/filter?page=${page}`,
 
         headers: {
+          Accept: "application/json",
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
         },
         data: formData,
       });
       if (response) {
-        console.log(typeof response.data[0]);
+        console.log(response.data);
         setProduct(response.data);
         setLoading(false);
       }
@@ -128,9 +130,9 @@ const ShopClient = () => {
     setDeboundValue(value);
     setLoading(false);
   }, 200);
-  useEffect(() => {
-    handleSetDeboundValue();
-  }, [value]);
+  // useEffect(() => {
+  //   handleSetDeboundValue();
+  // }, [value]);
   //phân trang
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -202,6 +204,12 @@ const ShopClient = () => {
                     color="secondary"
                   />
                 </ThemeProvider>
+                <p
+                  onClick={handleSetDeboundValue}
+                  className="px-4 py-2 bg-green-400 cursor-pointer hover:bg-green-700 transition-all text-white font-semibold text-xl text-center rounded-lg"
+                >
+                  Tìm kiếm
+                </p>
               </div>
 
               <Interested></Interested>
@@ -238,13 +246,13 @@ const ShopClient = () => {
                 <>
                   <ListProduct
                     loading={loading}
-                    data={products?.data}
+                    data={products.data}
                   ></ListProduct>
                 </>
               )}
 
               {products?.data?.length <= 0 && !loading && (
-                <div className=" flex h-full items-center justify-center flex-col border rounded-2xl bg-gray-200 border-gray-500">
+                <div className=" flex h-[80%] items-center justify-center flex-col border rounded-2xl bg-gray-200 border-gray-500">
                   <h2 className="text-center text-red-500">Không có dữ liệu</h2>
                 </div>
               )}

@@ -19,7 +19,7 @@ const MayLikeDetail = ({ idPro, idCate }) => {
     try {
       const response = await axios({
         method: "POST",
-        url: "http://127.0.0.1:8000/api/product/getMayLike",
+        url: "https://shoppet-tm.herokuapp.com/api/product/getMayLike",
 
         headers: {
           "Content-Type": "application/json",

@@ -15,7 +15,7 @@ const InfoUser = () => {
               <div className="info-left py-5 rounded-lg flex items-center  flex-col w-full bg-cyan-700">
                 <div className="relative image rounded-full bg-slate-50 p-2 w-[120px] h-[120px]">
                   <img
-                    src={`http://127.0.0.1:8000${user.image}`}
+                    src={`${user.image}`}
                     className="w-full h-full object-cover rounded-full"
                     alt=""
                   />

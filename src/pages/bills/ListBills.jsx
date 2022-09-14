@@ -31,7 +31,7 @@ const ListBills = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `http://127.0.0.1:8000/api/bill/listBillAdmin/?page=${page}&query=${query}&status=${status}`,
+        `https://shoppet-tm.herokuapp.com/api/bill/listBillAdmin?page=${page}&query=${query}&status=${status}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }

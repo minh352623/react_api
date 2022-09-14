@@ -43,7 +43,10 @@ const TabDetail = ({ description, product, isShow }) => {
       const response = await axios({
         method: "get",
         url:
-          "http://127.0.0.1:8000/api/comment/get/" + product + "/?page=" + page,
+          "https://shoppet-tm.herokuapp.com/api/comment/get/" +
+          product +
+          "?page=" +
+          page,
         headers: {
           Authorization: "Bearer " + user?.token,
         },
@@ -68,7 +71,7 @@ const TabDetail = ({ description, product, isShow }) => {
       try {
         const response = await axios({
           method: "post",
-          url: "http://127.0.0.1:8000/api/comment/add",
+          url: "https://shoppet-tm.herokuapp.com/api/comment/add",
           headers: {
             Authorization: "Bearer " + user?.token,
           },

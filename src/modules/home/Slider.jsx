@@ -18,7 +18,7 @@ const Slider = () => {
   const FetchCate = async () => {
     const response = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/api/category/all",
+      url: "https://shoppet-tm.herokuapp.com/api/category/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -30,7 +30,7 @@ const Slider = () => {
   const FetchSlider = async () => {
     const response = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/api/slider/all",
+      url: "https://shoppet-tm.herokuapp.com/api/slider/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -134,10 +134,7 @@ const Slider = () => {
                         className="text-white font-bold py-3 px-4 flex gap-x-3 items-center border-b-[.1px] border-gray-50"
                         to={"/category/" + item.id}
                       >
-                        <img
-                          src={"http://127.0.0.1:8000" + item.icon_image}
-                          alt=""
-                        />
+                        <img src={item.icon_image} alt="" />
                         <span>{item.name}</span>
                       </Link>
                     </li>
@@ -168,10 +165,7 @@ const Slider = () => {
                   return (
                     <SwiperSlide className="sliders w-full " key={item.id}>
                       <div className="item relative rounded-lg">
-                        <img
-                          className="w-full h-full"
-                          src={`http://127.0.0.1:8000${img}`}
-                        ></img>
+                        <img className="w-full h-full" src={`${img}`}></img>
                         <div className="content absolute top-1/2 -translate-y-1/2 left-8 text-white text-center font-bold">
                           <p className="text-xl">{item.caption}</p>
                           <h2>{item.caption}</h2>

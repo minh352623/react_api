@@ -55,7 +55,7 @@ const UpdateUSer = () => {
       setLoading(true);
       const response = await axios({
         method: "GET",
-        url: "http://127.0.0.1:8000/api/users/update/" + id,
+        url: "https://shoppet-tm.herokuapp.com/api/users/update/" + id,
 
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +81,7 @@ const UpdateUSer = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://127.0.0.1:8000/api/groups/all",
+        url: "https://shoppet-tm.herokuapp.com/api/groups/all",
 
         headers: {
           "Content-Type": "application/json",
@@ -116,7 +116,7 @@ const UpdateUSer = () => {
     try {
       const result = await axios({
         method: "post",
-        url: "http://127.0.0.1:8000/api/users/update/" + id,
+        url: "https://shoppet-tm.herokuapp.com/api/users/update/" + id,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -226,7 +226,7 @@ const UpdateUSer = () => {
                 />
                 {userInfo?.image && (
                   <img
-                    src={`http://127.0.0.1:8000${userInfo.image}`}
+                    src={`${userInfo.image}`}
                     className="mt-3 w-10 h-10 object-cover rounded-full"
                   />
                 )}

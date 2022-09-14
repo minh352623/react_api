@@ -16,7 +16,7 @@ const ItemInterestd = ({ item }) => {
       >
         <img
           className="w-full h-full object-cover"
-          src={"http://127.0.0.1:8000" + item.file_path}
+          src={item.file_path}
           alt=""
         />
       </Link>
@@ -25,7 +25,7 @@ const ItemInterestd = ({ item }) => {
           {/* <Rating name="half-rating" defaultValue={2.5} precision={1} /> */}
           <Rating
             name="half-rating-read"
-            defaultValue={item.start}
+            defaultValue={+item.start}
             precision={0.5}
             readOnly
           />

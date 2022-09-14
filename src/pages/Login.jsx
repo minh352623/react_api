@@ -27,12 +27,16 @@ const Login = () => {
     try {
       dispatch(setLoading(true));
 
-      let result = await axios.post("http://127.0.0.1:8000/api/login", user, {
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      let result = await axios.post(
+        "https://shoppet-tm.herokuapp.com/api/login",
+        user,
+        {
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log(result);
       if (result?.data?.token) {
         console.log(result.data.token);
@@ -50,6 +54,68 @@ const Login = () => {
       dispatch(setLoading(false));
     }
   };
+  const loginWithFacebook = async (e) => {
+    e.preventDefault();
+    window.FB.getLoginStatus((response) => {
+      console.log(response.status);
+      if (response.status !== "connected") {
+        return window.FB.login(
+          (res) => {
+            if (res.status === "not_authorized") {
+              return;
+            }
+            console.log(res);
+            const accessToken = res.authResponse.accessToken;
+            fbLogin(accessToken, res.authResponse);
+          },
+          { scope: "email" }
+        );
+      }
+      const accessToken = response.authResponse.accessToken;
+      fbLogin(accessToken, response.authResponse);
+    });
+  };
+  const fbLogin = async (token, info) => {
+    console.log(token);
+    console.log(info);
+    const cookies = new Cookies();
+    cookies.set("jwt", token);
+    const { data } = await axios.get(
+      "https://graph.facebook.com/me?access_token=" + token
+    );
+    if (data) {
+      try {
+        dispatch(setLoading(true));
+        let user = { name: data.name, token };
+
+        let result = await axios.post(
+          "https://shoppet-tm.herokuapp.com/api/loginWithFace",
+          user,
+          {
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (result) {
+          result.data.token = token;
+          console.log(result.data);
+          cookies.set("user", result.data);
+          dispatch(setUser(result.data));
+          setTimeout(() => {
+            dispatch(setLoading(false));
+          }, 300);
+          navigate("/home");
+        }
+      } catch (err) {
+        setErrors("Thông tin không hợp lệ");
+        dispatch(setLoading(false));
+      }
+    } else {
+      alert("khong thanh cong");
+    }
+  };
   return (
     <>
       {loading && <Loader></Loader>}
@@ -60,6 +126,12 @@ const Login = () => {
             onSubmit={handleSubmit}
             className="w-[600px] mx-auto mt-5 shadow-lg p-5 rounded-lg"
           >
+            <p
+              onClick={loginWithFacebook}
+              className="px-6 cursor-pointer text-white rounded-lg py-3 bg-blue-500"
+            >
+              Login with Facebook
+            </p>
             <h2 className="text-center">Login</h2>
             {errors && <h4 className="text-red-400 text-center">{errors}</h4>}
 

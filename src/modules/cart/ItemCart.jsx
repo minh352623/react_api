@@ -18,7 +18,7 @@ const ItemCart = ({ item }) => {
       >
         <img
           className="w-full h-full object-cover border rounded-lg"
-          src={`http://127.0.0.1:8000${item.file_path}`}
+          src={`${item.file_path}`}
           alt=""
         />
       </TableCell>

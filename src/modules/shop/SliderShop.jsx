@@ -11,7 +11,7 @@ import "swiper/css/pagination";
 const SliderShop = ({ data }) => {
   return (
     <div className="block">
-      <div className="banner max-w-full relative flex-col items-center text-center my-auto justify-center bg-[url('./bannerPro.jpg')] bg-center bg-cover h-[70vh] bg-no-repeat">
+      <div className="banner max-w-full relative flex-col items-center text-center my-auto justify-center bg-[url('/bannerPro.jpg')] bg-center bg-cover h-[70vh] bg-no-repeat">
         <div className="h-full flex items-center justify-center flex-col">
           <div className="content max-w-full mx-[50px] flex-col items-center text-center justify-center">
             <h2 className="text-[40px] text-white">Products</h2>
@@ -63,7 +63,7 @@ const SliderShop = ({ data }) => {
                       <div className="item w-[120px] h-[120px] cursor-pointer transition-all p-1 hover:border-white rounded-full hover:border">
                         <img
                           className="w-full h-full rounded-full"
-                          src={`http://127.0.0.1:8000${img}`}
+                          src={`${img}`}
                         ></img>
                       </div>
                       <p className="text-xl mt-1 font-semibold text-white">

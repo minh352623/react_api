@@ -39,7 +39,7 @@ const UpdateProduct = () => {
     try {
       setLoading(true);
       const result = await axios.get(
-        "http://127.0.0.1:8000/api/product/update/" + id,
+        "https://shoppet-tm.herokuapp.com/api/product/update/" + id,
         {
           headers: {
             "Content-Type": "application/json",
@@ -79,9 +79,10 @@ const UpdateProduct = () => {
     formDataNew.append("description", editorRef.current.getContent());
     formDataNew.append("category", formData.category_id);
     if (picture) {
+      console.log("asdasd");
       formDataNew.append("file_path", picture);
     }
-
+    console.log(images);
     images?.length > 0 &&
       [...images].forEach((file) => {
         formDataNew.append("image_detail[]", file);
@@ -89,7 +90,7 @@ const UpdateProduct = () => {
     try {
       const result = await axios({
         method: "POST",
-        url: "http://127.0.0.1:8000/api/product/update/" + id,
+        url: "https://shoppet-tm.herokuapp.com/api/product/update/" + id,
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -111,7 +112,7 @@ const UpdateProduct = () => {
   const fetchCate = async () => {
     const response = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/api/category/all",
+      url: "https://shoppet-tm.herokuapp.com/api/category/all",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + user?.token,
@@ -179,7 +180,7 @@ const UpdateProduct = () => {
               {formData.file_path && (
                 <img
                   className="mt-3 w-[100px] h-[100px] object-cover"
-                  src={`http://127.0.0.1:8000${formData.file_path}`}
+                  src={`${formData.file_path}`}
                   alt=""
                 />
               )}
@@ -197,7 +198,7 @@ const UpdateProduct = () => {
                 {formData?.images.map((item) => (
                   <img
                     key={item.id}
-                    src={`http://127.0.0.1:8000${item.image_path}`}
+                    src={`${item.image_path}`}
                     alt=""
                     className="mt-3 w-[100px] h-[100px] object-cover"
                   />

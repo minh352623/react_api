@@ -7,7 +7,7 @@ const ItemCheckout = ({ item }) => {
       <div className="flex gap-3 items-center">
         <div className="image w-fit relative ">
           <img
-            src={`http://127.0.0.1:8000${item.file_path || item.image}`}
+            src={`${item.file_path || item.image}`}
             className="w-[80px] border rounded-2xl"
             alt=""
           />

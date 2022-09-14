@@ -13,8 +13,8 @@ import {
   SetCart,
   ShowCart,
 } from "../../redux-thunk/cartSlice";
-import Cookies from "universal-cookie";
 import { formatter } from "../../trait/FormatMoney";
+import ReactDOM from "react-dom";
 
 const Layout = ({ children }) => {
   const { user } = useSelector((state) => state.user);
@@ -40,7 +40,7 @@ const Layout = ({ children }) => {
     setLoading(true);
     const response = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/api/menu/all",
+      url: "https://shoppet-tm.herokuapp.com/api/menu/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -55,7 +55,7 @@ const Layout = ({ children }) => {
 
     const response = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/api/setting/all",
+      url: "https://shoppet-tm.herokuapp.com/api/setting/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -106,7 +106,6 @@ const Layout = ({ children }) => {
     }
     return sum;
   };
-  const client = new StreamChat("34w2eu2tayt3");
   return (
     <div className="overflow-x-hidden">
       {loading && <Loader></Loader>}
@@ -124,7 +123,7 @@ const Layout = ({ children }) => {
 
       <div
         ref={ScrollTop}
-        className="scroll-top z-[100] bg-slate-100  fixed bottom-[24px] right-[24px] hover:bg-orange-500 hover:text-white border-2 p-2 rounded-full border-slate-900 hover:border-orange-500 cursor-pointer"
+        className="scroll-top z-[100] bg-slate-100  fixed bottom-[24px] right-[200px] hover:bg-orange-500 hover:text-white border-2 p-2 rounded-full border-slate-900 hover:border-orange-500 cursor-pointer"
       >
         <span className="">
           <svg
@@ -185,7 +184,7 @@ const Layout = ({ children }) => {
                   <div className="image w-[100px] h-[100px] border rounded-lg">
                     <img
                       className="w-full h-full object-cover"
-                      src={`http://127.0.0.1:8000${item.file_path}`}
+                      src={`${item.file_path}`}
                       alt=""
                     />
                   </div>

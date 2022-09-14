@@ -10,7 +10,7 @@ const TopCategory = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://127.0.0.1:8000/api/product/top10",
+        url: "https://shoppet-tm.herokuapp.com/api/product/top10",
 
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +60,7 @@ const TopCategory = () => {
               key={item.id}
               className="p-3 cursor-pointer hover:scale-110 transition-all rounded-2xl shadow-lg bg-white"
             >
-              <img src={`http://127.0.0.1:8000${item.file_path}`} alt="" />
+              <img src={`${item.file_path}`} alt="" />
             </div>
           ))}
       </div>

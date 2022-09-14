@@ -13,7 +13,7 @@ const FooterClientCenter = ({ settings }) => {
         <p className="my-3 w-11/12">
           If you have any question, please contact us at{" "}
           <span className="text-orange-500">
-            {settings && settings[4].config_value}
+            {settings ? settings[4]?.config_value : ""}
           </span>
         </p>
         <p className="flex items-center gap-3">
@@ -34,7 +34,7 @@ const FooterClientCenter = ({ settings }) => {
             </svg>
           </span>
           <span className="font-bold">
-            {settings && settings[3].config_value}
+            {settings ? settings[3]?.config_value : ""}
           </span>
         </p>
         <p className="flex items-center gap-3">
@@ -60,13 +60,13 @@ const FooterClientCenter = ({ settings }) => {
             </svg>
           </span>
           <span className="font-bold">
-            {settings && settings[5].config_value}
+            {settings ? settings[5]?.config_value : ""}
           </span>
         </p>
         <div className="socials flex items-center gap-2">
           <Link
             className="text-gray-400"
-            to={settings && settings[0].config_value}
+            to={settings ? settings[0]?.config_value : ""}
           >
             <span className="text-white hover:bg-orange-500 transition-all leading-none h-full w-full block flex items-center justify-center max-h-[32px]  max-w-[32px] rounded-full p-[20px] bg-slate-800">
               <i className="fa-brands fa-facebook-f leading-none"></i>
@@ -74,7 +74,7 @@ const FooterClientCenter = ({ settings }) => {
           </Link>
           <Link
             className="text-gray-400"
-            to={settings && settings[0].config_value}
+            to={settings ? settings[0]?.config_value : ""}
           >
             <span className="text-white hover:bg-orange-500 transition-all leading-none h-full w-full block flex items-center justify-center max-h-[32px]  max-w-[32px] rounded-full p-[20px] bg-slate-800">
               <i className="fa-brands fa-twitter"></i>
@@ -82,7 +82,7 @@ const FooterClientCenter = ({ settings }) => {
           </Link>
           <Link
             className="text-gray-400"
-            to={settings && settings[2].config_value}
+            to={settings ? settings[2]?.config_value : ""}
           >
             <span className="text-white hover:bg-orange-500 transition-all leading-none h-full w-full block flex items-center justify-center max-h-[32px]  max-w-[32px] rounded-full p-[20px] bg-slate-800">
               <i className="fa-brands fa-linkedin-in"></i>
@@ -90,7 +90,7 @@ const FooterClientCenter = ({ settings }) => {
           </Link>
           <Link
             className="text-gray-400"
-            to={settings && settings[1].config_value}
+            to={settings ? settings[1]?.config_value : ""}
           >
             <span className="text-white hover:bg-orange-500 transition-all leading-none h-full w-full block flex items-center justify-center max-h-[32px]  max-w-[32px] rounded-full p-[20px] bg-slate-800">
               <i className="fa-brands fa-instagram"></i>

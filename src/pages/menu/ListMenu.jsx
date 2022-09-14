@@ -28,12 +28,13 @@ const ListMenu = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `http://127.0.0.1:8000/api/menu/list/?query=${query}&page=${page}`,
+        `https://shoppet-tm.herokuapp.com/api/menu/list?query=${query}&page=${page}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
       );
       if (respone.data.data) {
+        console.log(respone.data);
         setMenu(respone.data);
         setLoading(false);
       }
@@ -79,7 +80,7 @@ const ListMenu = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `http://127.0.0.1:8000/api/menu/delete/${id}`,
+            `https://shoppet-tm.herokuapp.com/api/menu/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }

@@ -52,7 +52,7 @@ const Home = () => {
   const FetchBills = async () => {
     const response = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/api/bill/billTk",
+      url: "https://shoppet-tm.herokuapp.com/api/bill/billTk",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -102,7 +102,7 @@ const Home = () => {
     try {
       const response = await axios({
         method: "get",
-        url: "http://127.0.0.1:8000/api/category/getCateTk",
+        url: "https://shoppet-tm.herokuapp.com/api/category/getCateTk",
         headers: {
           Authorization: "Bearer " + user?.token,
         },

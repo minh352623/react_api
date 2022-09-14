@@ -30,7 +30,8 @@ const MyBill = () => {
         setLoading(true);
         const response = await axios({
           method: "post",
-          url: "http://127.0.0.1:8000/api/bill/list/?status=" + status,
+          url:
+            "https://shoppet-tm.herokuapp.com/api/bill/list?status=" + status,
           headers: {
             Authorization: "Bearer " + user?.token,
           },

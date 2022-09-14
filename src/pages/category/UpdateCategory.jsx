@@ -35,7 +35,7 @@ const UpdateCategory = () => {
       setLoading(true);
       const response = await axios({
         method: "GET",
-        url: "http://127.0.0.1:8000/api/category/update/" + category,
+        url: "https://shoppet-tm.herokuapp.com/api/category/update/" + category,
 
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const UpdateCategory = () => {
     try {
       const respone = await axios({
         method: "post",
-        url: "http://127.0.0.1:8000/api/category/update/" + category,
+        url: "https://shoppet-tm.herokuapp.com/api/category/update/" + category,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -127,11 +127,7 @@ const UpdateCategory = () => {
                   name="file_path"
                   {...register("file_path")}
                 />
-                <img
-                  className="mt-2 w-[100px]"
-                  src={`http://127.0.0.1:8000${data.image}`}
-                  alt=""
-                />
+                <img className="mt-2 w-[100px]" src={`${data.image}`} alt="" />
                 {errors?.file_path && (
                   <p className="text-red-500 mt-1 text-sm">
                     {errors.file_path.message}
@@ -145,11 +141,7 @@ const UpdateCategory = () => {
                   name="icon_path"
                   {...register("icon_path")}
                 />
-                <img
-                  className="mt-2"
-                  src={`http://127.0.0.1:8000${data.icon_image}`}
-                  alt=""
-                />
+                <img className="mt-2" src={`${data.icon_image}`} alt="" />
                 {errors?.icon_path && (
                   <p className="text-red-500 mt-1 text-sm">
                     {errors.icon_path.message}
