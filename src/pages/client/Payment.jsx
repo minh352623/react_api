@@ -15,7 +15,7 @@ const Payment = () => {
   const fetchBill = async () => {
     const response = await axios({
       method: "get",
-      url: "https://shoppet-tm.herokuapp.com/api/bill/detail/" + bill,
+      url: "https://shoppet.site/api/bill/detail/" + bill,
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + user?.token,
@@ -29,6 +29,14 @@ const Payment = () => {
   useEffect(() => {
     fetchBill();
   }, []);
+  const cacaulateVoucherMoney = (id) => {
+    if (id == 1) {
+      return formatter.format(1);
+    } else if (id == 2) {
+      return formatter.format(2);
+    }
+    return null;
+  };
   return (
     <Layout>
       <div className="grid grid-cols-12 mx-auto w-3/4 bg-gray-50">
@@ -105,10 +113,10 @@ const Payment = () => {
                 <span className="text-gray-500">Ship to</span>
                 <span className="font-semibold">{data?.address}</span>
               </p>
-              <p className="flex gap-5 py-2 m-0 border-b py-2">
+              <p className="flex  gap-5 py-2 m-0 border-b py-2">
                 <span className="text-gray-500">Method</span>
                 <span className="font-semibold">Standard Shipping</span>
-                <span>{formatter.format(2)}</span>
+                <span>{formatter.format(+data?.money_ship)}</span>
               </p>
               <p className="flex gap-5 py-2 m-0">
                 <span className="text-gray-500">Payment Method</span>
@@ -133,19 +141,31 @@ const Payment = () => {
               <p className="flex justify-between">
                 <span className="text-gray-600">Subtotal</span>
                 <span className="font-semibold">
-                  {formatter.format(parseInt(data?.total) - 2)}
+                  {parseFloat(
+                    data?.total - data?.money_ship + +data?.voucher
+                  ).toFixed(2)}
                 </span>
               </p>
-              <p className="flex justify-between items-center m-0">
+              <p className="flex mb-3 justify-between items-center m-0">
                 <span className="text-gray-600">Shipping</span>
-                <span className="font-semibold">{formatter.format(2)}</span>
+                <span className="font-semibold">
+                  {formatter.format(data?.money_ship)}
+                </span>
               </p>
+              {data?.voucher && (
+                <p className="flex justify-between items-center m-0">
+                  <span className="text-gray-600">Voucher</span>
+                  <span className="font-semibold">
+                    -{formatter.format(+data?.voucher)}
+                  </span>
+                </p>
+              )}
             </div>
             <div className="total py-3">
               <p className="flex justify-between items-center">
                 <span className="text-xl">Total</span>
                 <span className="font-semibold text-3xl">
-                  {formatter.format(parseInt(data?.total))}
+                  {formatter.format(data?.total)}
                 </span>
               </p>
             </div>

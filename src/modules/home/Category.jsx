@@ -11,7 +11,7 @@ const Category = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "https://shoppet-tm.herokuapp.com/api/category/all",
+        url: "https://shoppet.site/api/category/all",
 
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const Category = () => {
       {categorys &&
         categorys.map((item, index) => {
           let order = "order-" + index;
-          if (item.name == "Best Seller") {
+          if (item.name == "Best sale") {
             order = "order-0";
             return (
               <div

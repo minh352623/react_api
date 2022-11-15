@@ -33,7 +33,7 @@ const AddGroup = () => {
     try {
       const respone = await axios({
         method: "post",
-        url: "https://shoppet-tm.herokuapp.com/api/groups/add",
+        url: "https://shoppet.site/api/groups/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

@@ -15,7 +15,7 @@ const BestSaler = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "https://shoppet-tm.herokuapp.com/api/product/bestSaler",
+        url: "https://shoppet.site/api/product/bestSaler",
 
         headers: {
           "Content-Type": "application/json",

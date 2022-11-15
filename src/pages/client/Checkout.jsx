@@ -10,6 +10,8 @@ import ItemCheckout from "../../modules/checkout/ItemCheckout";
 import { formatter } from "../../trait/FormatMoney";
 import { useDispatch } from "react-redux";
 import Cookies from "universal-cookie";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const schema = yup.object({
   phone: yup
@@ -24,7 +26,7 @@ const schema = yup.object({
   address: yup
     .string()
     .required("Địa chỉ bắt buộc phải nhập")
-    .min(10, "Địa chỉ ít nhất 10 kí tự"),
+    .min(3, "Địa chỉ ít nhất 3 kí tự"),
 });
 const Checkout = () => {
   const { isShowCart, carts } = useSelector((state) => state.cart);
@@ -43,16 +45,32 @@ const Checkout = () => {
     mode: "onChange",
   });
   const onSubmitAdd = async (values) => {
-    if (!isValid) return;
-    const info = {
-      name: values.firstName + values.lastName,
-      address: values.address,
-      phone: values.phone,
-      country: values.country,
-    };
-    const cookies = new Cookies();
-    cookies.set("infoPayment", info);
-    navigate("/shipping");
+    if (!isValid) {
+      return;
+    }
+    if (carts) {
+      let infoAdd =
+        JSON.parse(localStorage.getItem("ward")) +
+        ", " +
+        JSON.parse(localStorage.getItem("district")) +
+        ", " +
+        JSON.parse(localStorage.getItem("province"));
+      const info = {
+        name: values.firstName + values.lastName,
+        address: values.address + ", " + infoAdd,
+        phone: values.phone,
+        country: values.country,
+      };
+      const cookies = new Cookies();
+      cookies.set("infoPayment", info);
+      let sum = 0;
+      carts.map((item) => {
+        sum += parseFloat(item.total);
+      });
+      cookies.set("sumcur", sum);
+
+      navigate("/shipping");
+    }
   };
   const sumCart = () => {
     let sum = 0;
@@ -66,16 +84,110 @@ const Checkout = () => {
   const setDefaultValue = () => {
     if (user) {
       setValue("lastName", user?.name);
-      setValue("address", user?.address);
       setValue("phone", user?.phone);
     }
   };
+  const [codeProvince, setCodeProvivce] = useState();
+  const [codeDistrict, setCodeDistrict] = useState();
+  const [codeWard, setCodeWard] = useState();
+
+  const [province, setProvince] = useState();
+  const [district, setDistrict] = useState();
+  const [ward, setWard] = useState();
+
+  const getProvince = async () => {
+    const provinceNew = await axios({
+      method: "GET",
+      url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
+
+      headers: {
+        "Content-Type": "application/json",
+        token: "8909150e-3f24-11ed-b824-262f869eb1a7",
+      },
+    });
+    if (provinceNew) {
+      console.log(provinceNew);
+      setProvince(provinceNew.data.data);
+    }
+  };
+  const getDistrict = async (codeProvince) => {
+    const districtNew = await axios({
+      method: "POST",
+      url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/district",
+
+      headers: {
+        "Content-Type": "application/json",
+        token: "8909150e-3f24-11ed-b824-262f869eb1a7",
+      },
+      data: JSON.stringify({
+        province_id: +codeProvince,
+      }),
+    });
+    if (districtNew) {
+      console.log(districtNew);
+      setDistrict(districtNew.data.data);
+    }
+  };
+  const getWard = async (codeDistrict) => {
+    const wardNew = await axios({
+      method: "POST",
+      url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/ward",
+
+      headers: {
+        "Content-Type": "application/json",
+        token: "8909150e-3f24-11ed-b824-262f869eb1a7",
+      },
+      data: JSON.stringify({
+        district_id: +codeDistrict,
+      }),
+    });
+    if (wardNew) {
+      console.log(wardNew);
+      setWard(wardNew.data.data);
+    }
+  };
+
   useEffect(() => {
-    // if (carts && !carts.length <= 0) {
-    //   navigate("/cart");
-    // }
+    getProvince();
+
     setDefaultValue();
   }, []);
+  console.log(codeDistrict);
+
+  const getService = async (toDistrict) => {
+    const result = await axios({
+      method: "POST",
+      url: "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services",
+
+      headers: {
+        "Content-Type": "application/json",
+        token: "8909150e-3f24-11ed-b824-262f869eb1a7",
+      },
+      data: JSON.stringify({
+        shop_id: 3299752,
+        from_district: 1758,
+        to_district: +toDistrict,
+      }),
+    });
+    if (result) {
+      console.log(result.data.data[0].service_id);
+      localStorage.setItem(
+        "service_id",
+        JSON.stringify(result.data.data[0].service_id)
+      );
+    }
+  };
+  useEffect(() => {
+    if (codeProvince) {
+      getDistrict(codeProvince);
+    }
+    if (codeDistrict) {
+      getWard(codeDistrict);
+      getService(codeDistrict);
+    }
+    console.log("out");
+  }, [codeDistrict, codeProvince]);
+
   return (
     <Layout>
       <div className="grid grid-cols-12 mx-auto w-3/4 bg-gray-100">
@@ -216,19 +328,114 @@ const Checkout = () => {
                   </div>
                 </div>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Control
-                    type="text"
-                    {...register("address")}
-                    name="address"
-                    placeholder="Address"
-                  />
-                  {errors?.address && (
-                    <p className="text-red-500 mt-1 text-sm">
-                      {errors.address.message}
-                    </p>
-                  )}
+                  <label className="mb-1" htmlFor="">
+                    Tỉnh Thành
+                  </label>
+                  <Form.Select
+                    name="province"
+                    onChange={(e) => {
+                      localStorage.setItem(
+                        "province",
+                        JSON.stringify(
+                          e.target.options[e.target.selectedIndex].text
+                        )
+                      );
+                      setCodeProvivce(e.target.value);
+                    }}
+                    placeholder="Enter province"
+                    aria-label="Default select example"
+                  >
+                    <option value="">Vui lòng chọn tỉnh thành</option>
+                    {province &&
+                      province?.length > 0 &&
+                      province.map((item) => (
+                        <option value={item.ProvinceID}>
+                          {item.ProvinceName}
+                        </option>
+                      ))}
+                  </Form.Select>
                 </Form.Group>
+                {codeProvince && (
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <label className="mb-1" htmlFor="">
+                      Quận/Huyện
+                    </label>
+                    <Form.Select
+                      name="district"
+                      onChange={(e) => {
+                        localStorage.setItem(
+                          "district",
+                          JSON.stringify(
+                            e.target.options[e.target.selectedIndex].text
+                          )
+                        );
+                        setCodeDistrict(e.target.value);
+                      }}
+                      placeholder="Enter district"
+                    >
+                      <option value="">Vui lòng chọn Quận/Huyện</option>
+                      {district &&
+                        district?.length > 0 &&
+                        district.map((item) => (
+                          <option value={item.DistrictID}>
+                            {item.DistrictName}
+                          </option>
+                        ))}
+                    </Form.Select>
+                  </Form.Group>
+                )}
+                {codeDistrict && (
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <label className="mb-1" htmlFor="">
+                      Xã/Phường/Thị Trấn
+                    </label>
+                    <Form.Select
+                      name="ward"
+                      onChange={(e) => {
+                        localStorage.setItem(
+                          "ward",
+                          JSON.stringify(
+                            e.target.options[e.target.selectedIndex].text
+                          )
+                        );
+                        localStorage.setItem(
+                          "codeWard",
+                          JSON.stringify(e.target.value)
+                        );
+                        localStorage.setItem(
+                          "codeDistrict",
+                          JSON.stringify(codeDistrict)
+                        );
+                        setCodeWard(e.target.value);
+                      }}
+                      aria-label="Default select example"
+                    >
+                      <option value="">Vui lòng chọn Xã/Phường/Thị Trấn</option>
+                      {ward &&
+                        ward?.length > 0 &&
+                        ward.map((item) => (
+                          <option value={item.WardCode}>{item.WardName}</option>
+                        ))}
+                    </Form.Select>
+                  </Form.Group>
+                )}
+                {codeWard && (
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Control
+                      type="text"
+                      {...register("address")}
+                      name="address"
+                      placeholder="address"
+                    />
+                    {errors?.address && (
+                      <p className="text-red-500 mt-1 text-sm">
+                        {errors.address.message}
+                      </p>
+                    )}
+                  </Form.Group>
+                )}
               </div>
+
               <div className="flex items-center justify-between">
                 <Link to="/cart">
                   <span className="flex items-center">
@@ -250,8 +457,8 @@ const Checkout = () => {
                   </span>
                 </Link>
                 <button
-                  className={`bg-blue-500 hover:bg-blue-700
-                   text-center text-white px-6 py-3 rounded-xl  transition-all`}
+                  className={`bg-blue-500 hover:bg-blue-700 
+                   text-center  text-white px-6 py-3 rounded-xl  transition-all`}
                   type="submit"
                 >
                   Continue to shipping

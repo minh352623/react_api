@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import Layout from "../../components/layouts/Layout";
 import BestSaler from "../../modules/home/BestSaler";
 import Category from "../../modules/home/Category";
@@ -14,11 +15,11 @@ import Slogan from "../../modules/home/Slogan";
 import TopCategory from "../../modules/home/TopCategory";
 
 const HomeClient = () => {
-
   return (
     <Layout>
       <div className="main px-5 mt-3 bg-[#f4f4f4]">
         <Slider></Slider>
+
         <Partner></Partner>
         <Category></Category>
         <TopCategory></TopCategory>

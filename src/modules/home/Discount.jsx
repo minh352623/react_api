@@ -10,7 +10,7 @@ const Discount = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "https://shoppet-tm.herokuapp.com/api/discount/all",
+        url: "https://shoppet.site/api/discount/all",
 
         headers: {
           "Content-Type": "application/json",

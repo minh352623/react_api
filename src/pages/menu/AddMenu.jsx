@@ -31,7 +31,7 @@ const AddMenu = () => {
   const FetchMenu = async () => {
     const result = await axios({
       method: "GET",
-      url: `https://shoppet-tm.herokuapp.com/api/menu/recusive`,
+      url: `https://shoppet.site/api/menu/recusive`,
       headers: { Authorization: "Bearer " + user?.token },
     });
     if (result) {
@@ -50,7 +50,7 @@ const AddMenu = () => {
     try {
       const result = await axios({
         method: "post",
-        url: "https://shoppet-tm.herokuapp.com/api/menu/add",
+        url: "https://shoppet.site/api/menu/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

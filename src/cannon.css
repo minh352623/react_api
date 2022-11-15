@@ -1,0 +1,55 @@
+.c-cannon {
+    background-color: transparent;
+    border: 0;
+}
+
+.p-page {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    /* background: #000; */
+}
+
+
+
+.c-cannon {
+    padding: 5px;
+    border-radius: 10px;
+    fill: orangered;
+    outline: none;
+    position: relative;
+}
+
+.c-cannon__wheel {
+    transform-origin: 52% 75%;
+}
+
+.c-cannon__wheel.is-active {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-name: wheel;
+    animation-name: wheel;
+}
+
+@-webkit-keyframes wheel {
+    0%, 100% {
+        transform: rotate(0);
+    }
+
+    10% {
+        transform: rotate(-50deg);
+    }
+}
+
+@keyframes wheel {
+    0%, 100% {
+        transform: rotate(0);
+    }
+
+    10% {
+        transform: rotate(-50deg);
+    }
+}

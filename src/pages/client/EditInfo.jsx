@@ -43,7 +43,7 @@ const EditUSer = () => {
       setLoading(true);
       const response = await axios({
         method: "GET",
-        url: "https://shoppet-tm.herokuapp.com/api/users/update/" + user.id,
+        url: "https://shoppet.site/api/users/update/" + user.id,
 
         headers: {
           "Content-Type": "application/json",
@@ -89,7 +89,7 @@ const EditUSer = () => {
     try {
       const result = await axios({
         method: "post",
-        url: "https://shoppet-tm.herokuapp.com/api/users/update/" + user.id,
+        url: "https://shoppet.site/api/users/update/" + user.id,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

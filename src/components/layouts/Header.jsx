@@ -27,7 +27,7 @@ const Header = ({ check = true }) => {
 
       const result = await axios({
         method: "get",
-        url: "https://shoppet-tm.herokuapp.com/api/logout",
+        url: "https://shoppet.site/api/logout",
         headers: {
           Authorization: "Bearer " + user?.token,
         },
@@ -168,6 +168,30 @@ const Header = ({ check = true }) => {
                   to="/comments"
                 >
                   Comments
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/coupon"
+                >
+                  Coupon
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/seed"
+                >
+                  Seed
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : "text-black"
+                  }
+                  to="/mission"
+                >
+                  Mission
                 </NavLink>
               </Nav>
               {user && user != null && check ? (

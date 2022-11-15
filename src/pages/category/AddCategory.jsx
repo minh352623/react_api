@@ -35,7 +35,7 @@ const AddCategory = () => {
     try {
       const result = await axios({
         method: "post",
-        url: "https://shoppet-tm.herokuapp.com/api/category/add",
+        url: "https://shoppet.site/api/category/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

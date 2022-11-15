@@ -8,6 +8,8 @@ import ItemCheckout from "../../modules/checkout/ItemCheckout";
 import Status from "../../modules/payment/Status";
 import { formatter } from "../../trait/FormatMoney";
 import Form from "react-bootstrap/Form";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebase/firebase-config";
 
 const DetailBill = () => {
   const { bill } = useParams();
@@ -17,12 +19,13 @@ const DetailBill = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const colRef = collection(db, "notifycations");
   const fetchBill = async () => {
     try {
       setLoading(true);
       const response = await axios({
         method: "get",
-        url: "https://shoppet-tm.herokuapp.com/api/bill/detail/" + bill,
+        url: "https://shoppet.site/api/bill/detail/" + bill,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -47,11 +50,17 @@ const DetailBill = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    let content = "Đang chuẩn bị hàng";
+    if (+status == 1) {
+      content = "Đơn hàng của bạn đang vận chuyển";
+    } else if (+status == 2) {
+      content = "Đơn hàng của bạn đã được giao";
+    }
     formData.append("status", status);
     try {
       const response = await axios({
         method: "post",
-        url: "https://shoppet-tm.herokuapp.com/api/bill/update/" + bill,
+        url: "https://shoppet.site/api/bill/update/" + bill,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -62,6 +71,20 @@ const DetailBill = () => {
         console.log(response);
         setMessage("Cập nhật bill thành công");
         setError("");
+        //add notify
+        let user_id = JSON.parse(localStorage.getItem("user_id_noti"));
+        addDoc(colRef, {
+          user_id: +user_id,
+          content: content,
+          read: 0,
+          date: new Date(),
+        })
+          .then(() => {
+            console.log("success");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       }
     } catch (e) {
       console.log(e);
