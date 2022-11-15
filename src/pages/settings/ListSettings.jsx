@@ -29,7 +29,7 @@ const ListSettings = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `https://shoppet-tm.herokuapp.com/api/setting/list?query=${query}&page=${page}`,
+        `https://shoppet.site/api/setting/list?query=${query}&page=${page}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -80,7 +80,7 @@ const ListSettings = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet-tm.herokuapp.com/api/setting/delete/${id}`,
+            `https://shoppet.site/api/setting/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }

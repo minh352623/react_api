@@ -18,6 +18,8 @@ import ReactDOM from "react-dom";
 
 const Layout = ({ children }) => {
   const { user } = useSelector((state) => state.user);
+  console.log(user);
+
   const { isShowCart, carts } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const containerCart = useRef(null);
@@ -40,7 +42,7 @@ const Layout = ({ children }) => {
     setLoading(true);
     const response = await axios({
       method: "get",
-      url: "https://shoppet-tm.herokuapp.com/api/menu/all",
+      url: "https://shoppet.site/api/menu/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -55,7 +57,7 @@ const Layout = ({ children }) => {
 
     const response = await axios({
       method: "get",
-      url: "https://shoppet-tm.herokuapp.com/api/setting/all",
+      url: "https://shoppet.site/api/setting/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -123,7 +125,7 @@ const Layout = ({ children }) => {
 
       <div
         ref={ScrollTop}
-        className="scroll-top z-[100] bg-slate-100  fixed bottom-[24px] right-[200px] hover:bg-orange-500 hover:text-white border-2 p-2 rounded-full border-slate-900 hover:border-orange-500 cursor-pointer"
+        className="scroll-top border z-[100] bg-slate-100  fixed bottom-[24px] right-[200px] hover:bg-orange-500 hover:text-white border-2 p-2 rounded-full border-slate-900 hover:border-orange-500 cursor-pointer"
       >
         <span className="">
           <svg
@@ -272,7 +274,7 @@ const Layout = ({ children }) => {
             <div className="buttons-cart mt-4 flex gap-2">
               <div className="view-cart">
                 <Link
-                  className="border-2 hover:border-orange-500 border-gray-500 hover:text-orange-500 transition-all text-slate-900 font-bold rounded-3xl px-5 py-2"
+                  className="border-2 border hover:border-orange-500 border-gray-500 hover:text-orange-500 transition-all text-slate-900 font-bold rounded-3xl px-5 py-2"
                   to="/cart"
                 >
                   View Cart
@@ -281,7 +283,7 @@ const Layout = ({ children }) => {
               <div className="view-cart">
                 <Link
                   className="border-2  text-white bg-orange-500 hover:bg-slate-900 font-bold rounded-3xl px-5 py-2 transition-al"
-                  to="#"
+                  to="checkout"
                 >
                   Check out
                 </Link>

@@ -8,7 +8,11 @@ import {
 } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCurrentUser, setLoading } from "./redux-thunk/userSlice";
+import {
+  fetchCurrentUser,
+  setFaceioInstance,
+  setLoading,
+} from "./redux-thunk/userSlice";
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
 import AOS from "aos";
@@ -20,6 +24,24 @@ import ProtectedRoute from "./ProtectedRoute";
 import Loader from "./components/Loader";
 import PrivateRoute from "./PrivateRoute";
 import axios from "axios";
+import LoginGoogle from "./pages/client/LoginGoogle";
+const FriendFarm = lazy(() => import("./pages/client/FriendFarm"));
+const UpdateMission = lazy(() => import("./pages/mission/UpdateMission"));
+const AddMission = lazy(() => import("./pages/mission/AddMission"));
+const ListMission = lazy(() => import("./pages/mission/ListMission"));
+const Farm = lazy(() => import("./pages/client/Farm"));
+const UpdateSeed = lazy(() => import("./pages/seed/UpadteSeed"));
+const AddSeed = lazy(() => import("./pages/seed/AddSeed"));
+const ListSeed = lazy(() => import("./pages/seed/ListSeed"));
+const EventDog = lazy(() => import("./pages/client/EventDog"));
+const Coin = lazy(() => import("./pages/client/Coin"));
+const EventShoot = lazy(() => import("./pages/client/EventShoot"));
+const EventZoonbie = lazy(() => import("./pages/client/EventZoonbie"));
+const Event = lazy(() => import("./pages/client/Event"));
+const Coupons = lazy(() => import("./pages/Coupons"));
+const UpdateCoupon = lazy(() => import("./pages/coupon/UpdateCoupon"));
+const AddCoupon = lazy(() => import("./pages/coupon/AddCoupon"));
+const ListCoupon = lazy(() => import("./pages/coupon/ListCoupon"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
@@ -56,10 +78,7 @@ const ShopClient = lazy(() => import("./pages/client/ShopClient"));
 const DetailProduct = lazy(() => import("./pages/client/DetailProduct"));
 const Cart = lazy(() => import("./pages/client/Cart"));
 const Checkout = lazy(() => import("./pages/client/Checkout"));
-// import Checkout from "./pages/client/Checkout";
-
 const Shipping = lazy(() => import("./pages/client/Shipping"));
-// import Shipping from "./pages/client/Shipping";
 const Payment = lazy(() => import("./pages/client/Payment"));
 const MyBill = lazy(() => import("./pages/client/MyBill"));
 const ListBills = lazy(() => import("./pages/bills/ListBills"));
@@ -86,7 +105,13 @@ function App() {
         dispatch(setLoading(false));
       }, 300);
     } else {
-      Swal.fire("Đăng nhập đã hết hạn. Vui lòng đăng nhập lại!");
+      Swal.fire({
+        position: "center-center",
+        icon: "error",
+        title: "Đăng nhập đã hết hạn. Vui lòng đăng nhập lại!",
+        showConfirmButton: false,
+        timer: 500,
+      });
       dispatch(setLoading(false));
     }
   }, [dispatch]);
@@ -94,7 +119,7 @@ function App() {
     try {
       const response = await axios({
         method: "get",
-        url: "https://shoppet-tm.herokuapp.com/api/caculator",
+        url: "https://shoppet.site/api/caculator",
       });
       if (response) {
         console.log(response);
@@ -106,6 +131,26 @@ function App() {
   useEffect(() => {
     calulatorRating();
   }, []);
+  let faceioInstance = null;
+  useEffect(() => {
+    const faceioScript = document.createElement("script");
+    faceioScript.src = "//cdn.faceio.net/fio.js";
+    faceioScript.async = true;
+    faceioScript.onload = () => faceioScriptLoaded();
+    document.body.appendChild(faceioScript);
+
+    return () => {
+      document.body.removeChild(faceioScript);
+    };
+  }, []);
+  const faceioScriptLoaded = () => {
+    console.log(faceIO);
+    if (faceIO && !faceioInstance) {
+      faceioInstance = new faceIO("fioaafef");
+      dispatch(setFaceioInstance(faceioInstance));
+    }
+  };
+
   if (loading) return <Loader></Loader>;
   return (
     <>
@@ -137,6 +182,11 @@ function App() {
               ></Route>
 
               <Route path="/login" element={<Login></Login>}></Route>
+              <Route
+                path="/logingg"
+                element={<LoginGoogle></LoginGoogle>}
+              ></Route>
+
               <Route path="/" element={<Login></Login>}></Route>
 
               <Route path="/register" element={<Register></Register>}></Route>
@@ -386,6 +436,78 @@ function App() {
                   </PrivateRoute>
                 }
               ></Route>
+              <Route
+                path="/coupon"
+                element={
+                  <PrivateRoute roles={[1]}>
+                    <ListCoupon></ListCoupon>
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="/addCoupon"
+                element={
+                  <PrivateRoute roles={[1]}>
+                    <AddCoupon></AddCoupon>
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="/updateCoupon/:coupon"
+                element={
+                  <PrivateRoute roles={[1]}>
+                    <UpdateCoupon></UpdateCoupon>
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="/seed"
+                element={
+                  <PrivateRoute roles={[1]}>
+                    <ListSeed></ListSeed>
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="/addSeed"
+                element={
+                  <PrivateRoute roles={[1]}>
+                    <AddSeed></AddSeed>
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="/updateSeed/:id"
+                element={
+                  <PrivateRoute roles={[1]}>
+                    <UpdateSeed></UpdateSeed>
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="/mission"
+                element={
+                  <PrivateRoute roles={[1]}>
+                    <ListMission></ListMission>
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="/addMission"
+                element={
+                  <PrivateRoute roles={[1]}>
+                    <AddMission></AddMission>
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="/updateMission/:id"
+                element={
+                  <PrivateRoute roles={[1]}>
+                    <UpdateMission></UpdateMission>
+                  </PrivateRoute>
+                }
+              ></Route>
               {/* client */}
               <Route
                 path="/home"
@@ -464,6 +586,71 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <EditInfo></EditInfo>
+                  </ProtectedRoute>
+                }
+              ></Route>
+              <Route
+                path="/listCoupon"
+                element={
+                  <ProtectedRoute>
+                    <Coupons></Coupons>
+                  </ProtectedRoute>
+                }
+              ></Route>
+              <Route
+                path="/event"
+                element={
+                  <ProtectedRoute>
+                    <Event></Event>
+                  </ProtectedRoute>
+                }
+              ></Route>
+              <Route
+                path="/eventZom"
+                element={
+                  <ProtectedRoute>
+                    <EventZoonbie></EventZoonbie>
+                  </ProtectedRoute>
+                }
+              ></Route>
+              <Route
+                path="/eventShoot"
+                element={
+                  <ProtectedRoute>
+                    <EventShoot></EventShoot>
+                  </ProtectedRoute>
+                }
+              ></Route>
+              <Route
+                path="/eventDog"
+                element={
+                  <ProtectedRoute>
+                    <EventDog></EventDog>
+                  </ProtectedRoute>
+                }
+              ></Route>
+              <Route
+                path="/coin"
+                element={
+                  <ProtectedRoute>
+                    <Coin></Coin>
+                  </ProtectedRoute>
+                }
+              ></Route>
+              <Route
+                path="/farm"
+                element={
+                  <ProtectedRoute>
+                    <Farm></Farm>
+                  </ProtectedRoute>
+                }
+              ></Route>
+
+              <Route
+                path="/farm/friend"
+                element={
+                  <ProtectedRoute>
+                    <FriendFarm></FriendFarm>
                   </ProtectedRoute>
                 }
               ></Route>

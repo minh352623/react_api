@@ -52,7 +52,7 @@ const Home = () => {
   const FetchBills = async () => {
     const response = await axios({
       method: "get",
-      url: "https://shoppet-tm.herokuapp.com/api/bill/billTk",
+      url: "https://shoppet.site/api/bill/billTk",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -102,7 +102,7 @@ const Home = () => {
     try {
       const response = await axios({
         method: "get",
-        url: "https://shoppet-tm.herokuapp.com/api/category/getCateTk",
+        url: "https://shoppet.site/api/category/getCateTk",
         headers: {
           Authorization: "Bearer " + user?.token,
         },
@@ -153,6 +153,7 @@ const Home = () => {
   return (
     <>
       <Header></Header>
+
       <div className="container my-5">
         <h3 className="text-center">Statistical Order</h3>
         <div className="grid grid-cols-12 gap-5">

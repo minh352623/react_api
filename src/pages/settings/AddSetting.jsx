@@ -33,7 +33,7 @@ const AddSetting = () => {
     try {
       const respone = await axios({
         method: "post",
-        url: "https://shoppet-tm.herokuapp.com/api/setting/add",
+        url: "https://shoppet.site/api/setting/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

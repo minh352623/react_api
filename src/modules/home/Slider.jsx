@@ -18,7 +18,7 @@ const Slider = () => {
   const FetchCate = async () => {
     const response = await axios({
       method: "get",
-      url: "https://shoppet-tm.herokuapp.com/api/category/all",
+      url: "https://shoppet.site/api/category/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -30,7 +30,7 @@ const Slider = () => {
   const FetchSlider = async () => {
     const response = await axios({
       method: "get",
-      url: "https://shoppet-tm.herokuapp.com/api/slider/all",
+      url: "https://shoppet.site/api/slider/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -142,7 +142,7 @@ const Slider = () => {
               </ul>
             </div>
           </div>
-          <div className="col-span-10">
+          <div className="col-span-10 z-0">
             <Swiper
               autoplay={{
                 delay: 3000,

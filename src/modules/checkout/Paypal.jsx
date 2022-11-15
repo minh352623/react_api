@@ -1,9 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { formatter } from "../../trait/FormatMoney";
 
-const Paypal = ({ sum, info, user }) => {
-  console.log(sum);
+const Paypal = ({ info, user, fee, sumf }) => {
+  const { changeMoney } = useSelector((state) => state.user);
+
+  // let sumNew = JSON.parse(localStorage.getItem("sum"));
+  // console.log(sumNew);
+  // sumNew = parseFloat(sumNew).toFixed(2);
+
   const navigate = useNavigate();
 
   const paypal = useRef(null);
@@ -18,7 +25,9 @@ const Paypal = ({ sum, info, user }) => {
                 description: "Cool looking table",
                 amount: {
                   current_code: "CAD",
-                  value: sum + 2,
+                  value: parseFloat(
+                    JSON.parse(localStorage.getItem("sum"))
+                  ).toFixed(2),
                 },
               },
             ],
@@ -31,13 +40,48 @@ const Paypal = ({ sum, info, user }) => {
           const formData = new FormData();
           formData.append("phone", info.phone);
           formData.append("address", info.address + "," + info.country);
-          formData.append("total", sum + 2);
+          formData.append(
+            "total",
+            parseFloat(JSON.parse(localStorage.getItem("sum"))).toFixed(2)
+          );
+          formData.append("fee", fee);
+
           formData.append("userId", user?.id);
           formData.append("pttt", "paypal");
 
+          if (JSON.parse(localStorage.getItem("infoVoucher"))) {
+            const voucher = JSON.parse(localStorage.getItem("infoVoucher"));
+            if (+voucher.feature == 1) {
+              formData.append(
+                "voucher",
+                parseFloat(sumf * (+voucher.value / 100).toFixed(2))
+              );
+            } else if (+voucher.feature == 2) {
+              formData.append("voucher", parseFloat(voucher.value).toFixed(2));
+            }
+
+            const formData2 = new FormData();
+            formData2.append("user_id", user?.id);
+            formData2.append("coupon_id", voucher.id);
+            try {
+              const response = await axios({
+                method: "post",
+                url: "https://shoppet.site/api/coupon/delete_user_coupon",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + user?.token,
+                },
+                data: formData2,
+              });
+            } catch (e) {
+              console.log(e);
+            }
+          }
+          const infoVoucher = localStorage.removeItem("infoVoucher");
+
           const response = await axios({
             method: "post",
-            url: "https://shoppet-tm.herokuapp.com/api/bill/add",
+            url: "https://shoppet.site/api/bill/add",
             headers: {
               "Content-Type": "application/json",
               Authorization: "Bearer " + user?.token,
@@ -45,20 +89,22 @@ const Paypal = ({ sum, info, user }) => {
             data: formData,
           });
           if (response) {
+            localStorage.removeItem("sum");
+
             console.log(response);
             navigate("/payment/" + response.data.id_bill);
           }
         },
         onError: (err) => {
+          console.log("asd");
           console.log(err);
         },
       })
       .render(paypal.current);
+
     return () => {};
   }, []);
-  return (
-    <div className="max-w-[100px] w-[100px] relative z-20" ref={paypal}></div>
-  );
+  return <div className="w-full relative z-20" ref={paypal}></div>;
 };
 
 export default Paypal;

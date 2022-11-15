@@ -3,7 +3,7 @@ import axios from "axios";
 export default function requestGetCart(user) {
   return axios({
     method: "GET",
-    url: `https://shoppet-tm.herokuapp.com/api/cart/all/${user?.id}`,
+    url: `https://shoppet.site/api/cart/all/${user?.id}`,
     headers: {
       Authorization: "Bearer " + user?.token,
     },
@@ -17,7 +17,7 @@ export function requestAddCart(idPRo, number, user) {
   formData.append("number", number);
   return axios({
     method: "POST",
-    url: `https://shoppet-tm.herokuapp.com/api/cart/add`,
+    url: `https://shoppet.site/api/cart/add`,
     headers: {
       Authorization: "Bearer " + user?.token,
     },
@@ -30,7 +30,7 @@ export function requestDeleteCart(idPRo, user) {
   formData.append("user_id", user?.id);
   return axios({
     method: "POST",
-    url: `https://shoppet-tm.herokuapp.com/api/cart/delete`,
+    url: `https://shoppet.site/api/cart/delete`,
     headers: {
       Authorization: "Bearer " + user?.token,
     },

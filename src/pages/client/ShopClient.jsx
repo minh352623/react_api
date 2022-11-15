@@ -23,7 +23,8 @@ const theme = createTheme({
   },
 });
 const ShopClient = () => {
-  const { user } = useSelector((state) => state.user);
+  const { user, searchVoice } = useSelector((state) => state.user);
+  console.log(searchVoice);
   const [cates, setCates] = useState();
   const [products, setProduct] = useState();
   const [loading, setLoading] = useState(false);
@@ -50,7 +51,7 @@ const ShopClient = () => {
   const FetchCate = async () => {
     const response = await axios({
       method: "get",
-      url: "https://shoppet-tm.herokuapp.com/api/category/all",
+      url: "https://shoppet.site/api/category/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -90,15 +91,18 @@ const ShopClient = () => {
       });
     }
     formData.append("order", order);
+    if (searchVoice) {
+      formData.append("searchVoice", searchVoice);
+    }
+
     formData.append("priceFilter", priceFilter);
 
     try {
       setLoading(true);
       // setProduct(null);
-
       const response = await axios({
         method: "POST",
-        url: `https://shoppet-tm.herokuapp.com/api/product/filter?page=${page}`,
+        url: `https://shoppet.site/api/product/filter?page=${page}`,
 
         headers: {
           Accept: "application/json",
@@ -107,11 +111,11 @@ const ShopClient = () => {
         },
         data: formData,
       });
-      if (response) {
-        console.log(response.data);
-        setProduct(response.data);
-        setLoading(false);
-      }
+      // if (response) {
+      console.log(response.data);
+      setProduct(response.data);
+      setLoading(false);
+      // }
     } catch (e) {
       console.log(e);
     }
@@ -123,16 +127,14 @@ const ShopClient = () => {
 
   useEffect(() => {
     fetchProduct();
-  }, [filter, page, deboundValue, order, priceFilter]);
+  }, [filter, page, deboundValue, order, priceFilter, searchVoice]);
   const handleSetDeboundValue = lodash.debounce(() => {
     setLoading(true);
 
     setDeboundValue(value);
     setLoading(false);
   }, 200);
-  // useEffect(() => {
-  //   handleSetDeboundValue();
-  // }, [value]);
+
   //phân trang
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -158,7 +160,7 @@ const ShopClient = () => {
         {cates && <SliderShop data={cates}></SliderShop>}
         <div className="container-content p-5">
           <div className="grid grid-cols-12 gap-5">
-            <div className="col-span-3">
+            <div id="product_page" className="col-span-3">
               <h4 className="border-b pb-3 border-gray-300">
                 Product categories
               </h4>

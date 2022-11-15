@@ -15,7 +15,7 @@ const ProductNew = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "https://shoppet-tm.herokuapp.com/api/product/getNew",
+        url: "https://shoppet.site/api/product/getNew",
 
         headers: {
           "Content-Type": "application/json",

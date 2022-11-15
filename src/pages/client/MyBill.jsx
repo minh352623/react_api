@@ -31,7 +31,7 @@ const MyBill = () => {
         const response = await axios({
           method: "post",
           url:
-            "https://shoppet-tm.herokuapp.com/api/bill/list?status=" + status,
+            "https://shoppet.site/api/bill/list?status=" + status,
           headers: {
             Authorization: "Bearer " + user?.token,
           },

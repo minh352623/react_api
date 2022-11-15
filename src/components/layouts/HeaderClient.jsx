@@ -2,22 +2,36 @@ import * as React from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import regeneratorRuntime from "regenerator-runtime";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router-dom";
 import { NavLink, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading, setUser } from "../../redux-thunk/userSlice";
+import {
+  setLoading,
+  setSearchVoice,
+  setUser,
+} from "../../redux-thunk/userSlice";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import Loader from "../Loader";
 import { ShowCart } from "../../redux-thunk/cartSlice";
+import Notify from "../Notify";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+import lodash from "lodash";
+import MicroPhone from "../MicroPhone";
+import Coupon from "../Coupon";
+import { formatter } from "../../trait/FormatMoney";
+
 const cookies = new Cookies();
 
 const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
   const navigate = useNavigate();
   const { carts } = useSelector((state) => state.cart);
   const [isShowInfo, setIsShowInfo] = React.useState(false);
-  const { user, loading } = useSelector((state) => state.user);
+  const { user, loading, faceioInstance } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   // console.log(settings);
   const handleLogout = React.useCallback(async () => {
@@ -28,22 +42,169 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
 
       const result = await axios({
         method: "get",
-        url: "https://shoppet-tm.herokuapp.com/api/logout",
+        url: "https://shoppet.site/api/logout",
         headers: {
           Authorization: "Bearer " + user?.token,
         },
       });
       ////console.log(result);
+      localStorage.removeItem("coin");
 
       navigate("/login");
     } catch (err) {
       navigate("/login");
     }
   }, [user]);
+  //nhận diện khuôn mặt
+
+  //đăng kí gương mặt
+  const faceRegistration = async () => {
+    if (user) {
+      try {
+        const userInfo = await faceioInstance.enroll({
+          locale: "auto",
+          payload: {
+            email: user.email,
+            userId: user.id,
+            username: user.name,
+          },
+        });
+        console.log(userInfo);
+        console.log("Unique Facial ID: ", userInfo.facialId);
+        console.log("Enrollment Date: ", userInfo.timestamp);
+        console.log("Gender: ", userInfo.details.gender);
+        console.log("Age Approximation: ", userInfo.details.age);
+      } catch (errorCode) {
+        console.log(errorCode);
+        handleError(errorCode);
+      }
+    }
+  };
+
+  const handleError = (errCode) => {
+    // Log all possible error codes during user interaction..
+    // Refer to: https://faceio.net/integration-guide#error-codes
+    // for a detailed overview when these errors are triggered.
+    // const fioErrCode={PERMISSION_REFUSED:1,NO_FACES_DETECTED:2,UNRECOGNIZED_FACE:3,MANY_FACES:4,PAD_ATTACK:5,FACE_MISMATCH:6,NETWORK_IO:7,WRONG_PIN_CODE:8,PROCESSING_ERR:9,UNAUTHORIZED:10,TERMS_NOT_ACCEPTED:11,UI_NOT_READY:12,SESSION_EXPIRED:13,TIMEOUT:14,TOO_MANY_REQUESTS:15,EMPTY_ORIGIN:16,FORBIDDDEN_ORIGIN:17,FORBIDDDEN_COUNTRY:18,UNIQUE_PIN_REQUIRED:19,SESSION_IN_PROGRESS:20},fioState={UI_READY:1,PERM_WAIT:2,PERM_REFUSED:3,PERM_GRANTED:4,REPLY_WAIT:5,PERM_PIN_WAIT:6,AUTH_FAILURE:7,AUTH_SUCCESS:8}
+    switch (errCode) {
+      case fioErrCode.PERMISSION_REFUSED:
+        console.log("Access to the Camera stream was denied by the end user");
+        break;
+      case fioErrCode.NO_FACES_DETECTED:
+        console.log(
+          "No faces were detected during the enroll or authentication process"
+        );
+        break;
+      case fioErrCode.UNRECOGNIZED_FACE:
+        console.log("Unrecognized face on this application's Facial Index");
+        break;
+      case fioErrCode.MANY_FACES:
+        console.log("Two or more faces were detected during the scan process");
+        break;
+      case fioErrCode.PAD_ATTACK:
+        console.log(
+          "Presentation (Spoof) Attack (PAD) detected during the scan process"
+        );
+        break;
+      case fioErrCode.FACE_MISMATCH:
+        console.log(
+          "Calculated Facial Vectors of the user being enrolled do not matches"
+        );
+        break;
+      case fioErrCode.WRONG_PIN_CODE:
+        console.log("Wrong PIN code supplied by the user being authenticated");
+        break;
+      case fioErrCode.PROCESSING_ERR:
+        console.log("Server side error");
+        break;
+      case fioErrCode.UNAUTHORIZED:
+        console.log(
+          "Your application is not allowed to perform the requested operation (eg. Invalid ID, Blocked, Paused, etc.). Refer to the FACEIO Console for additional information"
+        );
+        break;
+      case fioErrCode.TERMS_NOT_ACCEPTED:
+        console.log(
+          "Terms & Conditions set out by FACEIO/host application rejected by the end user"
+        );
+        break;
+      case fioErrCode.UI_NOT_READY:
+        console.log(
+          "The FACEIO Widget code could not be (or is being) injected onto the client DOM"
+        );
+        break;
+      case fioErrCode.SESSION_EXPIRED:
+        console.log(
+          "Client session expired. The first promise was already fulfilled but the host application failed to act accordingly"
+        );
+        break;
+      case fioErrCode.TIMEOUT:
+        console.log(
+          "Ongoing operation timed out (eg, Camera access permission, ToS accept delay, Face not yet detected, Server Reply, etc.)"
+        );
+        break;
+      case fioErrCode.TOO_MANY_REQUESTS:
+        console.log(
+          "Widget instantiation requests exceeded for freemium applications. Does not apply for upgraded applications"
+        );
+        break;
+      case fioErrCode.EMPTY_ORIGIN:
+        console.log(
+          "Origin or Referer HTTP request header is empty or missing"
+        );
+        break;
+      case fioErrCode.FORBIDDDEN_ORIGIN:
+        console.log("Domain origin is forbidden from instantiating fio.js");
+        break;
+      case fioErrCode.FORBIDDDEN_COUNTRY:
+        console.log(
+          "Country ISO-3166-1 Code is forbidden from instantiating fio.js"
+        );
+        break;
+      case fioErrCode.SESSION_IN_PROGRESS:
+        console.log(
+          "Another authentication or enrollment session is in progress"
+        );
+        break;
+      case fioErrCode.NETWORK_IO:
+      default:
+        console.log(
+          "Error while establishing network connection with the target FACEIO processing node"
+        );
+        break;
+    }
+  };
+
+  //giọng nói\
+
+  const [inputValue, setValueInput] = React.useState();
+  // const commands = [
+  //   {
+  //     command: ["Go to *", "Open *"],
+  //     callback: (redirectPage) => setRedirectUrl(redirectPage),
+  //   },
+  // ];
+  const { transcript, listening } = useSpeechRecognition();
+  const [redirectUrl, setRedirectUrl] = React.useState("");
+  if (!SpeechRecognition.browserSupportsSpeechRecognition) {
+    return null;
+  }
+
+  React.useEffect(() => {
+    const searchVoice = lodash.debounce(() => {
+      if (transcript) {
+        console.log("tran" + transcript);
+        dispatch(setSearchVoice(transcript));
+        navigate("/shop");
+      }
+    }, 1000);
+    searchVoice();
+  }, [transcript]);
+  //end giong noi
   if (loading) return <Loader></Loader>;
 
   return (
     <>
+      {listening && <MicroPhone></MicroPhone>}
       <div className={`header transition-all `}>
         <div className="header-top py-1 px-5 bg-black text-white text-sm flex items-center justify-between">
           <div className="contact-left flex items-center gap-x-2">
@@ -112,7 +273,7 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
                     className="first:text-yellow-500"
                     title={user && "Hi ! " + user?.name}
                   >
-                    {user && user.group_id === 1 && (
+                    {user && +user.group_id === 1 && (
                       <NavDropdown.Item>
                         <Link to="/admin">Admin</Link>
                       </NavDropdown.Item>
@@ -169,12 +330,39 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
               <img src="../logo.webp" alt="" />
             </div>
             <form className="header-search flex items-center">
-              <input
-                className="py-2 px-4 h-[44px] outline-none rounded-3xl w-[500px] rounded-r-none"
-                type="text"
-                name="keyword"
-                placeholder="Find the best for your best"
-              />
+              <div className="relative">
+                <input
+                  id="transcript"
+                  value={transcript}
+                  className="py-2 px-4 h-[44px] outline-none rounded-3xl w-[500px] rounded-r-none"
+                  type="text"
+                  onChange={(e) => setValueInput(e.target.value)}
+                  name="keyword"
+                  placeholder="Find the best for your best"
+                />
+
+                <span className="absolute top-1/2 -translate-y-1/2 hover:bg-slate-400 rounded-full cursor-pointer hover:text-slate-50 transition-all p-2 text-slate-900 right-0 ">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                    onClick={() => {
+                      dispatch(setSearchVoice(null));
+
+                      SpeechRecognition.startListening();
+                    }}
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"
+                    />
+                  </svg>
+                </span>
+              </div>
               <button className="py-2 px-4 rounded-3xl bg-[#101010] rounded-l-none text-white">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -193,6 +381,18 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
               </button>
             </form>
             <div className="flex items-center gap-x-3 text-white">
+              {user && (
+                <>
+                  <button
+                    className="transition-all px-6 leading-none h-fit inline-flex hover:scale-110  gap-3 cursor-pointer text-white rounded-lg py-3 bg-orange-500"
+                    onClick={faceRegistration}
+                  >
+                    Face Registration
+                  </button>
+                  <Coupon></Coupon>
+                  <Notify></Notify>
+                </>
+              )}
               <div className="cursor-pointer relative">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -276,11 +476,24 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
                   ))}
               </ul>
 
-              <div className="free-ship">
-                <span className="text-xl">
-                  Free shipping on orders over $50
-                </span>
-              </div>
+              {user && (
+                <div className="free-ship flex items-center">
+                  <span className="text-xl font-semibold">
+                    {formatter.format(
+                      user?.coin_dif ? +user?.coin_dif?.coin : 0
+                    )}
+                  </span>
+                  <span className="text-xl">
+                    <img src="./coin2.gif" className="w-[30px]" alt="" />
+                  </span>
+                  <Link
+                    to="/coin"
+                    className="text-2xl p-2 bg-orange-500 text-white rounded-lg leading-none"
+                  >
+                    +
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

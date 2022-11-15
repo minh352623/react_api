@@ -49,7 +49,7 @@ const AddUser = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "https://shoppet-tm.herokuapp.com/api/groups/all",
+        url: "https://shoppet.site/api/groups/all",
 
         headers: {
           "Content-Type": "application/json",
@@ -82,7 +82,7 @@ const AddUser = () => {
     try {
       const result = await axios({
         method: "post",
-        url: "https://shoppet-tm.herokuapp.com/api/users/add",
+        url: "https://shoppet.site/api/users/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -151,6 +151,7 @@ const AddUser = () => {
             <Form.Control
               type="text"
               name="email"
+              
               {...register("email")}
               placeholder="Enter email"
             />

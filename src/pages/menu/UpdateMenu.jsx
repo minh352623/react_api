@@ -37,7 +37,7 @@ const UpdateMenu = () => {
       setLoading(true);
       const respone = await axios({
         method: "GET",
-        url: "https://shoppet-tm.herokuapp.com/api/menu/update/" + menu,
+        url: "https://shoppet.site/api/menu/update/" + menu,
 
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const UpdateMenu = () => {
     try {
       const result = await axios({
         method: "post",
-        url: "https://shoppet-tm.herokuapp.com/api/menu/update/" + menu,
+        url: "https://shoppet.site/api/menu/update/" + menu,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

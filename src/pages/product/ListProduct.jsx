@@ -16,6 +16,7 @@ import ReactPaginate from "react-paginate";
 import { useSelector } from "react-redux";
 import { formatter } from "../../trait/FormatMoney";
 import parse from "html-react-parser";
+import Loading from "../../components/Loading";
 const ListProduct = () => {
   const { user } = useSelector((state) => state.user);
 
@@ -38,7 +39,7 @@ const ListProduct = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet-tm.herokuapp.com/api/product/delete/${id}`,
+            `https://shoppet.site/api/product/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }
@@ -64,7 +65,7 @@ const ListProduct = () => {
       setLoading(true);
       ////console.log(page);
       const respone = await axios.get(
-        "https://shoppet-tm.herokuapp.com/api/product/list?query=" +
+        "https://shoppet.site/api/product/list?query=" +
           query +
           "&page=" +
           page,
@@ -124,9 +125,7 @@ const ListProduct = () => {
           placeholder="Enter search"
           onChange={handleSearch}
         />
-        {loading && (
-          <span className="text-center mx-auto flex justify-center w-8 h-8 rounded-full border-slate-600 border-4 border-r-4 border-r-transparent animate-spin inline-block"></span>
-        )}
+        {loading && <Loading></Loading>}
         {!loading && (
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">

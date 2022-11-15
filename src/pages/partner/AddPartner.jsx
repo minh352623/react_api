@@ -34,7 +34,7 @@ const AddPartner = () => {
     try {
       const result = await axios({
         method: "post",
-        url: "https://shoppet-tm.herokuapp.com/api/partner/add",
+        url: "https://shoppet.site/api/partner/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

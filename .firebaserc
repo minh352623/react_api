@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "shoppet-59ed0"
-  }
+    "default": "shoppett-e7b06",
+    "y": "shoppett-e7b06"
+  },
+  "targets": {},
+  "etags": {}
 }

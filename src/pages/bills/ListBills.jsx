@@ -31,7 +31,7 @@ const ListBills = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `https://shoppet-tm.herokuapp.com/api/bill/listBillAdmin?page=${page}&query=${query}&status=${status}`,
+        `https://shoppet.site/api/bill/listBillAdmin?page=${page}&query=${query}&status=${status}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -71,6 +71,12 @@ const ListBills = () => {
   }, 500);
   const handleSearchStatus = (status) => {
     setStatus(status);
+  };
+
+  const setIdUser = (id) => {
+    localStorage.removeItem("user_id_noti");
+
+    localStorage.setItem("user_id_noti", JSON.stringify(id));
   };
   return (
     <>
@@ -211,6 +217,7 @@ const ListBills = () => {
                               viewBox="0 0 24 24"
                               strokeWidth="1.5"
                               stroke="currentColor"
+                              onClick={() => setIdUser(item.user_id)}
                               className="w-8 h-8 text-slate-800 hover:scale-110 hover:text-blue-500"
                             >
                               <path

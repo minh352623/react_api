@@ -31,7 +31,7 @@ const ListUser = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `https://shoppet-tm.herokuapp.com/api/users/list?page=${page}&keyword=${query}&group=${groupSeach}`,
+        `https://shoppet.site/api/users/list?page=${page}&keyword=${query}&group=${groupSeach}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -87,7 +87,7 @@ const ListUser = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet-tm.herokuapp.com/api/users/delete/${id}`,
+            `https://shoppet.site/api/users/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }

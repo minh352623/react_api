@@ -29,7 +29,7 @@ const ListSlider = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `https://shoppet-tm.herokuapp.com/api/slider/list?page=${page}&query=${query}`,
+        `https://shoppet.site/api/slider/list?page=${page}&query=${query}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -81,7 +81,7 @@ const ListSlider = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet-tm.herokuapp.com/api/slider/delete/${id}`,
+            `https://shoppet.site/api/slider/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }
