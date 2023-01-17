@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useRef } from "react";
-import { useSelector } from "react-redux";
 import "../countdown.css";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const CountDown = ({ FetchWaterUser }) => {
   const { user } = useSelector((state) => state.user);
