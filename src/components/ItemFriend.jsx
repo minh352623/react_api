@@ -26,7 +26,7 @@ const ItemFriend = ({ item }) => {
           }}
           className="m-0 bg-blue-400 py-3 px-6 font-bold text-slate-50 cursor-pointer hover:bg-blue-600 transition-all rounded-full"
         >
-          Viến thăm
+          Viếng thăm
         </p>
       </div>
     </div>

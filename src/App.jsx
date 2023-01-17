@@ -103,7 +103,7 @@ function App() {
       dispatch(fetchCurrentUser(cookies.get("user")));
       setTimeout(() => {
         dispatch(setLoading(false));
-      }, 300);
+      }, 100);
     } else {
       Swal.fire({
         position: "center-center",
@@ -146,7 +146,7 @@ function App() {
   const faceioScriptLoaded = () => {
     console.log(faceIO);
     if (faceIO && !faceioInstance) {
-      faceioInstance = new faceIO("fioaafef");
+      faceioInstance = new faceIO("fioa0d2f");
       dispatch(setFaceioInstance(faceioInstance));
     }
   };

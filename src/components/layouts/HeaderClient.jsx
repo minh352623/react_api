@@ -183,8 +183,8 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
   //     callback: (redirectPage) => setRedirectUrl(redirectPage),
   //   },
   // ];
-  const { transcript, listening } = useSpeechRecognition();
   const [redirectUrl, setRedirectUrl] = React.useState("");
+  const { transcript, listening } = useSpeechRecognition();
   if (!SpeechRecognition.browserSupportsSpeechRecognition) {
     return null;
   }

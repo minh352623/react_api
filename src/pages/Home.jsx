@@ -149,12 +149,42 @@ const Home = () => {
     FetchBills();
     FetchCate();
   }, []);
-
+  const exportExcelUsers = async (e) => {
+    e.preventDefault();
+    // console.log("export");
+    try {
+      // const response = await axios({
+      //   url: "",
+      // });
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <>
       <Header></Header>
 
       <div className="container my-5">
+        <div>
+          <form
+            onSubmit={exportExcelUsers}
+            action="
+          "
+          >
+            {/* <label htmlFor="export_user" className="px-4 py-2 bg-green-500">
+              export excel users
+              <input
+                type="file"
+                name="file_user"
+                id="export_user"
+                className="invisible"
+              />
+            </label> */}
+            <button className="px-4 py-2 bg-green-500" type="submit">
+              Export excel users
+            </button>
+          </form>
+        </div>
         <h3 className="text-center">Statistical Order</h3>
         <div className="grid grid-cols-12 gap-5">
           <div className="col-span-6">
