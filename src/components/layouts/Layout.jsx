@@ -75,7 +75,7 @@ const Layout = ({ children }) => {
     window.scrollTo(0, 0);
   };
   const showScrollTop = () => {
-    if (window.scrollY > 230) {
+    if (window.scrollY > 50) {
       setIsFixed(true);
       ScrollTop.current.style.visibility = "visible";
     } else {

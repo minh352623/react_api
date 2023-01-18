@@ -323,7 +323,7 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
         <div
           className={`header-bot  ${
             fixed ? "fixed top-0 left-0 right-0 z-50" : ""
-          }  py-4 px-5 bg-[#72129b] `}
+          }  py-2 px-5 bg-[#72129b] `}
         >
           <div className="header-bot__info flex items-center justify-between">
             <div className="logo cursor-pointer">
@@ -352,7 +352,7 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
                     onClick={() => {
                       dispatch(setSearchVoice(null));
 
-                      SpeechRecognition.startListening();
+                      SpeechRecognition.startListening({ language: "vi-VN" });
                     }}
                   >
                     <path
@@ -460,7 +460,7 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
               </span>
             </div>
           </div>
-          <div className="header-bot__menu mt-6 text-white">
+          <div className="header-bot__menu mt-2 text-white">
             <div className="menu flex items-center justify-between">
               <ul className="menu__list p-0 m-0 flex gap-x-10">
                 {data?.length > 0 &&
