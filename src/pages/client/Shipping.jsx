@@ -349,7 +349,7 @@ const Shipping = () => {
             <div className="text-end">
               <p
                 onClick={() => callVoucher()}
-                className="text-center font-bold block my-3 px-4 py-2 border-2 rounded-xl text-orange-500 cursor-pointer hover:bg-orange-500 hover:text-slate-50 transition-all border-orange-400"
+                className="text-center font-bold block my-3 px-4 py-2 border border-2 rounded-xl text-orange-500 cursor-pointer hover:bg-orange-500 hover:text-slate-50 transition-all border-orange-400"
               >
                 My Voucher
               </p>

@@ -18,6 +18,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar, Line, Pie } from "react-chartjs-2";
+import FilterOrder from "../components/FilterOrder";
 
 ChartJS.register(
   ArcElement,
@@ -70,7 +71,7 @@ const Home = () => {
         labels: month,
         datasets: [
           {
-            label: "Total order in month",
+            label: "Tổng đơn trong từng tháng",
             data: dt.map((item) => item.length),
             backgroundColor: "#0d9488",
           },
@@ -81,7 +82,7 @@ const Home = () => {
         datasets: [
           {
             fill: true,
-            label: "Total price in month",
+            label: "Tổng tiền bán được trong từng tháng",
             data: dt.map((item) => {
               let total = 0;
               if (item.length > 0) {
@@ -160,11 +161,12 @@ const Home = () => {
       console.log(e);
     }
   };
+
   return (
     <>
       <Header></Header>
 
-      <div className="container my-5">
+      <div className="container my-3">
         <div>
           <form
             onSubmit={exportExcelUsers}
@@ -180,23 +182,25 @@ const Home = () => {
                 className="invisible"
               />
             </label> */}
-            <button className="px-4 py-2 bg-green-500" type="submit">
+            {/* <button className="px-4 py-2 bg-green-500" type="submit">
               Export excel users
-            </button>
+            </button> */}
           </form>
         </div>
-        <h3 className="text-center">Statistical Order</h3>
+        <h3 className="text-center my-3">Thống kê đơn hàng</h3>
         <div className="grid grid-cols-12 gap-5">
-          <div className="col-span-6">
+          <div className="col-span-6 p-3 rounded-xl shadow_main">
             {bills && <Bar options={options} data={bills} />}
           </div>
-          <div className="col-span-6">
+          <div className="col-span-6 p-3 rounded-xl shadow_main">
             {billsPrice && <Line options={options} data={billsPrice} />}
           </div>
         </div>
-        <h3 className="text-center mt-5">Statistical Product</h3>
-        <div className="grid grid-cols-12 gap-5 mt-5">
-          <div className="col-span-6 w-75">
+        <div className="grid items-stretch grid-cols-12 gap-5 mt-5">
+          <div className="col-span-9 ">
+            <FilterOrder></FilterOrder>
+          </div>
+          <div className="col-span-3 self-start w-full p-3 rounded-xl shadow_main">
             {category && <Pie data={category} />}
           </div>
         </div>
