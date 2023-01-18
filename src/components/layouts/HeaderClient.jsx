@@ -352,7 +352,7 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
                     onClick={() => {
                       dispatch(setSearchVoice(null));
 
-                      SpeechRecognition.startListening();
+                      SpeechRecognition.startListening({ language: 'vi-VN' });
                     }}
                   >
                     <path
