@@ -355,6 +355,7 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
 
                       SpeechRecognition.startListening({ language: "vi-VN" });
 
+                    }}
 
                   >
                     <path
