@@ -272,15 +272,15 @@ const Login = () => {
             className="w-[600px] mx-auto mt-5 shadow-lg p-5 rounded-lg"
           >
             <p
-              className="transition-all mb-2 px-6 leading-none h-fit inline-flex hover:scale-110  gap-3 cursor-pointer text-white rounded-lg py-3 bg-blue-500"
+              className="transition-all w-full mb-2 px-6 leading-none h-fit justify-center flex hover:scale-110  gap-3 cursor-pointer text-white rounded-lg py-3 bg-blue-500"
               onClick={faceSignIn}
             >
               Face Sign In
             </p>
-            <div className="flex gap-5">
+            <div className="flex flex-col gap-2 text-center mb-2">
               <p
                 onClick={loginWithFacebook}
-                className="transition-all px-6 leading-none h-fit inline-flex hover:scale-110  gap-3 cursor-pointer text-white rounded-lg py-3 bg-blue-500"
+                className="transition-all px-6 text-center flex justify-center leading-none h-fit hover:scale-110  gap-3 cursor-pointer m-0 text-white rounded-lg py-3 bg-blue-500"
               >
                 <span>
                   <i class="fa-brands fa-facebook"></i>
@@ -290,7 +290,7 @@ const Login = () => {
               {urlGoogle && (
                 <a
                   href={urlGoogle}
-                  className="transition-all px-6 h-fit leading-none inline-flex hover:scale-110  gap-3 cursor-pointer text-white rounded-lg py-3 bg-red-500"
+                  className="transition-all px-6 h-fit leading-none justify-center flex hover:scale-110  gap-3 cursor-pointer text-white rounded-lg py-3 bg-red-500"
                 >
                   <span>
                     <i class="fa-brands fa-google"></i>
@@ -323,10 +323,11 @@ const Login = () => {
                 placeholder="Password"
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group>
-            <div className="flex justify-between">
+            <Link to="/forgorpassword" className="my-3">
+              Quên mật khẩu?
+            </Link>
+
+            <div className="flex justify-between my-2">
               <Button variant="primary" type="submit">
                 Login
               </Button>
