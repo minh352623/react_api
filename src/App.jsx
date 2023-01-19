@@ -25,6 +25,8 @@ import Loader from "./components/Loader";
 import PrivateRoute from "./PrivateRoute";
 import axios from "axios";
 import LoginGoogle from "./pages/client/LoginGoogle";
+const ResetPassword = lazy(() => import("./pages/client/ResetPassword"));
+const ForgotPassword = lazy(() => import("./pages/client/ForgotPassword"));
 const FriendFarm = lazy(() => import("./pages/client/FriendFarm"));
 const UpdateMission = lazy(() => import("./pages/mission/UpdateMission"));
 const AddMission = lazy(() => import("./pages/mission/AddMission"));
@@ -653,6 +655,14 @@ function App() {
                     <FriendFarm></FriendFarm>
                   </ProtectedRoute>
                 }
+              ></Route>
+              <Route
+                path="/forgorpassword"
+                element={<ForgotPassword></ForgotPassword>}
+              ></Route>
+              <Route
+                path="/reset-password"
+                element={<ResetPassword></ResetPassword>}
               ></Route>
             </Routes>
           </Suspense>
