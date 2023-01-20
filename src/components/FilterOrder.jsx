@@ -57,7 +57,10 @@ const FilterOrder = () => {
       console.log(valueToNew, valueFromNew);
       const response = await axios({
         method: "POST",
+
         url: "https://shoppet.site/api/bill/getAllFilter?page=" + page,
+
+
 
         headers: { Authorization: "Bearer " + user?.token },
         data: formData,
