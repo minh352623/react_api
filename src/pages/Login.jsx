@@ -272,28 +272,31 @@ const Login = () => {
             className="w-[600px] mx-auto mt-5 shadow-lg p-5 rounded-lg"
           >
             <p
-              className="transition-all w-full mb-2 px-6 leading-none h-fit justify-center flex hover:scale-110  gap-3 cursor-pointer text-white rounded-lg py-3 bg-blue-500"
+              className="transition-all items-center w-full mb-2 px-6 leading-none h-fit justify-center flex hover:scale-110  gap-3 cursor-pointer text-white rounded-lg py-3 bg-slate-400"
               onClick={faceSignIn}
             >
-              Face Sign In
+              <span>
+                <img className="w-8 h-8" src="/face-recognition.png" alt="" />
+              </span>
+              <span>Face Sign In</span>
             </p>
             <div className="flex flex-col gap-2 text-center mb-2">
               <p
                 onClick={loginWithFacebook}
-                className="transition-all px-6 text-center flex justify-center leading-none h-fit hover:scale-110  gap-3 cursor-pointer m-0 text-white rounded-lg py-3 bg-blue-500"
+                className="transition-all px-6 items-center text-center flex justify-center leading-none h-fit hover:scale-110  gap-3 cursor-pointer m-0 text-white rounded-lg py-3 bg-blue-500"
               >
-                <span>
-                  <i class="fa-brands fa-facebook"></i>
+                <span className="flex items-center">
+                  <i className=" leading-none flex justify-center items-center text-xl w-8 h-8 fa-brands fa-facebook"></i>
                 </span>
                 <span>Login with Facebook</span>
               </p>
               {urlGoogle && (
                 <a
                   href={urlGoogle}
-                  className="transition-all px-6 h-fit leading-none justify-center flex hover:scale-110  gap-3 cursor-pointer text-white rounded-lg py-3 bg-red-500"
+                  className="transition-all items-center  px-6 h-fit leading-none justify-center flex hover:scale-110  gap-3 cursor-pointer text-white rounded-lg py-3 bg-red-500"
                 >
                   <span>
-                    <i class="fa-brands fa-google"></i>
+                    <i className=" leading-none  flex justify-center items-center text-xl w-8 h-8 fa-brands fa-google"></i>
                   </span>
                   <span>Login with Google</span>
                 </a>

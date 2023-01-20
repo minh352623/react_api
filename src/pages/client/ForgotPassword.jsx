@@ -68,7 +68,7 @@ const ForgotPassword = () => {
       console.log(e);
       setLoading(false);
       if (e.response.status === 404) {
-        Swal.fire({
+        return Swal.fire({
           title: "Error!",
           text: e.response.data.message,
           icon: "error",
@@ -77,6 +77,14 @@ const ForgotPassword = () => {
           cancelButtonText: "Cancel",
         });
       }
+      Swal.fire({
+        title: "Error!",
+        text: "Lỗi server vui lòng thử lại sao!",
+        icon: "error",
+        showCancelButton: true,
+        confirmButtonText: "OK",
+        cancelButtonText: "Cancel",
+      });
     }
   };
   return (
@@ -84,6 +92,10 @@ const ForgotPassword = () => {
       <div className="w-[500px] h-fit m-auto shadow_main bg-white rounded-lg">
         <p className="w-full bg-blue-500 px-3 py-2 text-white font-bold rounded-t-lg">
           Quên mật khẩu?
+        </p>
+        <p className="text-red-500 px-3">
+          *Lưu ý: Link thay đổi mật khẩu chỉ có hiệu lực trong 2 phút kể từ khi
+          gửi thành công!!!
         </p>
         <div className="px-3 py-2">
           <form onSubmit={handleSubmit(handleSendMail)} action="">
