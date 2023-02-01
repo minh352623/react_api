@@ -19,6 +19,8 @@ import {
 } from "chart.js";
 import { Bar, Line, Pie } from "react-chartjs-2";
 import FilterOrder from "../components/FilterOrder";
+import TopThreeRating from "../components/TopThreeRating";
+import TopThreeLess from "../components/TopThreeLess";
 
 ChartJS.register(
   ArcElement,
@@ -181,6 +183,12 @@ const Home = () => {
           </div>
           <div className="col-span-6 p-3 rounded-xl shadow_main">
             {billsPrice && <Line options={options} data={billsPrice} />}
+          </div>
+          <div className="col-span-6 p-3 rounded-xl shadow_main">
+            <TopThreeRating></TopThreeRating>
+          </div>
+          <div className="col-span-6 p-3 rounded-xl shadow_main">
+            <TopThreeLess></TopThreeLess>
           </div>
         </div>
         <div className="grid items-stretch grid-cols-12 gap-5 mt-5">
