@@ -138,6 +138,9 @@ const ListProduct = () => {
                   <TableCell className="w-[20%]" align="left">
                     Image
                   </TableCell>
+                  <TableCell className="w-[5%]" align="left">
+                    Number
+                  </TableCell>
                   <TableCell align="left">Description</TableCell>
                   <TableCell className="w-[10%]" align="left">
                     Category
@@ -181,6 +184,11 @@ const ListProduct = () => {
                           src={`${item.file_path}`}
                           alt=""
                         />
+                      </TableCell>
+                      <TableCell align="left" scope="row">
+                        <span className="font-bold text-yellow-500 text-xl">
+                          {item.number}
+                        </span>
                       </TableCell>
                       <TableCell align="left" scope="row">
                         <div className="h-[150px] max-h-[140px] overflow-hidden overflow-ellipsis">
