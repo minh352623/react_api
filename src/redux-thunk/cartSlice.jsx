@@ -35,12 +35,16 @@ export const handleAddCart = createAsyncThunk(
       const { idpro, number } = data;
       if (user) {
         const response = await requestAddCart(idpro, number, user);
-        return JSON.parse(response.data.carts);
+        if (response.status === 200) {
+          return JSON.parse(response.data.carts);
+        }
       }
 
       return null;
     } catch (e) {
       console.log(e);
+
+      return e.response;
     }
   }
 );
@@ -90,14 +94,25 @@ const newCart = createSlice({
     });
 
     builder.addCase(handleAddCart.fulfilled, (state, action) => {
-      state.carts = action.payload;
-      Swal.fire({
-        position: "top-center",
-        icon: "success",
-        title: "Thêm vào giỏ hàng thành công!",
-        showConfirmButton: false,
-        timer: 1000,
-      });
+      console.log("fullfilled", action);
+      if (action.payload.status === 400) {
+        Swal.fire({
+          position: "center-center",
+          icon: "error",
+          title: action.payload.data.message,
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      } else {
+        state.carts = action.payload;
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Thêm vào giỏ hàng thành công!",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      }
     });
     builder.addCase(handleAddCart.pending, (state, action) => {
       state.success = false;

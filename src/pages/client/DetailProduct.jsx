@@ -14,6 +14,7 @@ import { formatter } from "../../trait/FormatMoney";
 import { handleAddCart } from "../../redux-thunk/cartSlice";
 import TabDetail from "../../modules/product/TabDetail";
 import MayLikeDetail from "../../modules/product/MayLikeDetail";
+import Swal from "sweetalert2";
 
 const DetailProduct = () => {
   const { user } = useSelector((state) => state.user);
@@ -106,6 +107,17 @@ const DetailProduct = () => {
     },
   };
   const createNumber = (nb) => {
+    if (number > data.number - 1) {
+      setNumber(1);
+
+      return Swal.fire({
+        position: "center-center",
+        icon: "error",
+        title: "Số lượng vượt quá!",
+        showConfirmButton: false,
+        timer: 500,
+      });
+    }
     setNumber(number + nb);
   };
 
@@ -200,6 +212,12 @@ const DetailProduct = () => {
                       />
                     </svg>
                     <span className="font-bold">In stock</span>
+                  </span>
+                </p>
+                <p className="flex items-center my-1 gap-3">
+                  <span className="font-bold ">Number: </span>
+                  <span className="text-yellow-500 text-xl px-4  py-2 rounded-lg border font-bold">
+                    {data?.number}
                   </span>
                 </p>
                 <div className="flex items-center gap-3">
