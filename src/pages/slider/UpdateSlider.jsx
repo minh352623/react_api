@@ -119,7 +119,7 @@ const UpdateSlider = () => {
                   {...register("file_path")}
                 />
                 <img
-                  src={`http://127.0.0.1:8000${data?.file_path}`}
+                  src={`${data?.file_path}`}
                   className="w-[200px] h-[100px] mt-2 "
                   alt=""
                 />
