@@ -118,7 +118,7 @@ const UpdateCoupon = () => {
         onSubmit={handleSubmit(onSubmitUpdate)}
         className="w-[1000px] mx-auto mt-5 shadow-lg p-5 rounded-lg"
       >
-        <h2 className="text-center">Add User</h2>
+        <h2 className="text-center">Upadte Coupon</h2>
 
         {error && <h4 className="text-red-400 text-center">{error}</h4>}
         {message && (
