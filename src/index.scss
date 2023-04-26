@@ -1,0 +1,391 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  line-height: 1.5;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  outline: none;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+//pagination
+.pagination {
+  margin-top: 12px;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: end;
+  gap: 10px;
+  padding: 5px;
+  background-color: #fff;
+  font-weight: bold;
+  li {
+    display: inline-block;
+    padding: 5px;
+    cursor: pointer;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    border-radius: 50%;
+    // background-color: #21c25d;
+
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.538);
+    a {
+      color: black;
+    }
+    &:hover {
+      background: #ccc;
+    }
+    &.disabled a {
+      color: #ccc;
+    }
+  }
+  .selected {
+    background-color: #ccc;
+  }
+}
+.admin .nav-link {
+  display: inline-block;
+  color: #000 !important;
+}
+.nav-link {
+  display: inline-block;
+  color: #fff !important;
+  font-weight: 700 !important;
+}
+
+// THE LOADING EFFECT
+.skeleton {
+  background-color: #e2e5e7;
+  // The shine that's going to move across the skeleton:
+  background-image: linear-gradient(
+    90deg,
+    rgba(#fff, 0),
+    rgba(#fff, 0.5),
+    rgba(#fff, 0)
+  );
+  background-size: 40px 100%; // width of the shine
+  background-repeat: no-repeat; // No need to repeat the shine effect
+  background-position: left -40px top 0; // Place shine on the left side, with offset on the left based on the width of the shine - see background-size
+  animation: shine 1s ease infinite; // increase animation time to see effect in 'slow-mo'
+}
+
+@keyframes shine {
+  to {
+    // Move shine from left to right, with offset on the right based on the width of the shine - see background-size
+    background-position: right -40px top 0;
+  }
+}
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px !important;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  background: #ea580c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.swiper-pagination-bullets {
+  // padding-top: 100px;
+  // top: 50px;
+  bottom: 5px !important;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.swiper-wrapper {
+  height: 80%;
+}
+.swiper-pagination-bullets img {
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+.swiper-pagination-bullet-active {
+  border: 1px solid blue;
+}
+.mySwiper .swiper-pagination-bullet {
+  // padding-bottom: 40px;
+  width: 70px;
+  height: 70px;
+  opacity: unset;
+}
+.mySwiper .swiper-pagination-bullet-active {
+  border: 1px solid orangered;
+}
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+.animate-ping-custom {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.modal-dialog {
+  max-width: 900px !important;
+}
+
+.event_bg {
+  background-image: url("./helloween.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+// .text-event,
+.event-image {
+  transition: all 0.5s linear;
+  animation: ani_event 1s ease infinite; // increase animation time to see effect in 'slow-mo'
+}
+
+@keyframes ani_event {
+  to {
+    transform: scale(1.2);
+  }
+}
+
+.bg_farm {
+  background-image: url("../bg_farm_4.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.animate_kettle {
+  transition: all 0.2s ease;
+  animation: animte_kettle 3s linear;
+}
+
+@keyframes animte_kettle {
+  10% {
+    top: 60%;
+    left: 80%;
+    transform: rotate(-10deg);
+  }
+  20% {
+    top: 58%;
+    left: 75%;
+    transform: rotate(-10deg);
+  }
+  30% {
+    top: 55%;
+    left: 70%;
+    transform: rotate(-10deg);
+  }
+  40% {
+    top: 54%;
+    left: 65%;
+    transform: rotate(-10deg);
+  }
+  50% {
+    top: 53%;
+    left: 60%;
+    transform: rotate(-10deg) scale(1.2);
+  }
+  80% {
+    top: 50%;
+    left: 50%;
+    transform: rotate(-45deg) scale(1.3);
+  }
+  100% {
+    top: 50%;
+    left: 50%;
+    transform: rotate(-45deg) scale(1.8);
+  }
+}
+
+.animation_img_3 {
+  transition: all 0.25s linear;
+  animation: bucket 0.5s linear infinite;
+  transform-origin: center bottom;
+}
+
+@keyframes animation_img_3 {
+  30% {
+    transform: translateX(50%);
+  }
+  60% {
+    transform: translateX(0);
+  }
+  80% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.bucket {
+  animation: bucket 0.7s linear infinite;
+}
+
+@keyframes bucket {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+
+.animate_seed_new {
+  transition: all 0.25s linear;
+  animation: animate_seed_new 1.5s linear;
+}
+
+@keyframes animate_seed_new {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animation_cannon {
+  transition: all 0.25s linear;
+  animation: animation_cannon 0.5s linear;
+}
+.animation_bomb {
+  transition: all 0.25s linear;
+  animation: animation_bomb 1s linear infinite;
+}
+@keyframes animation_bomb {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    left: 50%;
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes animation_cannon {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+
+  10% {
+    transform: rotate(-30deg);
+  }
+}
+
+.shadow_main {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.bg_anima::before {
+  content: "";
+  display: block;
+  position: fixed;
+  width: 300%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  border-radius: 100%;
+  transform: translateX(-50%) skewY(-8deg);
+  background-color: #60a5fa;
+  z-index: -1;
+  -webkit-animation: wave 8s ease-in-out infinite alternate;
+  animation: wave 8s ease-in-out infinite alternate;
+}
+@-webkit-keyframes wave {
+  0% {
+    transform: translateX(-50%) skew(0deg, -8deg);
+  }
+
+  to {
+    transform: translateX(-30%) skew(8deg, -4deg);
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: translateX(-50%) skew(0deg, -8deg);
+  }
+
+  to {
+    transform: translateX(-30%) skew(8deg, -4deg);
+  }
+}
