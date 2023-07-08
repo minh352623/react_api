@@ -10,6 +10,8 @@ import { setLoading, setUser } from "../redux-thunk/userSlice";
 import Loader from "../components/Loader";
 import Swal from "sweetalert2";
 import HeaderClient from "../components/layouts/HeaderClient";
+import { logEvent } from "firebase/analytics";
+import { analytics } from "../firebase/firebase-config";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -25,6 +27,7 @@ const Login = () => {
     e.preventDefault();
     let user = { email, password };
     user = JSON.stringify(user);
+    logEvent(analytics,"Đăng nhập email")
     try {
       dispatch(setLoading(true));
 
@@ -53,6 +56,8 @@ const Login = () => {
   };
   const loginWithFacebook = async (e) => {
     e.preventDefault();
+    logEvent(analytics,"Đăng nhập Facebook")
+
     window.FB.getLoginStatus((response) => {
       console.log(response.status);
       if (response.status !== "connected") {
@@ -75,6 +80,7 @@ const Login = () => {
   const fbLogin = async (token, info) => {
     console.log(token);
     console.log(info);
+    logEvent(analytics,"Đăng nhập Google")
 
     const { data } = await axios.get(
       "https://graph.facebook.com/me?access_token=" + token

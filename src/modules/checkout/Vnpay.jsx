@@ -1,11 +1,15 @@
 import axios from "axios";
+import { logEvent } from "firebase/analytics";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { analytics } from "../../firebase/firebase-config";
 
 const Vnpay = ({ user, info, fee, sumf }) => {
   const navigate = useNavigate();
   const handleVnpay = async () => {
+    logEvent(analytics,"Thanh toán VNpay")
+
     let sum = JSON.parse(localStorage.getItem("sum"));
     sum = parseFloat(sum).toFixed(2);
     console.log("asdasdasdasdasdas");

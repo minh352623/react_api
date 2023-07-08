@@ -1,9 +1,13 @@
 import axios from "axios";
 import React from "react";
 import Swal from "sweetalert2";
+import { analytics } from "../../firebase/firebase-config";
+import { logEvent } from "firebase/analytics";
 
 const Momo = ({ info, user, fee, sumf }) => {
   const handleMomo = async () => {
+    logEvent(analytics,"Thanh toán MOMO")
+    
     let sum = JSON.parse(localStorage.getItem("sum"));
     sum = parseFloat(sum).toFixed(2);
     Swal.fire({

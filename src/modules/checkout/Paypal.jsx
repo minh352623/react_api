@@ -3,8 +3,12 @@ import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { formatter } from "../../trait/FormatMoney";
+import { analytics } from "../../firebase/firebase-config";
+import { logEvent } from "firebase/analytics";
 
 const Paypal = ({ info, user, fee, sumf }) => {
+  logEvent(analytics,"Thanh toán PayPal")
+
   const { changeMoney } = useSelector((state) => state.user);
 
   // let sumNew = JSON.parse(localStorage.getItem("sum"));

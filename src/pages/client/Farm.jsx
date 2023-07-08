@@ -14,6 +14,8 @@ import ItemDmRain from "../../components/ItemDmRain";
 import ItemMission from "../../components/ItemMission";
 import Loading from "../../components/Loading";
 import ItemFriend from "../../components/ItemFriend";
+import { logEvent } from "firebase/analytics";
+import { analytics } from "../../firebase/firebase-config";
 
 const Farm = () => {
   const { user } = useSelector((state) => state.user);
@@ -335,6 +337,8 @@ const Farm = () => {
     await FetchMissUser();
   };
   useEffect(() => {
+    logEvent(analytics,"Chơi game nông trại")
+
     FetchDataPage();
     return () => {};
   }, [widthPercent.current]);

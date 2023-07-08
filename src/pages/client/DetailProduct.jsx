@@ -15,6 +15,8 @@ import { handleAddCart } from "../../redux-thunk/cartSlice";
 import TabDetail from "../../modules/product/TabDetail";
 import MayLikeDetail from "../../modules/product/MayLikeDetail";
 import Swal from "sweetalert2";
+import { logEvent } from "firebase/analytics";
+import { analytics } from "../../firebase/firebase-config";
 
 const DetailProduct = () => {
   const { user } = useSelector((state) => state.user);
@@ -273,10 +275,13 @@ const DetailProduct = () => {
                   </div>
                   <p
                     // onClick={() => addToCart(item.id)}
-                    onClick={() =>
+                    onClick={() =>{
+                      logEvent(analytics,"Thêm vào giỏ hàng")
+
                       dispatch(
                         handleAddCart({ idpro: data?.id, number: number })
                       )
+                    }
                     }
                     className="mt-3 text-2xl font-semibold px-6 py-3 bg-slate-900 hover:bg-orange-500 transition-all w-[200px] cursor-pointer rounded-3xl text-white text-center"
                   >

@@ -16,6 +16,8 @@ import ItemCouponShiping from "../../components/ItemCouponShiping";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setChangeMoney } from "../../redux-thunk/userSlice";
+import { logEvent } from "firebase/analytics";
+import { analytics } from "../../firebase/firebase-config";
 const style = {
   position: "absolute",
   top: "50%",
@@ -161,6 +163,8 @@ const Shipping = () => {
   //
   const [vouchers, setVouchers] = React.useState();
   const callVoucher = async () => {
+    logEvent(analytics,"Chọn Voucher")
+
     handleShow();
     localStorage.removeItem("infoVoucher");
     try {
