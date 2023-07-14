@@ -37,32 +37,32 @@ const TopThreeRating = () => {
         <p className="text-center text-red-500">Chưa có sản phẩm nào</p>
       )}
       {products?.length >= 0 &&
-        products.map((product, index) => (
+        products?.map((product, index) => (
           <div className="border-b p-2 rounded-lg flex gap-3 justify-between items-center">
             <div className="flex gap-3 items-center">
               <span className="w-[150px] border">
                 <img
                   className="w-full object-cover"
-                  src={product.info_product.file_path}
+                  src={product?.info_product?.file_path}
                   alt=""
                 />
               </span>
               <div className="flex flex-col gap-2">
-                <span className="font-bold">{product.info_product.name}</span>
+                <span className="font-bold">{product.info_product?.name}</span>
                 <span className="price font-bold  text-orange-400">
-                  {formatter.format(product.info_product.price)}
+                  {formatter.format(product.info_product?.price)}
                 </span>
                 <p>
                   <span>Só lượng còn lại: </span>
                   <span className="text-green-500 font-bold">
-                    {product.info_product.number}
+                    {product.info_product?.number}
                   </span>
                 </p>
                 <Stack spacing={1}>
                   {/* <Rating name="half-rating" defaultValue={2.5} precision={1} /> */}
                   <Rating
                     name="half-rating-read"
-                    defaultValue={+product.info_product.start}
+                    defaultValue={+product?.info_product?.start}
                     precision={0.5}
                     readOnly
                   />
