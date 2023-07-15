@@ -16,14 +16,13 @@ import TopCategory from "../../modules/home/TopCategory";
 import { ethers } from 'ethers';
 const HomeClient = () => {
   const [provider, setProvider] = useState(null);
-
-useEffect(() => {
   const initializeProvider = async () => {
     if (window.ethereum) {
       // Modern dapp browsers
       try {
         await window.ethereum.enable();
         const providerInstance = new ethers.providers.Web3Provider(window.ethereum);
+        console.log(providerInstance);
         setProvider(providerInstance);
       } catch (error) {
         console.error('User denied account access');
@@ -33,6 +32,8 @@ useEffect(() => {
       console.error('No web3 provider detected');
     }
   };
+useEffect(() => {
+  
 
   initializeProvider();
 }, []);
@@ -64,6 +65,8 @@ useEffect(() => {
 
   return (
     <Layout>
+      <button onClick={initializeProvider}>Connect with Meta Mask</button>
+
       <button onClick={makePayment}>Make Payment</button>
       <div className="main px-5 mt-3 bg-[#f4f4f4]">
         <Slider></Slider>
