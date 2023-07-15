@@ -1,10 +1,12 @@
 import * as React from "react";
+import * as mobilenet from "@tensorflow-models/mobilenet";
+
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import regeneratorRuntime from "regenerator-runtime";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,createSearchParams} from "react-router-dom";
 import { NavLink, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -200,6 +202,86 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
     searchVoice();
   }, [transcript]);
   //end giong noi
+
+
+  //search image
+  const [isModelLoading, setIsModelLoading] = React.useState(false)
+  const [model, setModel] = React.useState(null)
+  const [imageURL, setImageURL] = React.useState(null);
+  const [results, setResults] = React.useState([])
+  const [history, setHistory] = React.useState([])
+
+  const imageRef = React.useRef()
+  const fileInputRef = React.useRef()
+
+  const loadModel = async () => {
+      setIsModelLoading(true)
+      try {
+          const model = await mobilenet.load()
+          setModel(model)
+          setIsModelLoading(false)
+      } catch (error) {
+          console.log(error)
+          setIsModelLoading(false)
+      }
+  }
+
+  const uploadImage = (e) => {
+      const { files } = e.target
+      if (files.length > 0) {
+          const url = URL.createObjectURL(files[0])
+          setImageURL(url)
+      } else {
+          setImageURL(null)
+      }
+  }
+
+  const identify = async () => {
+    console.log(imageRef.current);
+      const results = await model.classify(imageRef.current)
+      return results
+  }
+
+
+  const triggerUpload = () => {
+      fileInputRef.current.click()
+  }
+
+  React.useEffect(() => {
+      loadModel()
+  }, [])
+
+  React.useEffect(() => {
+      if (imageURL) {
+          setHistory([imageURL, ...history])
+      }
+  }, [imageURL])
+
+  //end search image
+  const hanldeSearch = async (e)=>{
+    e.preventDefault();
+    try{
+     const results =  await  identify();
+      console.log("🚀 ~ file: HeaderClient.jsx:265 ~ hanldeSearch ~ results:", results)
+      const caculateTextSearch  = [];
+     results.forEach(item=>{
+        item.className.replaceAll(",","");
+        const re = item.className.split(" ")
+        re.forEach(i=>{
+          caculateTextSearch.push((i))
+        })
+     })
+      const keywords= [inputValue,...caculateTextSearch];
+      navigate({
+        pathname: "/shop",
+        search: createSearchParams({
+            keyword: keywords.toString()
+        }).toString()
+    });
+    }catch(e){
+      console.log(e);
+    }
+  }
   if (loading) return <Loader></Loader>;
 
   return (
@@ -329,18 +411,30 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
             <div className="logo cursor-pointer">
               <img src="../logo.webp" alt="" />
             </div>
-            <form className="header-search flex items-center">
+            <form onSubmit={hanldeSearch} className="header-search flex items-center">
               <div className="relative">
                 <input
                   id="transcript"
-                  value={transcript}
-                  className="py-2 px-4 h-[44px] outline-none rounded-3xl w-[500px] rounded-r-none"
+                  defaultValue={transcript}
+                  className="py-2 px-4 h-[70px] outline-none rounded-3xl w-[500px] rounded-r-none"
                   type="text"
                   onChange={(e) => setValueInput(e.target.value)}
                   name="keyword"
-                  placeholder="Find the best for your best"
+               
                 />
+                                <label for="search_image" className="absolute top-1/2 -translate-y-1/2 hover:bg-slate-400 rounded-full cursor-pointer hover:text-slate-50 transition-all p-2 text-slate-900 right-[40px] ">
 
+                <input id="search_image" type='file' accept='image/*' capture='camera' className='uploadInput hidden' onChange={uploadImage} ref={fileInputRef} />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+            </svg>
+
+
+                </label>
+                <span className="absolute flex top-1/2 gap-3 -translate-y-1/2  rounded-full cursor-pointer  transition-all p-2 text-slate-900 left-[24px] ">
+                  <img ref={imageRef} className={`${imageURL ? 'w-[45px] h-[45px]' :''}`} src={imageURL} alt="" />
+                  {imageURL && <span onClick={()=>setImageURL(null)} className="text-2xl">x</span>}
+                </span>
                 <span className="absolute top-1/2 -translate-y-1/2 hover:bg-slate-400 rounded-full cursor-pointer hover:text-slate-50 transition-all p-2 text-slate-900 right-0 ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -369,7 +463,7 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
               <button className="py-2 px-4 rounded-3xl bg-[#101010] rounded-l-none text-white">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-6"
+                  className="h-14 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"

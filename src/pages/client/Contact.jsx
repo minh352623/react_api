@@ -85,7 +85,7 @@ const HeaderClient = () => {
                             return (
                                 <div className='result' key={result.className}>
                                     <span className='name'>{result.className}</span>
-                                    <span className='confidence'>Confidence level: {(result.probability * 100).toFixed(2)}% {index === 0 && <span className='bestGuess'>Best Guess</span>}</span>
+                                    <span className='confidence'> Confidence level: {(result.probability * 100).toFixed(2)}% {index === 0 && <span className='bestGuess'>Best Guess</span>}</span>
                                 </div>
                             )
                         })}

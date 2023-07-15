@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import lodash from "lodash";
 import Form from "react-bootstrap/Form";
 import Interested from "../../modules/shop/Interested";
+import { useParams, useSearchParams } from "react-router-dom";
 const theme = createTheme({
   palette: {
     primary: {
@@ -24,7 +25,6 @@ const theme = createTheme({
 });
 const ShopClient = () => {
   const { user, searchVoice } = useSelector((state) => state.user);
-  console.log(searchVoice);
   const [cates, setCates] = useState();
   const [products, setProduct] = useState();
   const [loading, setLoading] = useState(false);
@@ -48,6 +48,8 @@ const ShopClient = () => {
   const handleChange2 = (event, newValue) => {
     setValue(newValue);
   };
+  const [searchParams] = useSearchParams();
+ 
   const FetchCate = async () => {
     const response = await axios({
       method: "get",
@@ -115,6 +117,7 @@ const ShopClient = () => {
       console.log(response.data);
       setProduct(response.data);
       setLoading(false);
+      return response.data;
       // }
     } catch (e) {
       console.log(e);
@@ -153,7 +156,30 @@ const ShopClient = () => {
   };
 
   //end phân trang
-
+  useEffect( () => {
+    console.log('keyword');
+    const search  = async ()=>{
+      console.log(searchParams.get('keyword').split(','));
+      const keywords = searchParams.get('keyword').split(',');
+      const newResults = []
+      const products = await fetchProduct()
+      products?.data?.forEach((item) => {
+        
+        const hasKeyword = keywords.some((keyword) =>
+              keyword!= "" && (item.name.toLowerCase().includes(keyword.toLowerCase()) || item.description.toLowerCase().includes(keyword.toLowerCase()))
+        );
+        if( hasKeyword ) newResults.push(item);
+      });
+      setProduct({
+        ...products,
+        total:newResults.length,
+        data:newResults
+      })
+    }
+    if(searchParams.get('keyword')){
+      search();
+    }
+  }, [searchParams]);
   return (
     <Layout>
       <div className="main  bg-white">
