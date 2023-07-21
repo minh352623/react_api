@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import * as mobilenet from "@tensorflow-models/mobilenet";
+// import * as mobilenet from "@tensorflow-models/mobilenet";
 
 const HeaderClient = () => {
 
@@ -16,36 +16,36 @@ const HeaderClient = () => {
     const fileInputRef = React.useRef()
 
     const loadModel = async () => {
-        setIsModelLoading(true)
-        try {
-            const model = await mobilenet.load()
-            setModel(model)
-            setIsModelLoading(false)
-        } catch (error) {
-            console.log(error)
-            setIsModelLoading(false)
-        }
+        // setIsModelLoading(true)
+        // try {
+        //     const model = await mobilenet.load()
+        //     setModel(model)
+        //     setIsModelLoading(false)
+        // } catch (error) {
+        //     console.log(error)
+        //     setIsModelLoading(false)
+        // }
     }
 
     const uploadImage = (e) => {
-        const { files } = e.target
-        if (files.length > 0) {
-            const url = URL.createObjectURL(files[0])
-            setImageURL(url)
-        } else {
-            setImageURL(null)
-        }
+        // const { files } = e.target
+        // if (files.length > 0) {
+        //     const url = URL.createObjectURL(files[0])
+        //     setImageURL(url)
+        // } else {
+        //     setImageURL(null)
+        // }
     }
 
     const identify = async () => {
-        textInputRef.current.value = ''
-        const results = await model.classify(imageRef.current)
-        setResults(results)
+        // textInputRef.current.value = ''
+        // const results = await model.classify(imageRef.current)
+        // setResults(results)
     }
 
     const handleOnChange = (e) => {
-        setImageURL(e.target.value)
-        setResults([])
+        // setImageURL(e.target.value)
+        // setResults([])
     }
 
     const triggerUpload = () => {
@@ -53,13 +53,13 @@ const HeaderClient = () => {
     }
 
     React.useEffect(() => {
-        loadModel()
+        // loadModel()
     }, [])
 
     React.useEffect(() => {
-        if (imageURL) {
-            setHistory([imageURL, ...history])
-        }
+        // if (imageURL) {
+        //     setHistory([imageURL, ...history])
+        // }
     }, [imageURL])
 
     if (isModelLoading) {
@@ -85,7 +85,7 @@ const HeaderClient = () => {
                             return (
                                 <div className='result' key={result.className}>
                                     <span className='name'>{result.className}</span>
-                                    <span className='confidence'>Confidence level: {(result.probability * 100).toFixed(2)}% {index === 0 && <span className='bestGuess'>Best Guess</span>}</span>
+                                    <span className='confidence'> Confidence level: {(result.probability * 100).toFixed(2)}% {index === 0 && <span className='bestGuess'>Best Guess</span>}</span>
                                 </div>
                             )
                         })}
