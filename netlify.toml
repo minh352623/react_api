@@ -13,6 +13,3 @@ status = 200
 [functions]
         node_bundler = "esbuild"
 
-[[edge_functions]]
-  pattern = "^/(.*)$"
-  function = "seo"

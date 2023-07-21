@@ -1,5 +1,6 @@
 
 export default async (request, context) => {
+    console.log("🚀 ~ file: seo.js:3 ~ request:", request)
     const url = new URL(request.url)
     console.log("🚀 ~ file: seo.js:5 ~ url:", url)
     
@@ -105,5 +106,5 @@ export default async (request, context) => {
 };
 
 export const config = {
-  path: "/test",
+  path: "/seo/*",
 };
