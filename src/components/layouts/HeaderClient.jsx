@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as mobilenet from "@tensorflow-models/mobilenet";
+// import * as mobilenet from "@tensorflow-models/mobilenet";
 
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -215,40 +215,40 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
   const fileInputRef = React.useRef()
 
   const loadModel = async () => {
-      setIsModelLoading(true)
-      try {
-          const model = await mobilenet.load()
-          setModel(model)
-          setIsModelLoading(false)
-      } catch (error) {
-          console.log(error)
-          setIsModelLoading(false)
-      }
+      // setIsModelLoading(true)
+      // try {
+      //     const model = await mobilenet.load()
+      //     setModel(model)
+      //     setIsModelLoading(false)
+      // } catch (error) {
+      //     console.log(error)
+      //     setIsModelLoading(false)
+      // }
   }
 
   const uploadImage = (e) => {
-      const { files } = e.target
-      if (files.length > 0) {
-          const url = URL.createObjectURL(files[0])
-          setImageURL(url)
-      } else {
-          setImageURL(null)
-      }
+      // const { files } = e.target
+      // if (files.length > 0) {
+      //     const url = URL.createObjectURL(files[0])
+      //     setImageURL(url)
+      // } else {
+      //     setImageURL(null)
+      // }
   }
 
   const identify = async () => {
-    console.log(imageRef.current);
-      const results = await model.classify(imageRef.current)
-      return results
+    // console.log(imageRef.current);
+    //   const results = await model.classify(imageRef.current)
+    //   return results
   }
 
 
   const triggerUpload = () => {
-      fileInputRef.current.click()
+      // fileInputRef.current.click()
   }
 
   React.useEffect(() => {
-      loadModel()
+      // loadModel()
   }, [])
 
   React.useEffect(() => {
@@ -259,28 +259,28 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
 
   //end search image
   const hanldeSearch = async (e)=>{
-    e.preventDefault();
-    try{
-     const results =  await  identify();
-      console.log("🚀 ~ file: HeaderClient.jsx:265 ~ hanldeSearch ~ results:", results)
-      const caculateTextSearch  = [];
-     results.forEach(item=>{
-        item.className.replaceAll(",","");
-        const re = item.className.split(" ")
-        re.forEach(i=>{
-          caculateTextSearch.push((i))
-        })
-     })
-      const keywords= [inputValue,...caculateTextSearch];
-      navigate({
-        pathname: "/shop",
-        search: createSearchParams({
-            keyword: keywords.toString()
-        }).toString()
-    });
-    }catch(e){
-      console.log(e);
-    }
+    // e.preventDefault();
+    // try{
+    //  const results =  await  identify();
+    //   console.log("🚀 ~ file: HeaderClient.jsx:265 ~ hanldeSearch ~ results:", results)
+    //   const caculateTextSearch  = [];
+    //  results.forEach(item=>{
+    //     item.className.replaceAll(",","");
+    //     const re = item.className.split(" ")
+    //     re.forEach(i=>{
+    //       caculateTextSearch.push((i))
+    //     })
+    //  })
+    //   const keywords= [inputValue,...caculateTextSearch];
+    //   navigate({
+    //     pathname: "/shop",
+    //     search: createSearchParams({
+    //         keyword: keywords.toString()
+    //     }).toString()
+    // });
+    // }catch(e){
+    //   console.log(e);
+    // }
   }
   if (loading) return <Loader></Loader>;
 
