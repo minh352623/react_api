@@ -2,6 +2,7 @@
 export default async (request, context) => {
     const url = new URL(request.url)
     const path = url.pathname;
+    console.log("🚀 ~ file: seo.js:5 ~ path:", path)
     
     // Get the page content.
     const response = await context.next();
@@ -12,5 +13,5 @@ export default async (request, context) => {
 };
 
 export const config = {
-  path: "/seo",
+  path: "/seo/*",
 };
