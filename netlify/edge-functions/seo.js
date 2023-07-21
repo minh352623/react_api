@@ -93,7 +93,9 @@ export default async (request, context) => {
 
           <script src="main.dart.js" type="application/javascript"></script>
        </body>
-    </html>`)
+    </html>`,{
+        headers: { "content-type": "text/html" },
+      })
    
 };
 
