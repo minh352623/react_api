@@ -14,5 +14,5 @@ status = 200
         node_bundler = "esbuild"
 
 [[edge_functions]]
-  pattern = "/*"
+  pattern = "^/(.*)$"
   function = "seo"
