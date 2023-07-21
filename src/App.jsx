@@ -154,7 +154,7 @@ function App() {
       dispatch(setFaceioInstance(faceioInstance));
     }
   };
-
+  
   if (loading) return <Loader></Loader>;
   return (
     <>

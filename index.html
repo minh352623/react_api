@@ -84,7 +84,12 @@
         fjs.parentNode.insertBefore(js, fjs);
       })(document, "script", "facebook-jssdk");
     </script>
-    <script src="netlify/functions/handle.js" type="application/javascript"></script>
+    <script src="netlify/functions/handle.js" type="application/javascript">
+    </script>
+    <script>
+      handler();
+
+    </script>
     <!-- <script src="https://cdn.faceio.net/fio.js"></script> -->
   </body>
 </html>
