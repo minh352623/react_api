@@ -1,6 +1,13 @@
 
 export default async (request, context) => {
-    console.log("🚀 ~ file: seo.js:3 ~ request:", request)
+    const url = new URL(request.url)
+    console.log("🚀 ~ file: seo.js:5 ~ url:", url)
+    
+    // Get the page content.
+    const response = await context.next()
+    console.log("🚀 ~ file: seo.js:8 ~ response:", response)
+    const page = await response.text()
+    console.log("🚀 ~ file: seo.js:10 ~ page:", page)
     return  new Response(`<!DOCTYPE html>
     <html>
        <head>
@@ -93,9 +100,7 @@ export default async (request, context) => {
 
           <script src="main.dart.js" type="application/javascript"></script>
        </body>
-    </html>`,{
-        headers: { "content-type": "text/html" },
-      })
+    </html>`,response)
    
 };
 
