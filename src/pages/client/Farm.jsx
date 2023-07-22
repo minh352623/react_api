@@ -16,7 +16,15 @@ import Loading from "../../components/Loading";
 import ItemFriend from "../../components/ItemFriend";
 import { logEvent } from "firebase/analytics";
 import { analytics } from "../../firebase/firebase-config";
-
+import {
+  FacebookShareCount,
+  HatenaShareCount,
+  OKShareCount,
+  PinterestShareCount,
+  RedditShareCount,
+  TumblrShareCount,
+  VKShareCount
+} from "react-share";
 const Farm = () => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -529,6 +537,7 @@ const Farm = () => {
             Bật nhạc
           </p>
         )}
+        <FacebookShareCount url="https://main--leafy-trifle-205341.netlify.app/seo/home-page" />
         {mission && (
           <div className="bg-[rgba(0,0,0,0.3)] transition-all fixed z-[100] m-auto flex items-center justify-center top-0 bottom-0 left-0 right-0 ">
             <div className="vp rounded-lg w-[90%] m-auto bg-slate-50 h-[90%]">
