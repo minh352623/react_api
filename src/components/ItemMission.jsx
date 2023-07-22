@@ -1,11 +1,67 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
-
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import { useSelector } from "react-redux";
 import CountDownMission from "./CountDownMission";
 import { useNavigate } from "react-router-dom";
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  HatenaShareButton,
+  InstapaperShareButton,
+  LineShareButton,
+  LinkedinShareButton,
+  LivejournalShareButton,
+  MailruShareButton,
+  OKShareButton,
+  PinterestShareButton,
+  PocketShareButton,
+  RedditShareButton,
+  TelegramShareButton,
+  TumblrShareButton,
+  TwitterShareButton,
+  ViberShareButton,
+  VKShareButton,
+  WhatsappShareButton,
+  WorkplaceShareButton
+} from "react-share";
 
+
+import {
+  EmailIcon,
+  FacebookIcon,
+  FacebookMessengerIcon,
+  HatenaIcon,
+  InstapaperIcon,
+  LineIcon,
+  LinkedinIcon,
+  LivejournalIcon,
+  MailruIcon,
+  OKIcon,
+  PinterestIcon,
+  PocketIcon,
+  RedditIcon,
+  TelegramIcon,
+  TumblrIcon,
+  TwitterIcon,
+  ViberIcon,
+  VKIcon,
+  WeiboIcon,
+  WhatsappIcon,
+  WorkplaceIcon
+} from "react-share";
+
+import {
+  FacebookShareCount,
+  HatenaShareCount,
+  OKShareCount,
+  PinterestShareCount,
+  RedditShareCount,
+  TumblrShareCount,
+  VKShareCount
+} from "react-share";
 const ItemMission = ({
   item,
   missuser,
@@ -20,7 +76,10 @@ const ItemMission = ({
   const diemdanh = useRef();
   const [load, setLoad] = useState();
   const navigate = useNavigate();
+  const [show, setShow] = React.useState(false);
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const handleMission = async (item) => {
     let formData = new FormData();
     formData.append("user_id", user?.id);
@@ -114,6 +173,7 @@ const ItemMission = ({
       });
     }
   };
+  const [itemShare, setItemShare] = React.useState();
 
   const handleMissionRedirect = async (item) => {
     if (item?.value_type == "/home") {
@@ -127,6 +187,12 @@ const ItemMission = ({
       localStorage.setItem("mission_neighbor", JSON.stringify(item));
       setShowFriend(true);
       FetchFriend();
+    }
+
+    if (item?.value_type == "/share") {
+      console.log('share');
+      setItemShare(item)
+      handleShow()
     }
   };
   if (missuser) {
@@ -202,6 +268,53 @@ const ItemMission = ({
     );
   }
   return (
+    <>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Chia sẻ mạng xã hội</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <div className="flex gap-3">
+            <FacebookShareButton
+              url="https://main--leafy-trifle-205341.netlify.app/seo/home-page"
+              quote="Shoppet Nông trại vui vẻ"
+              hashtag="#ShoppetNongtraivuive" 
+           >
+              <FacebookIcon onClick={()=>handleMission(itemShare)} iconFillColor="white" round="true"></FacebookIcon>
+              <FacebookShareCount url="https://main--leafy-trifle-205341.netlify.app/seo/home-page" >
+              {count => <span className="text-black w-[12px]">{count}</span> }
+            </FacebookShareCount>
+            </FacebookShareButton>
+          
+            <TelegramShareButton title="Shoppet nông trại vui vẻ"
+              url="https://main--leafy-trifle-205341.netlify.app/seo/home-page"
+            
+            >
+                <TelegramIcon
+                onClick={()=>handleMission(itemShare)}
+                iconFillColor="white" round="true"
+                ></TelegramIcon>
+            </TelegramShareButton>
+            <LinkedinShareButton
+              url="https://main--leafy-trifle-205341.netlify.app/seo/home-page"
+              title="Shoppet nông trại vui vẻ"
+              summary="Chơi game nhận thưởng"
+            >
+
+              <LinkedinIcon
+              onClick={()=>handleMission(itemShare)}
+              iconFillColor="white" round="true"
+              ></LinkedinIcon>
+            </LinkedinShareButton>
+            </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        
+        </Modal.Footer>
+      </Modal>
     <div className="col-span-6 bg-white">
       <div className="p-3">
         <div className="flex gap-3 justify-between items-center">
@@ -241,6 +354,7 @@ const ItemMission = ({
         </div>
       </div>
     </div>
+    </>
   );
 };
 
