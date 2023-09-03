@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import Layout from "../../components/layouts/Layout";
 import { ethers } from "ethers";
 import { ABI, address } from "../../trait/ABI";
