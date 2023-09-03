@@ -41,6 +41,8 @@ const EventShoot = lazy(() => import("./pages/client/EventShoot"));
 const EventZoonbie = lazy(() => import("./pages/client/EventZoonbie"));
 const Event = lazy(() => import("./pages/client/Event"));
 const Contact = lazy(() => import("./pages/client/Contact"));
+const Blockchain = lazy(() => import("./pages/client/Blockchain"));
+
 
 const Coupons = lazy(() => import("./pages/Coupons"));
 const UpdateCoupon = lazy(() => import("./pages/coupon/UpdateCoupon"));
@@ -670,6 +672,10 @@ function App() {
               <Route
                 path="/reset-password"
                 element={<ResetPassword></ResetPassword>}
+              ></Route>
+              <Route
+                path="/Blockchain"
+                element={<Blockchain></Blockchain>}
               ></Route>
             </Routes>
           </Suspense>
