@@ -16,58 +16,52 @@ const tourConfig = [
   {
     selector: '[data-tut="reactour__iso"]',
     content: () => (
-      <div className="flex flex-col gap-3" >
+      <div className="flex flex-col gap-3">
         <img src="./abc4.png" alt="" />
       </div>
     ),
-    position: "right"
-
+    position: "right",
   },
   {
     selector: '[data-tut="reactour__style"]',
     content: () => (
-      <div className="flex flex-col gap-3" >
+      <div className="flex flex-col gap-3">
         <img src="./abc5.png" alt="" />
-    </div>
+      </div>
     ),
     style: {
       backgroundColor: "black",
-      color: "white"
-    }
+      color: "white",
+    },
   },
   {
     selector: '[data-tut="reactour__goTo"]',
     content: ({ goTo }) => (
-      <div className="flex flex-col gap-3" >
-      <img src="./abc6.png" alt="" />
-  </div>
-    )
+      <div className="flex flex-col gap-3">
+        <img src="./abc6.png" alt="" />
+      </div>
+    ),
   },
   {
     selector: '[data-tut="reactour__position"]',
     content: () => (
-      <div className="flex flex-col gap-3" >
-      <img src="./abc8.png" alt="" />
-  </div>
+      <div className="flex flex-col gap-3">
+        <img src="./abc8.png" alt="" />
+      </div>
     ),
-    position: "left"
-  }
+    position: "left",
+  },
 ];
 root.render(
-  <React.StrictMode>
-   
-      <Provider store={store}>
-        <BrowserRouter>
+  // <React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
         <TourProvider
-    steps={tourConfig}
-    // maskClassName="mask"
-    // className="helper"
-    // rounded={5}
- 
-  >
+          steps={tourConfig}
+        >
           <App />
-            </TourProvider>
-        </BrowserRouter>
-      </Provider>
-  </React.StrictMode>
+        </TourProvider>
+      </BrowserRouter>
+    </Provider>
+  // {/* </React.StrictMode> */}
 );

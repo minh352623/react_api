@@ -115,7 +115,6 @@ const Blockchain = () => {
 
   
   return (
-    <>
     <Layout>
       <div className="m-auto flex justify-start items-start gap-3 flex-col p-5">
         <div className="flex gap-3 justify-start  items-start ">
@@ -195,7 +194,6 @@ const Blockchain = () => {
       </div>
     </Layout>
 
-    </>
   );
 };
 
