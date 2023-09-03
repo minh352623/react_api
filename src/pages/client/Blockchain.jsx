@@ -109,7 +109,13 @@ const Blockchain = () => {
   };
 
   const openTour = () => {
+    try{
     setIsOpen(true);
+
+    }catch(e){
+      console.log("🚀 ~ file: Blockchain.jsx:115 ~ openTour ~ e:", e)
+      
+    }
 
   };
 
