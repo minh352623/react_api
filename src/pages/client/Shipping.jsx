@@ -244,7 +244,7 @@ const Shipping = () => {
   const [provider, setProvider] = useState(null);
   const [singer, setSinger] = useState(null);
   const [statePaymentMetamask, setStatePaymentMetamask] = useState("");
-  const  [stateModalMetamask,setStateModalMetamask] = useState(false);
+  const [stateModalMetamask, setStateModalMetamask] = useState(false);
   const initializeProvider = async () => {
     if (window.ethereum) {
       // Modern dapp browsers
@@ -256,7 +256,10 @@ const Shipping = () => {
         // const accounts = await providerInstance.send('eth_requestAccounts', []);
         // console.log("🚀 ~ file: Blockchain.jsx:23 ~ initializeProvider ~ accounts:", accounts)
         const singer = providerInstance.getSigner();
-        console.log("🚀 ~ file: Shipping.jsx:256 ~ initializeProvider ~ singer:", singer)
+        console.log(
+          "🚀 ~ file: Shipping.jsx:256 ~ initializeProvider ~ singer:",
+          singer
+        );
         // const contract = new ethers.Contract(
         //   address,
         //   JSON.parse(JSON.stringify(ABI)),
@@ -281,31 +284,52 @@ const Shipping = () => {
   };
   const paymentWithMetamask = async () => {
     try {
-      if(!singer){
+      if (!singer) {
         await initializeProvider();
-      } 
-      console.log("total: ",((parseFloat(JSON.parse(localStorage.getItem("sum"))) * 0.000610074)).toString());
+        Swal.fire({
+          position: "center-center",
+          icon: "success",
+          title: "Vui lòng chọn lại thanh toán Metamask!!!",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        return;
+      }
+      console.log(
+        "total: ",
+        (
+          parseFloat(JSON.parse(localStorage.getItem("sum"))) * 0.000610074
+        ).toString()
+      );
       setStateModalMetamask(true);
       setStatePaymentMetamask("Metamask đang xủ lý giao dịch...");
       const tx = await singer.sendTransaction({
         to: "0x4b2804CD7221a5d072049358C2837E7554Ea5F3A",
         // value: ethers.utils.parseEther('0.0001'),
 
-        value: ethers.utils.parseEther((parseFloat(JSON.parse(localStorage.getItem("sum"))).toFixed(2)* 0.000610074).toString()),
+        value: ethers.utils.parseEther(
+          (
+            parseFloat(JSON.parse(localStorage.getItem("sum"))).toFixed(2) *
+            0.000610074
+          ).toString()
+        ),
       });
       console.log(
         "🚀 ~ file: Shipping.jsx:251 ~ paymentWithMetamask ~ tx:",
         tx
       );
       const txReceipt = await tx.wait();
-      console.log("🚀 ~ file: Shipping.jsx:301 ~ paymentWithMetamask ~ txReceipt:", txReceipt)
+      console.log(
+        "🚀 ~ file: Shipping.jsx:301 ~ paymentWithMetamask ~ txReceipt:",
+        txReceipt
+      );
 
       if (txReceipt.status === 1) {
-        console.log('Transaction succeeded!');
-        console.log('Transaction hash:', txReceipt.transactionHash);
+        console.log("Transaction succeeded!");
+        console.log("Transaction hash:", txReceipt.transactionHash);
       } else {
-        console.log('Transaction failed.');
-        console.log('Transaction hash:', txReceipt.transactionHash);
+        console.log("Transaction failed.");
+        console.log("Transaction hash:", txReceipt.transactionHash);
       }
       setStatePaymentMetamask("Hệ thống đang xủ lý giao dịch...");
       // return;
@@ -316,7 +340,7 @@ const Shipping = () => {
       formData.append(
         "total",
         parseFloat(JSON.parse(localStorage.getItem("sum"))).toFixed(2)
-        );
+      );
       formData.append("fee", feeVc);
 
       formData.append("userId", user?.id);
@@ -324,7 +348,6 @@ const Shipping = () => {
       formData.append("transaction_id_metamask", tx.hash);
       formData.append("from_address_metamask", tx.from);
       formData.append("to_address_metamask", tx.to);
-
 
       if (JSON.parse(localStorage.getItem("infoVoucher"))) {
         const voucher = JSON.parse(localStorage.getItem("infoVoucher"));
@@ -368,47 +391,46 @@ const Shipping = () => {
       if (response) {
         localStorage.removeItem("sum");
         setStatePaymentMetamask("Order thành công!!");
-      setStateModalMetamask(false);
-      
-        console.log(response);
-        setTimeout(()=>{
+        setStateModalMetamask(false);
 
+        console.log(response);
+        setTimeout(() => {
           navigate("/payment/" + response.data.id_bill);
-        },2000)
+        }, 2000);
       }
       //order
     } catch (err) {
       console.log(err.code == "INSUFFICIENT_FUNDS");
       setStateModalMetamask(false);
-      switch(err.code) {
-          case "ACTION_REJECTED":
-            Swal.fire({
-              position: "center-center",
-              icon: "error",
-              title: "Bạn đã từ chối giao dịch qua Metamask",
-              showConfirmButton: false,
-              timer: 2000,
-            });
-            break;
-          case "INSUFFICIENT_FUNDS":
-            Swal.fire({
-              position: "center-center",
-              icon: "error",
-              title: "Số dư của bạn không đủ",
-              showConfirmButton: false,
-              timer: 2000,
-            });
-            break;
-          case "NUMERIC_FAULT":
-            Swal.fire({
-              position: "center-center",
-              icon: "error",
-              title: "Số tiền quy đổi ra eth quá nhỏ, vui lòng mua thêm hàng để thanh toán!!",
-              showConfirmButton: false,
-              timer: 2000,
-            });
-            break;
-
+      switch (err.code) {
+        case "ACTION_REJECTED":
+          Swal.fire({
+            position: "center-center",
+            icon: "error",
+            title: "Bạn đã từ chối giao dịch qua Metamask",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          break;
+        case "INSUFFICIENT_FUNDS":
+          Swal.fire({
+            position: "center-center",
+            icon: "error",
+            title: "Số dư của bạn không đủ",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          break;
+        case "NUMERIC_FAULT":
+          Swal.fire({
+            position: "center-center",
+            icon: "error",
+            title:
+              "Số tiền quy đổi ra eth quá nhỏ, vui lòng mua thêm hàng để thanh toán!!",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          break;
       }
       console.log(
         "🚀 ~ file: Shipping.jsx:247 ~ paymentWithMetamask ~ err:",
@@ -419,25 +441,38 @@ const Shipping = () => {
   //end payment with metamask
   return (
     <Layout>
-       <Modal
-       size="lg"
-       aria-labelledby="contained-modal-title-vcenter"
-       centered 
-       show={stateModalMetamask} onHide={()=> setStateModalMetamask(false)}>
+      <Modal
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        show={stateModalMetamask}
+        onHide={() => setStateModalMetamask(false)}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Payment Metamask</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="flex gap-3">
-
             {statePaymentMetamask}
             <div role="status">
-    <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-    </svg>
-    <span class="sr-only">Loading...</span>
-</div>
+              <svg
+                aria-hidden="true"
+                class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                viewBox="0 0 100 101"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                  fill="currentFill"
+                />
+              </svg>
+              <span class="sr-only">Loading...</span>
+            </div>
           </div>
         </Modal.Body>
       </Modal>
@@ -474,7 +509,6 @@ const Shipping = () => {
               <Link className="text-black" to="/cart">
                 Cart
               </Link>
-         
 
               <span>
                 <svg
@@ -577,42 +611,47 @@ const Shipping = () => {
                 ></Momo>
                 <p
                   onClick={paymentWithMetamask}
-                  className="w-full p-4 text-white rounded-xl flex items-center gap-3  bg-green-500"
+                  className="w-full px-3 py-2 cursor-pointer hover:scale-105 text-white rounded-xl flex items-center gap-3  bg-slate-500"
                 >
-                  <span>Payment with Metamask</span>{" "}
-                  <img src="./fox.png" className="w-[24px] h-[24px]" alt="" />
+                  <img src="./fox.png" className="w-[50px] h-[50px]" alt="" />
+                  <span className="uppercase text-2xl space-x-3">
+                    Metamask
+                  </span>{" "}
                 </p>
               </div>
             </>
           </div>
-          <div className="flex gap-5 items-center justify-between mt-5">
-            <p
-              onClick={handlePayment}
-              className={`bg-blue-700 hover:bg-blue-800
-                   text-center text-white px-6 py-3 rounded-xl cursor-pointer  transition-all`}
-            >
-              Continue to payment
-            </p>
-          </div>
+          <div className="flex items-center justify-between gap-3">
           <Link to="/checkout">
-            <span className="flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                class="w-5 h-4 mt-[2px] leading-none"
+              <span className="flex items-center border rounded-lg border-blue-500 px-4 py-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  class="w-5 h-4 leading-none"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 19.5L8.25 12l7.5-7.5"
+                  />
+                </svg>
+                <span class="leading-none">Return to infomation</span>
+              </span>
+            </Link>
+            <div className="flex gap-5 items-center justify-between">
+              <p
+                onClick={handlePayment}
+                className={`bg-blue-700 m-0 hover:bg-blue-800
+                   text-center text-white px-6 py-3 rounded-xl cursor-pointer  transition-all`}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 19.5L8.25 12l7.5-7.5"
-                />
-              </svg>
-              <span class="leading-none h-4">Return to infomation</span>
-            </span>
-          </Link>
+                Get paid goods
+              </p>
+            </div>
+            
+          </div>
         </div>
         <div className="col-span-6 ">
           <div className="bg-gray-50  p-5 min-h-screen">
