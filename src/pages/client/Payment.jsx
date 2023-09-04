@@ -126,6 +126,12 @@ const Payment = () => {
                     : "Pay after recieve"}
                 </span>
               </p>
+                {data?.pttt == 'metamask' && <div>
+                  <p>From address: {data?.from_address_metamask ?? ""}</p>
+                  <p>To address: {data?.to_address_metamask ?? ""}</p>
+                  <p>Transaction hash: {data?.transaction_id_metamask ?? ""}</p>
+
+                </div> }
             </div>
           </div>
         </div>

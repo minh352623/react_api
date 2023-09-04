@@ -18,6 +18,8 @@ const newUser = createSlice({
     notifycations: [],
     searchVoice: null,
     changeMoney: false,
+    provider:null,
+    singer:null
   },
   reducers: {
     setUser: (state, action) => ({
@@ -27,6 +29,23 @@ const newUser = createSlice({
         ...action.payload,
       },
     }),
+    setProvider: (state, action) => {
+      console.log("🚀 ~ file: userSlice.jsx:33 ~ action:", action)
+      return {
+
+        ...state,
+        provider: action.payload,
+      }
+    },
+    setSinger: (state, action) => {
+      console.log("🚀 ~ file: userSlice.jsx:41 ~ action:", action)
+      return {
+
+        ...state,
+      
+      singer: action.payload,
+    }
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCurrentUser, (state, action) => {
@@ -53,6 +72,6 @@ const newUser = createSlice({
   },
 });
 
-export const { setUser } = newUser.actions;
+export const { setUser, setProvider ,setSinger } = newUser.actions;
 
 export default newUser.reducer;

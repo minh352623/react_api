@@ -18,6 +18,9 @@ import { useDispatch } from "react-redux";
 import { setChangeMoney } from "../../redux-thunk/userSlice";
 import { logEvent } from "firebase/analytics";
 import { analytics } from "../../firebase/firebase-config";
+import { ethers } from "ethers";
+import Swal from "sweetalert2";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -163,7 +166,7 @@ const Shipping = () => {
   //
   const [vouchers, setVouchers] = React.useState();
   const callVoucher = async () => {
-    logEvent(analytics,"Chọn Voucher")
+    logEvent(analytics, "Chọn Voucher");
 
     handleShow();
     localStorage.removeItem("infoVoucher");
@@ -236,8 +239,208 @@ const Shipping = () => {
     }
     return null;
   };
+
+  //payment with metamask
+  const [provider, setProvider] = useState(null);
+  const [singer, setSinger] = useState(null);
+  const [statePaymentMetamask, setStatePaymentMetamask] = useState("");
+  const  [stateModalMetamask,setStateModalMetamask] = useState(false);
+  const initializeProvider = async () => {
+    if (window.ethereum) {
+      // Modern dapp browsers
+      try {
+        await window.ethereum.enable();
+        const providerInstance = new ethers.providers.Web3Provider(
+          window.ethereum
+        );
+        // const accounts = await providerInstance.send('eth_requestAccounts', []);
+        // console.log("🚀 ~ file: Blockchain.jsx:23 ~ initializeProvider ~ accounts:", accounts)
+        const singer = providerInstance.getSigner();
+        console.log("🚀 ~ file: Shipping.jsx:256 ~ initializeProvider ~ singer:", singer)
+        // const contract = new ethers.Contract(
+        //   address,
+        //   JSON.parse(JSON.stringify(ABI)),
+        //   singer
+        // );
+        // console.log(
+        //   "🚀 ~ file: Blockchain.jsx:27 ~ initializeProvider ~ contract:",
+        //   contract
+        // );
+        setProvider(providerInstance);
+        setSinger(singer);
+      } catch (error) {
+        console.log(
+          "🚀 ~ file: HeaderClient.jsx:289 ~ initializeProvider ~ error:",
+          error
+        );
+      }
+    } else {
+      // Non-dapp browsers or old versions of MetaMask
+      console.error("No web3 provider detected");
+    }
+  };
+  const paymentWithMetamask = async () => {
+    try {
+      if(!singer){
+        await initializeProvider();
+      } 
+      console.log("total: ",((parseFloat(JSON.parse(localStorage.getItem("sum"))) * 0.000610074)).toString());
+      setStateModalMetamask(true);
+      setStatePaymentMetamask("Metamask đang xủ lý giao dịch...");
+      const tx = await singer.sendTransaction({
+        to: "0x4b2804CD7221a5d072049358C2837E7554Ea5F3A",
+        // value: ethers.utils.parseEther('0.0001'),
+
+        value: ethers.utils.parseEther((parseFloat(JSON.parse(localStorage.getItem("sum"))).toFixed(2)* 0.000610074).toString()),
+      });
+      console.log(
+        "🚀 ~ file: Shipping.jsx:251 ~ paymentWithMetamask ~ tx:",
+        tx
+      );
+      const txReceipt = await tx.wait();
+      console.log("🚀 ~ file: Shipping.jsx:301 ~ paymentWithMetamask ~ txReceipt:", txReceipt)
+
+      if (txReceipt.status === 1) {
+        console.log('Transaction succeeded!');
+        console.log('Transaction hash:', txReceipt.transactionHash);
+      } else {
+        console.log('Transaction failed.');
+        console.log('Transaction hash:', txReceipt.transactionHash);
+      }
+      setStatePaymentMetamask("Hệ thống đang xủ lý giao dịch...");
+      // return;
+      //order
+      const formData = new FormData();
+      formData.append("phone", info.phone);
+      formData.append("address", info.address + "," + info.country);
+      formData.append(
+        "total",
+        parseFloat(JSON.parse(localStorage.getItem("sum"))).toFixed(2)
+        );
+      formData.append("fee", feeVc);
+
+      formData.append("userId", user?.id);
+      formData.append("pttt", "metamask");
+      formData.append("transaction_id_metamask", tx.hash);
+      formData.append("from_address_metamask", tx.from);
+      formData.append("to_address_metamask", tx.to);
+
+
+      if (JSON.parse(localStorage.getItem("infoVoucher"))) {
+        const voucher = JSON.parse(localStorage.getItem("infoVoucher"));
+        if (+voucher.feature == 1) {
+          formData.append(
+            "voucher",
+            parseFloat(sumCart() * (+voucher.value / 100).toFixed(2))
+          );
+        } else if (+voucher.feature == 2) {
+          formData.append("voucher", parseFloat(voucher.value).toFixed(2));
+        }
+
+        const formData2 = new FormData();
+        formData2.append("user_id", user?.id);
+        formData2.append("coupon_id", voucher.id);
+        try {
+          const response = await axios({
+            method: "post",
+            url: "https://shoppet.site/api/coupon/delete_user_coupon",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + user?.token,
+            },
+            data: formData2,
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      const infoVoucher = localStorage.removeItem("infoVoucher");
+
+      const response = await axios({
+        method: "post",
+        url: "https://shoppet.site/api/bill/add",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + user?.token,
+        },
+        data: formData,
+      });
+      if (response) {
+        localStorage.removeItem("sum");
+        setStatePaymentMetamask("Order thành công!!");
+      setStateModalMetamask(false);
+      
+        console.log(response);
+        setTimeout(()=>{
+
+          navigate("/payment/" + response.data.id_bill);
+        },2000)
+      }
+      //order
+    } catch (err) {
+      console.log(err.code == "INSUFFICIENT_FUNDS");
+      setStateModalMetamask(false);
+      switch(err.code) {
+          case "ACTION_REJECTED":
+            Swal.fire({
+              position: "center-center",
+              icon: "error",
+              title: "Bạn đã từ chối giao dịch qua Metamask",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+            break;
+          case "INSUFFICIENT_FUNDS":
+            Swal.fire({
+              position: "center-center",
+              icon: "error",
+              title: "Số dư của bạn không đủ",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+            break;
+          case "NUMERIC_FAULT":
+            Swal.fire({
+              position: "center-center",
+              icon: "error",
+              title: "Số tiền quy đổi ra eth quá nhỏ, vui lòng mua thêm hàng để thanh toán!!",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+            break;
+
+      }
+      console.log(
+        "🚀 ~ file: Shipping.jsx:247 ~ paymentWithMetamask ~ err:",
+        err
+      );
+    }
+  };
+  //end payment with metamask
   return (
     <Layout>
+       <Modal
+       size="lg"
+       aria-labelledby="contained-modal-title-vcenter"
+       centered 
+       show={stateModalMetamask} onHide={()=> setStateModalMetamask(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Payment Metamask</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="flex gap-3">
+
+            {statePaymentMetamask}
+            <div role="status">
+    <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+    </svg>
+    <span class="sr-only">Loading...</span>
+</div>
+          </div>
+        </Modal.Body>
+      </Modal>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>My Voucher</Modal.Title>
@@ -271,6 +474,8 @@ const Shipping = () => {
               <Link className="text-black" to="/cart">
                 Cart
               </Link>
+         
+
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -362,7 +567,7 @@ const Shipping = () => {
           <div className=" mt-3 justify-between">
             <>
               <Paypal sumf={sumCart()} user={user} fee={feeVc} info={info} />
-              <div>
+              <div className="flex flex-col gap-3">
                 <Vnpay sumf={sumCart()} user={user} fee={feeVc} info={info} />
                 <Momo
                   sumf={sumCart()}
@@ -370,6 +575,13 @@ const Shipping = () => {
                   fee={feeVc}
                   info={info}
                 ></Momo>
+                <p
+                  onClick={paymentWithMetamask}
+                  className="w-full p-4 text-white rounded-xl flex items-center gap-3  bg-green-500"
+                >
+                  <span>Payment with Metamask</span>{" "}
+                  <img src="./fox.png" className="w-[24px] h-[24px]" alt="" />
+                </p>
               </div>
             </>
           </div>

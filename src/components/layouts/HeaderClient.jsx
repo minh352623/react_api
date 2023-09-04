@@ -11,7 +11,9 @@ import { NavLink, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setLoading,
+  setProvider,
   setSearchVoice,
+  setSinger,
   setUser,
 } from "../../redux-thunk/userSlice";
 import axios from "axios";
@@ -26,6 +28,8 @@ import lodash from "lodash";
 import MicroPhone from "../MicroPhone";
 import Coupon from "../Coupon";
 import { formatter } from "../../trait/FormatMoney";
+import { ethers } from "ethers";
+import { ABI, address } from "../../trait/ABI";
 
 const cookies = new Cookies();
 
@@ -256,6 +260,42 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
   // }, [imageURL])
 
   //end search image
+
+
+  //connect blockchain
+
+  // const initializeProvider = async () => {
+  //   if (window.ethereum) {
+  //     // Modern dapp browsers
+  //     try {
+  //       await window.ethereum.enable();
+  //       const providerInstance = new ethers.providers.Web3Provider(
+  //         window.ethereum
+  //       );
+  //       // const accounts = await providerInstance.send('eth_requestAccounts', []);
+  //       // console.log("🚀 ~ file: Blockchain.jsx:23 ~ initializeProvider ~ accounts:", accounts)
+  //       const singer = providerInstance.getSigner();
+  //       // const contract = new ethers.Contract(
+  //       //   address,
+  //       //   JSON.parse(JSON.stringify(ABI)),
+  //       //   singer
+  //       // );
+  //       // console.log(
+  //       //   "🚀 ~ file: Blockchain.jsx:27 ~ initializeProvider ~ contract:",
+  //       //   contract
+  //       // );
+  //       dispatch(setProvider(providerInstance));
+  //       dispatch(setSinger(singer));
+  //     } catch (error) {
+  //     console.log("🚀 ~ file: HeaderClient.jsx:289 ~ initializeProvider ~ error:", error)
+      
+  //     }
+  //   } else {
+  //     // Non-dapp browsers or old versions of MetaMask
+  //     console.error("No web3 provider detected");
+  //   }
+  // };
+  //end connect blockchain
   const hanldeSearch = async (e) => {
     e.preventDefault();
     try {
@@ -614,25 +654,33 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
                     </li>
                   ))}
               </ul>
+              <div className="flex gap-3">
 
-              {user && (
-                <div className="free-ship flex items-center">
-                  <span className="text-xl font-semibold">
-                    {formatter.format(
-                      user?.coin_dif ? +user?.coin_dif?.coin : 0
-                    )}
-                  </span>
-                  <span className="text-xl">
-                    <img src="./coin2.gif" className="w-[30px]" alt="" />
-                  </span>
-                  <Link
-                    to="/coin"
-                    className="text-2xl p-2 bg-orange-500 text-white rounded-lg leading-none"
-                  >
-                    +
-                  </Link>
-                </div>
-              )}
+                {/* <button
+                      className="transition-all px-6 leading-none h-fit inline-flex hover:scale-110  gap-3 cursor-pointer text-white rounded-lg py-3 bg-green-500"
+                      onClick={initializeProvider}
+                    >
+                      Connect <img src="./fox.png" className="w-[24px] h-[24px]" alt="" />
+                    </button> */}
+                {user && (
+                  <div className="free-ship flex items-center">
+                    <span className="text-xl font-semibold">
+                      {formatter.format(
+                        user?.coin_dif ? +user?.coin_dif?.coin : 0
+                      )}
+                    </span>
+                    <span className="text-xl">
+                      <img src="./coin2.gif" className="w-[30px]" alt="" />
+                    </span>
+                    <Link
+                      to="/coin"
+                      className="text-2xl p-2 bg-orange-500 text-white rounded-lg leading-none"
+                    >
+                      +
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
