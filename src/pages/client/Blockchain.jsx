@@ -24,6 +24,8 @@ const Blockchain = () => {
   const [isShowingMore, setisShowingMore] = useState(false);
   const [lotteries, serLotteries] = useState(null);
   const [stateModalMetamask, setStateModalMetamask] = useState(false);
+  const [stateModalMetamaskPick, setStateModalMetamaskPick] = useState(false);
+
 
   const { setIsOpen } = useTour();
 
@@ -151,7 +153,7 @@ const Blockchain = () => {
     }
   };
   const pickWinner = async (e) => {
-    setStateModalMetamask(true)
+    setStateModalMetamaskPick(true)
     setStatePickWInner("Waiting on pick winner success... ");
 
     const accounts = await provider.send("eth_requestAccounts", []);
@@ -263,8 +265,8 @@ const Blockchain = () => {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        show={stateModalMetamask}
-        onHide={() => setStateModalMetamask(false)}
+        show={stateModalMetamaskPick}
+        onHide={() => setStateModalMetamaskPick(false)}
       >
         <Modal.Header closeButton>
           <Modal.Title>Crypto</Modal.Title>
