@@ -33,7 +33,7 @@ const ListUser = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `https://shoppet.site/api/users/list?page=${page}&keyword=${query}&group=${groupSeach}`,
+        `https://shoppet.fun/api/users/list?page=${page}&keyword=${query}&group=${groupSeach}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -89,7 +89,7 @@ const ListUser = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet.site/api/users/delete/${id}`,
+            `https://shoppet.fun/api/users/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }
@@ -107,7 +107,7 @@ const ListUser = () => {
   const exportExcel = async () => {
     try {
       const response = await axios.get(
-        `https://shoppet.site/api/users/exportExcel`,
+        `https://shoppet.fun/api/users/exportExcel`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -138,7 +138,7 @@ const ListUser = () => {
       console.log(fileImportExcel);
       const response = await axios({
         method: "POST",
-        url: "https://shoppet.site/api/users/importExcel",
+        url: "https://shoppet.fun/api/users/importExcel",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

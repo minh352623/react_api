@@ -29,7 +29,7 @@ const ListCoupon = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `https://shoppet.site/api/coupon?page=${page}&query=${query}`,
+        `https://shoppet.fun/api/coupon?page=${page}&query=${query}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -76,7 +76,7 @@ const ListCoupon = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet.site/api/coupon/delete/${id}`,
+            `https://shoppet.fun/api/coupon/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }

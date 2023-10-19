@@ -21,7 +21,7 @@ const Coin = () => {
 
     const response = await axios({
       method: "get",
-      url: "https://shoppet.site/api/setting/all",
+      url: "https://shoppet.fun/api/setting/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -35,7 +35,7 @@ const Coin = () => {
   const FetchCheckAcCoin = async () => {
     const response = await axios({
       method: "get",
-      url: "https://shoppet.site/api/users/checkCoin/" + user?.id,
+      url: "https://shoppet.fun/api/users/checkCoin/" + user?.id,
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -79,7 +79,7 @@ const Coin = () => {
         setLoading(true);
         const response = await axios({
           method: "post",
-          url: "https://shoppet.site/api/coin/add_dm",
+          url: "https://shoppet.fun/api/coin/add_dm",
           headers: {
             Authorization: "Bearer " + user?.token,
           },

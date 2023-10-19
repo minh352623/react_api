@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
-axios.defaults.baseURL = "https://shoppet.site/api";
+axios.defaults.baseURL = "https://shoppet.fun/api";
 axios.defaults.headers.common["Authorization"] = `Bearer ${cookies.get("jwt")}`;
 axios.interceptors.request.use(
   function (config) {

@@ -56,7 +56,7 @@ const Register = () => {
     console.log(user);
     user = JSON.stringify(user);
     try {
-      let result = await axios.post("https://shoppet.site/api/register", user, {
+      let result = await axios.post("https://shoppet.fun/api/register", user, {
         headers: { "Content-Type": "application/json" },
       });
       console.log(result);

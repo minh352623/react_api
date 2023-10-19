@@ -39,7 +39,7 @@ const ListProduct = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet.site/api/product/delete/${id}`,
+            `https://shoppet.fun/api/product/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }
@@ -65,7 +65,7 @@ const ListProduct = () => {
       setLoading(true);
       ////console.log(page);
       const respone = await axios.get(
-        "https://shoppet.site/api/product/list?query=" +
+        "https://shoppet.fun/api/product/list?query=" +
           query +
           "&page=" +
           page,

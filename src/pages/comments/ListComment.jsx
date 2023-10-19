@@ -29,7 +29,7 @@ const ListComment = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `https://shoppet.site/api/comment/getAll?page=${page}&query=${query}`,
+        `https://shoppet.fun/api/comment/getAll?page=${page}&query=${query}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -76,7 +76,7 @@ const ListComment = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet.site/api/comment/delete/${id}`,
+            `https://shoppet.fun/api/comment/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }

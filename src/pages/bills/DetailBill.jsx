@@ -25,7 +25,7 @@ const DetailBill = () => {
       setLoading(true);
       const response = await axios({
         method: "get",
-        url: "https://shoppet.site/api/bill/detail/" + bill,
+        url: "https://shoppet.fun/api/bill/detail/" + bill,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -60,7 +60,7 @@ const DetailBill = () => {
     try {
       const response = await axios({
         method: "post",
-        url: "https://shoppet.site/api/bill/update/" + bill,
+        url: "https://shoppet.fun/api/bill/update/" + bill,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

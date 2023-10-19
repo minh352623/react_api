@@ -16,7 +16,7 @@ const Coupons = () => {
   const [loading, setLoading] = useState(false);
 
   const listCoupon = async () => {
-    const response = await axios.get(`https://shoppet.site/api/coupon/getAll`, {
+    const response = await axios.get(`https://shoppet.fun/api/coupon/getAll`, {
       headers: { Authorization: "Bearer " + user?.token },
     });
     console.log(response);
@@ -40,7 +40,7 @@ const Coupons = () => {
       setLoading(true);
       const result = await axios({
         method: "post",
-        url: "https://shoppet.site/api/coupon/user_coupon",
+        url: "https://shoppet.fun/api/coupon/user_coupon",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

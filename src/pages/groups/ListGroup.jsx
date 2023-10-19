@@ -29,7 +29,7 @@ const ListGroup = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `https://shoppet.site/api/groups/list?page=${page}&query=${query}`,
+        `https://shoppet.fun/api/groups/list?page=${page}&query=${query}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -77,7 +77,7 @@ const ListGroup = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet.site/api/groups/delete/${id}`,
+            `https://shoppet.fun/api/groups/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }

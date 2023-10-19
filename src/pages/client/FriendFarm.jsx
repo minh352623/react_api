@@ -24,7 +24,7 @@ const FriendFarm = () => {
     try {
       const response = await axios({
         method: "get",
-        url: "https://shoppet.site/api/seed/getSeedUser/" + friend?.user_id,
+        url: "https://shoppet.fun/api/seed/getSeedUser/" + friend?.user_id,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -99,7 +99,7 @@ const FriendFarm = () => {
 
             const response = await axios({
               method: "post",
-              url: "https://shoppet.site/api/mission/calculate_friend",
+              url: "https://shoppet.fun/api/mission/calculate_friend",
               headers: {
                 Authorization: "Bearer " + user?.token,
               },

@@ -39,7 +39,7 @@ const ListMission = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet.site/api/mission/delete/${id}`,
+            `https://shoppet.fun/api/mission/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }
@@ -65,7 +65,7 @@ const ListMission = () => {
       setLoading(true);
       ////console.log(page);
       const respone = await axios.get(
-        "https://shoppet.site/api/mission/list?query=" +
+        "https://shoppet.fun/api/mission/list?query=" +
           query +
           "&page=" +
           page,

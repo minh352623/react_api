@@ -27,7 +27,7 @@ const Header = ({ check = true }) => {
 
       const result = await axios({
         method: "get",
-        url: "https://shoppet.site/api/logout",
+        url: "https://shoppet.fun/api/logout",
         headers: {
           Authorization: "Bearer " + user?.token,
         },

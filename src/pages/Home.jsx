@@ -55,7 +55,7 @@ const Home = () => {
   const FetchBills = async () => {
     const response = await axios({
       method: "get",
-      url: "https://shoppet.site/api/bill/billTk",
+      url: "https://shoppet.fun/api/bill/billTk",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -105,7 +105,7 @@ const Home = () => {
     try {
       const response = await axios({
         method: "get",
-        url: "https://shoppet.site/api/category/getCateTk",
+        url: "https://shoppet.fun/api/category/getCateTk",
         headers: {
           Authorization: "Bearer " + user?.token,
         },

@@ -75,7 +75,7 @@ const CountDown = ({ FetchWaterUser }) => {
     try {
       const response = await axios({
         method: "post",
-        url: "https://shoppet.site/api/seed/handleIncrementWater",
+        url: "https://shoppet.fun/api/seed/handleIncrementWater",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

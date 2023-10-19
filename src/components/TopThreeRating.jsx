@@ -13,7 +13,7 @@ const TopThreeRating = () => {
       try {
         const response = await axios({
           method: "GET",
-          url: "https://shoppet.site/api/product/top3",
+          url: "https://shoppet.fun/api/product/top3",
         });
         if (response.status === 200) {
           console.log(response);

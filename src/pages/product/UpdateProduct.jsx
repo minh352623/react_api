@@ -39,7 +39,7 @@ const UpdateProduct = () => {
     try {
       setLoading(true);
       const result = await axios.get(
-        "https://shoppet.site/api/product/update/" + id,
+        "https://shoppet.fun/api/product/update/" + id,
         {
           headers: {
             "Content-Type": "application/json",
@@ -90,7 +90,7 @@ const UpdateProduct = () => {
     try {
       const result = await axios({
         method: "POST",
-        url: "https://shoppet.site/api/product/update/" + id,
+        url: "https://shoppet.fun/api/product/update/" + id,
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -112,7 +112,7 @@ const UpdateProduct = () => {
   const fetchCate = async () => {
     const response = await axios({
       method: "get",
-      url: "https://shoppet.site/api/category/all",
+      url: "https://shoppet.fun/api/category/all",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + user?.token,

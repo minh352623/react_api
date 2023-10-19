@@ -39,7 +39,7 @@ const AddSlider = () => {
       setLoading(true);
       const respone = await axios({
         method: "post",
-        url: "https://shoppet.site/api/slider/add",
+        url: "https://shoppet.fun/api/slider/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

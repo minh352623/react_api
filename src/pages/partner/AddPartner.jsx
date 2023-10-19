@@ -34,7 +34,7 @@ const AddPartner = () => {
     try {
       const result = await axios({
         method: "post",
-        url: "https://shoppet.site/api/partner/add",
+        url: "https://shoppet.fun/api/partner/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

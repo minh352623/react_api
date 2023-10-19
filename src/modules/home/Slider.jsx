@@ -18,7 +18,7 @@ const Slider = () => {
   const FetchCate = async () => {
     const response = await axios({
       method: "get",
-      url: "https://shoppet.site/api/category/all",
+      url: "https://shoppet.fun/api/category/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -30,7 +30,7 @@ const Slider = () => {
   const FetchSlider = async () => {
     const response = await axios({
       method: "get",
-      url: "https://shoppet.site/api/slider/all",
+      url: "https://shoppet.fun/api/slider/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },

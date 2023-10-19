@@ -10,7 +10,7 @@ const Partner = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "https://shoppet.site/api/partner/all",
+        url: "https://shoppet.fun/api/partner/all",
 
         headers: {
           "Content-Type": "application/json",

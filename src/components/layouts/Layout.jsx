@@ -42,7 +42,7 @@ const Layout = ({ children }) => {
     setLoading(true);
     const response = await axios({
       method: "get",
-      url: "https://shoppet.site/api/menu/all",
+      url: "https://shoppet.fun/api/menu/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -57,7 +57,7 @@ const Layout = ({ children }) => {
 
     const response = await axios({
       method: "get",
-      url: "https://shoppet.site/api/setting/all",
+      url: "https://shoppet.fun/api/setting/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },

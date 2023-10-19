@@ -55,7 +55,7 @@ const Vnpay = ({ user, info, fee, sumf }) => {
           try {
             const response = await axios({
               method: "post",
-              url: "https://shoppet.site/api/coupon/delete_user_coupon",
+              url: "https://shoppet.fun/api/coupon/delete_user_coupon",
               headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + user?.token,
@@ -70,7 +70,7 @@ const Vnpay = ({ user, info, fee, sumf }) => {
 
         const result = await axios({
           method: "post",
-          url: "https://shoppet.site/api/bill/add",
+          url: "https://shoppet.fun/api/bill/add",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + user?.token,
@@ -79,7 +79,7 @@ const Vnpay = ({ user, info, fee, sumf }) => {
         });
         const response = await axios({
           method: "post",
-          url: "https://shoppet.site/api/bill/vnPay",
+          url: "https://shoppet.fun/api/bill/vnPay",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + user?.token,

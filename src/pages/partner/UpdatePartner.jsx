@@ -36,7 +36,7 @@ const UpdatePartner = () => {
     setLoading(true);
     const result = await axios({
       method: "get",
-      url: "https://shoppet.site/api/partner/update/" + partner,
+      url: "https://shoppet.fun/api/partner/update/" + partner,
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + user?.token,
@@ -59,7 +59,7 @@ const UpdatePartner = () => {
     try {
       const result = await axios({
         method: "post",
-        url: "https://shoppet.site/api/partner/update/" + partner,
+        url: "https://shoppet.fun/api/partner/update/" + partner,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

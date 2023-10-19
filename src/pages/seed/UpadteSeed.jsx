@@ -61,7 +61,7 @@ const UpdateSeed = () => {
       setLoading(true);
       const result = await axios({
         method: "post",
-        url: "https://shoppet.site/api/seed/update/" + id,
+        url: "https://shoppet.fun/api/seed/update/" + id,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -90,7 +90,7 @@ const UpdateSeed = () => {
     try {
       setLoading(true);
       const result = await axios.get(
-        "https://shoppet.site/api/seed/update/" + id,
+        "https://shoppet.fun/api/seed/update/" + id,
         {
           headers: {
             "Content-Type": "application/json",

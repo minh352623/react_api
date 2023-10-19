@@ -50,7 +50,7 @@ const ForgotPassword = () => {
       setLoading(true);
       const response = await axios({
         method: "POST",
-        url: "https://shoppet.site/api/sendMailForgotPassword",
+        url: "https://shoppet.fun/api/sendMailForgotPassword",
         data: {
           email: values.email,
         },

@@ -90,7 +90,7 @@ const ItemMission = ({
       setLoading(true);
       const response = await axios({
         method: "post",
-        url: "https://shoppet.site/api/mission/add_user",
+        url: "https://shoppet.fun/api/mission/add_user",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -141,7 +141,7 @@ const ItemMission = ({
       setLoading(true);
       const response = await axios({
         method: "post",
-        url: "https://shoppet.site/api/users/add_water",
+        url: "https://shoppet.fun/api/users/add_water",
         headers: {
           Authorization: "Bearer " + user?.token,
         },

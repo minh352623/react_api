@@ -307,7 +307,7 @@ const EventZoonbie = () => {
               try {
                 const response = await axios({
                   method: "POST",
-                  url: "https://shoppet.site/api/coin/add",
+                  url: "https://shoppet.fun/api/coin/add",
 
                   headers: {
                     "Content-Type": "application/json",

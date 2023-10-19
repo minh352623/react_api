@@ -55,7 +55,7 @@ const ResetPassword = () => {
 
       const response = await axios({
         method: "POST",
-        url: "https://shoppet.site/api/changePassword",
+        url: "https://shoppet.fun/api/changePassword",
         data: formData,
       });
       if (response.status === 201) {

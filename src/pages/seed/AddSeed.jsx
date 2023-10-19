@@ -53,7 +53,7 @@ const AddSeed = () => {
       setLoading(true);
       const result = await axios({
         method: "post",
-        url: "https://shoppet.site/api/seed/add",
+        url: "https://shoppet.fun/api/seed/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

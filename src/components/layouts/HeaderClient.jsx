@@ -48,7 +48,7 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
 
       const result = await axios({
         method: "get",
-        url: "https://shoppet.site/api/logout",
+        url: "https://shoppet.fun/api/logout",
         headers: {
           Authorization: "Bearer " + user?.token,
         },
@@ -241,23 +241,23 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
 
   const identify = async () => {
     // console.log(imageRef.current);
-      // const results = await model.classify(imageRef.current)
-      // return results
+    //   const results = await model.classify(imageRef.current)
+    //   return results
   }
 
   const triggerUpload = () => {
-      fileInputRef.current.click()
+      // fileInputRef.current.click()
   }
 
-  // React.useEffect(() => {
-  //     loadModel()
-  // }, [])
+  React.useEffect(() => {
+      // loadModel()
+  }, [])
 
-  // React.useEffect(() => {
-  //     if (imageURL) {
-  //         setHistory([imageURL, ...history])
-  //     }
-  // }, [imageURL])
+  React.useEffect(() => {
+      // if (imageURL) {
+      //     setHistory([imageURL, ...history])
+      // }
+  }, [imageURL])
 
   //end search image
 

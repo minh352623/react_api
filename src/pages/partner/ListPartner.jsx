@@ -28,7 +28,7 @@ const ListPartner = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `https://shoppet.site/api/partner/list?page=${page}&query=${query}`,
+        `https://shoppet.fun/api/partner/list?page=${page}&query=${query}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -75,7 +75,7 @@ const ListPartner = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet.site/api/partner/delete/${id}`,
+            `https://shoppet.fun/api/partner/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }

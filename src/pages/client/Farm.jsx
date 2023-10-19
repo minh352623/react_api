@@ -39,7 +39,7 @@ const Farm = () => {
   const FetchStore = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`https://shoppet.site/api/seed/getAll`, {
+      const response = await axios.get(`https://shoppet.fun/api/seed/getAll`, {
         headers: { Authorization: "Bearer " + user?.token },
       });
       if (response) {
@@ -74,7 +74,7 @@ const Farm = () => {
               formData.append("user_id", user?.id);
               const response = await axios({
                 method: "post",
-                url: "https://shoppet.site/api/seed/handleWatering",
+                url: "https://shoppet.fun/api/seed/handleWatering",
                 headers: {
                   "Content-Type": "application/json",
                   Authorization: "Bearer " + user?.token,
@@ -136,7 +136,7 @@ const Farm = () => {
     try {
       const response = await axios({
         method: "post",
-        url: "https://shoppet.site/api/seed/add_user",
+        url: "https://shoppet.fun/api/seed/add_user",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -189,7 +189,7 @@ const Farm = () => {
     try {
       const response = await axios({
         method: "get",
-        url: "https://shoppet.site/api/seed/getSeedUser/" + user?.id,
+        url: "https://shoppet.fun/api/seed/getSeedUser/" + user?.id,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -221,7 +221,7 @@ const Farm = () => {
     try {
       const response = await axios({
         method: "get",
-        url: "https://shoppet.site/api/seed/getWaterUser/" + user?.id,
+        url: "https://shoppet.fun/api/seed/getWaterUser/" + user?.id,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -263,7 +263,7 @@ const Farm = () => {
   const FetchSetting = async () => {
     const response = await axios({
       method: "get",
-      url: "https://shoppet.site/api/setting/all",
+      url: "https://shoppet.fun/api/setting/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -276,7 +276,7 @@ const Farm = () => {
   const FetchCheckAcRain = async () => {
     const response = await axios({
       method: "get",
-      url: "https://shoppet.site/api/users/checkRain/" + user?.id,
+      url: "https://shoppet.fun/api/users/checkRain/" + user?.id,
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -304,7 +304,7 @@ const Farm = () => {
     setLoading(true);
     const response = await axios({
       method: "get",
-      url: "https://shoppet.site/api/mission/getAll",
+      url: "https://shoppet.fun/api/mission/getAll",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -320,7 +320,7 @@ const Farm = () => {
       setLoading(true);
       const response = await axios({
         method: "get",
-        url: "https://shoppet.site/api/mission/mission_user/" + user?.id,
+        url: "https://shoppet.fun/api/mission/mission_user/" + user?.id,
         headers: {
           Authorization: "Bearer " + user?.token,
         },
@@ -356,7 +356,7 @@ const Farm = () => {
       formData.append("user_id", user?.id);
       const response = await axios({
         method: "post",
-        url: "https://shoppet.site/api/seed/harvest",
+        url: "https://shoppet.fun/api/seed/harvest",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -411,7 +411,7 @@ const Farm = () => {
         setLoading(true);
         const response = await axios({
           method: "post",
-          url: "https://shoppet.site/api/users/add_water",
+          url: "https://shoppet.fun/api/users/add_water",
           headers: {
             Authorization: "Bearer " + user?.token,
           },
@@ -468,7 +468,7 @@ const Farm = () => {
       setLoading(true);
       const response = await axios({
         method: "get",
-        url: "https://shoppet.site/api/seed/friend",
+        url: "https://shoppet.fun/api/seed/friend",
         headers: {
           Authorization: "Bearer " + user?.token,
         },

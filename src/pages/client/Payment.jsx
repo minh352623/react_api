@@ -15,7 +15,7 @@ const Payment = () => {
   const fetchBill = async () => {
     const response = await axios({
       method: "get",
-      url: "https://shoppet.site/api/bill/detail/" + bill,
+      url: "https://shoppet.fun/api/bill/detail/" + bill,
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + user?.token,

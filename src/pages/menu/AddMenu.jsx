@@ -31,7 +31,7 @@ const AddMenu = () => {
   const FetchMenu = async () => {
     const result = await axios({
       method: "GET",
-      url: `https://shoppet.site/api/menu/recusive`,
+      url: `https://shoppet.fun/api/menu/recusive`,
       headers: { Authorization: "Bearer " + user?.token },
     });
     if (result) {
@@ -50,7 +50,7 @@ const AddMenu = () => {
     try {
       const result = await axios({
         method: "post",
-        url: "https://shoppet.site/api/menu/add",
+        url: "https://shoppet.fun/api/menu/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

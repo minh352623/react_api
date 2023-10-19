@@ -36,7 +36,7 @@ const UpdateSetting = () => {
       setLoading(true);
       const response = await axios({
         method: "GET",
-        url: "https://shoppet.site/api/setting/update/" + setting,
+        url: "https://shoppet.fun/api/setting/update/" + setting,
 
         headers: {
           "Content-Type": "application/json",
@@ -68,7 +68,7 @@ const UpdateSetting = () => {
     try {
       const respone = await axios({
         method: "post",
-        url: "https://shoppet.site/api/setting/update/" + setting,
+        url: "https://shoppet.fun/api/setting/update/" + setting,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

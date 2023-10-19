@@ -35,7 +35,7 @@ const UpdateCategory = () => {
       setLoading(true);
       const response = await axios({
         method: "GET",
-        url: "https://shoppet.site/api/category/update/" + category,
+        url: "https://shoppet.fun/api/category/update/" + category,
 
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const UpdateCategory = () => {
     try {
       const respone = await axios({
         method: "post",
-        url: "https://shoppet.site/api/category/update/" + category,
+        url: "https://shoppet.fun/api/category/update/" + category,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

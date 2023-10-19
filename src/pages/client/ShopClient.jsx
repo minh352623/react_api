@@ -53,7 +53,7 @@ const ShopClient = () => {
   const FetchCate = async () => {
     const response = await axios({
       method: "get",
-      url: "https://shoppet.site/api/category/all",
+      url: "https://shoppet.fun/api/category/all",
       headers: {
         Authorization: "Bearer " + user?.token,
       },
@@ -104,7 +104,7 @@ const ShopClient = () => {
       // setProduct(null);
       const response = await axios({
         method: "POST",
-        url: `https://shoppet.site/api/product/filter?page=${page}`,
+        url: `https://shoppet.fun/api/product/filter?page=${page}`,
 
         headers: {
           Accept: "application/json",

@@ -81,7 +81,7 @@ const Shipping = () => {
       try {
         const response = await axios({
           method: "post",
-          url: "https://shoppet.site/api/coupon/delete_user_coupon",
+          url: "https://shoppet.fun/api/coupon/delete_user_coupon",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + user?.token,
@@ -95,7 +95,7 @@ const Shipping = () => {
 
     const response = await axios({
       method: "post",
-      url: "https://shoppet.site/api/bill/add",
+      url: "https://shoppet.fun/api/bill/add",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + user?.token,
@@ -174,7 +174,7 @@ const Shipping = () => {
       setLoading(true);
       const response = await axios({
         method: "get",
-        url: "https://shoppet.site/api/coupon/get_coupon_user/" + user?.id,
+        url: "https://shoppet.fun/api/coupon/get_coupon_user/" + user?.id,
 
         headers: {
           "Content-Type": "application/json",
@@ -366,7 +366,7 @@ const Shipping = () => {
         try {
           const response = await axios({
             method: "post",
-            url: "https://shoppet.site/api/coupon/delete_user_coupon",
+            url: "https://shoppet.fun/api/coupon/delete_user_coupon",
             headers: {
               "Content-Type": "application/json",
               Authorization: "Bearer " + user?.token,
@@ -381,7 +381,7 @@ const Shipping = () => {
 
       const response = await axios({
         method: "post",
-        url: "https://shoppet.site/api/bill/add",
+        url: "https://shoppet.fun/api/bill/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

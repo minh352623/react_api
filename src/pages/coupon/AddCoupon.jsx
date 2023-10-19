@@ -54,7 +54,7 @@ const AddCoupon = () => {
     try {
       const result = await axios({
         method: "post",
-        url: "https://shoppet.site/api/coupon/add",
+        url: "https://shoppet.fun/api/coupon/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

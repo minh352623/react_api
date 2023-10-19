@@ -51,7 +51,7 @@ const UpdateMission = () => {
       setLoading(true);
       const result = await axios({
         method: "post",
-        url: "https://shoppet.site/api/mission/update/" + id,
+        url: "https://shoppet.fun/api/mission/update/" + id,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,
@@ -80,7 +80,7 @@ const UpdateMission = () => {
     try {
       setLoading(true);
       const result = await axios.get(
-        "https://shoppet.site/api/mission/update/" + id,
+        "https://shoppet.fun/api/mission/update/" + id,
         {
           headers: {
             "Content-Type": "application/json",

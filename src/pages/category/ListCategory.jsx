@@ -28,7 +28,7 @@ const ListCategory = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `https://shoppet.site/api/category/list?page=${page}&query=${query}`,
+        `https://shoppet.fun/api/category/list?page=${page}&query=${query}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -76,7 +76,7 @@ const ListCategory = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet.site/api/category/delete/${id}`,
+            `https://shoppet.fun/api/category/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }

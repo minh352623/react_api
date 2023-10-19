@@ -28,7 +28,7 @@ const ListDiscount = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `https://shoppet.site/api/discount/list?page=${page}&query=${query}`,
+        `https://shoppet.fun/api/discount/list?page=${page}&query=${query}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -75,7 +75,7 @@ const ListDiscount = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet.site/api/discount/delete/${id}`,
+            `https://shoppet.fun/api/discount/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }

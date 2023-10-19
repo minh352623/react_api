@@ -28,7 +28,7 @@ const ListMenu = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `https://shoppet.site/api/menu/list?query=${query}&page=${page}`,
+        `https://shoppet.fun/api/menu/list?query=${query}&page=${page}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }
@@ -80,7 +80,7 @@ const ListMenu = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet.site/api/menu/delete/${id}`,
+            `https://shoppet.fun/api/menu/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }

@@ -43,7 +43,7 @@ const TabDetail = ({ description, product, isShow }) => {
       const response = await axios({
         method: "get",
         url:
-          "https://shoppet.site/api/comment/get/" +
+          "https://shoppet.fun/api/comment/get/" +
           product +
           "?page=" +
           page,
@@ -71,7 +71,7 @@ const TabDetail = ({ description, product, isShow }) => {
       try {
         const response = await axios({
           method: "post",
-          url: "https://shoppet.site/api/comment/add",
+          url: "https://shoppet.fun/api/comment/add",
           headers: {
             Authorization: "Bearer " + user?.token,
           },

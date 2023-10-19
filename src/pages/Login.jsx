@@ -31,7 +31,7 @@ const Login = () => {
     try {
       dispatch(setLoading(true));
 
-      let result = await axios.post("https://shoppet.site/api/login", user, {
+      let result = await axios.post("https://shoppet.fun/api/login", user, {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +92,7 @@ const Login = () => {
         let user = { name: data.name, token };
         console.log(user);
         let result = await axios.post(
-          "https://shoppet.site/api/loginWithFace",
+          "https://shoppet.fun/api/loginWithFace",
           user,
           {
             credentials: "include",
@@ -123,7 +123,7 @@ const Login = () => {
 
   useEffect(() => {
     const getUrlGoogle = async () => {
-      const result = await axios.get(`https://shoppet.site/api/auth/google`);
+      const result = await axios.get(`https://shoppet.fun/api/auth/google`);
       if (result) {
         setUrlGoogle(result.data.url);
       }
@@ -146,7 +146,7 @@ const Login = () => {
         dispatch(setLoading(true));
 
         let result = await axios.post(
-          "https://shoppet.site/api/loginWithFaceID",
+          "https://shoppet.fun/api/loginWithFaceID",
           JSON.stringify(userData.payload),
           {
             credentials: "include",

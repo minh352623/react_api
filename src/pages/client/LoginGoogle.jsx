@@ -15,7 +15,7 @@ const LoginGoogle = () => {
     console.log(location.search);
     const fetch = async () => {
       const response = await axios.get(
-        "https://shoppet.site/api/auth/google/callback" + location.search
+        "https://shoppet.fun/api/auth/google/callback" + location.search
       );
       if (response?.data?.token) {
         console.log(response.data.token);

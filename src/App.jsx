@@ -24,6 +24,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import Loader from "./components/Loader";
 import PrivateRoute from "./PrivateRoute";
 import axios from "axios";
+import { io } from "socket.io-client";
+
 import LoginGoogle from "./pages/client/LoginGoogle";
 const ResetPassword = lazy(() => import("./pages/client/ResetPassword"));
 const ForgotPassword = lazy(() => import("./pages/client/ForgotPassword"));
@@ -103,7 +105,10 @@ const cookies = new Cookies();
 function App() {
   const dispatch = useDispatch();
   const { user, loading } = useSelector((state) => state.user);
+  const [socket, setSocket] = useState();
+
   useEffect(() => {
+    
     dispatch(setLoading(true));
     if (cookies.get("user")) {
       dispatch(fetchCurrentUser(cookies.get("user")));
@@ -125,7 +130,7 @@ function App() {
     try {
       const response = await axios({
         method: "get",
-        url: "https://shoppet.site/api/caculator",
+        url: "https://shoppet.fun/api/caculator",
       });
       if (response) {
         console.log(response);
@@ -135,8 +140,30 @@ function App() {
     }
   };
   useEffect(() => {
+    const socket_connect = io("http://localhost:8080");
+    setSocket(socket_connect);
+    socket_connect?.off("socket_laravel_order");
+    socket_connect?.off("socket_laravel_user_coupon");
+    socket_connect?.on("socket_laravel_order", (data) => {
+      console.log("🚀 ~ file: App.jsx:147 ~ socket?.on ~ data:", data)
+      toast.success("Order!", {
+        position: "top-left",
+        autoClose: 2000,
+      });
+    });
+    socket_connect?.on("socket_laravel_user_coupon", (data) => {
+      console.log("🚀 ~ file: App.jsx:151 ~ socket?.on ~ data:", data)
+      toast.success("User Compon!", {
+        position: "top-left",
+        autoClose: 2000,
+      });
+    });
     calulatorRating();
   }, []);
+
+  useEffect(() => {
+    socket?.emit("addUser", user?.id);
+  }, [user, socket]);
   let faceioInstance = null;
   useEffect(() => {
     const faceioScript = document.createElement("script");

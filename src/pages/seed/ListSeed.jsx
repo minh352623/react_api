@@ -39,7 +39,7 @@ const ListSeed = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const data = await axios.delete(
-            `https://shoppet.site/api/seed/delete/${id}`,
+            `https://shoppet.fun/api/seed/delete/${id}`,
             {
               headers: { Authorization: "Bearer " + user?.token },
             }
@@ -65,7 +65,7 @@ const ListSeed = () => {
       setLoading(true);
       ////console.log(page);
       const respone = await axios.get(
-        "https://shoppet.site/api/seed/list?query=" + query + "&page=" + page,
+        "https://shoppet.fun/api/seed/list?query=" + query + "&page=" + page,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }

@@ -35,7 +35,7 @@ const FooterClientBot = () => {
                   setLoading(true);
                   const response = await axios({
                     method: "post",
-                    url: "https://shoppet.site/api/mission/add_user",
+                    url: "https://shoppet.fun/api/mission/add_user",
                     headers: {
                       "Content-Type": "application/json",
                       Authorization: "Bearer " + user?.token,

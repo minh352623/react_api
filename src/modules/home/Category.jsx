@@ -11,7 +11,7 @@ const Category = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "https://shoppet.site/api/category/all",
+        url: "https://shoppet.fun/api/category/all",
 
         headers: {
           "Content-Type": "application/json",

@@ -43,7 +43,7 @@ const UpdateCoupon = () => {
       setLoading(true);
       const response = await axios({
         method: "GET",
-        url: "https://shoppet.site/api/coupon/getOne/" + coupon,
+        url: "https://shoppet.fun/api/coupon/getOne/" + coupon,
 
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +83,7 @@ const UpdateCoupon = () => {
     try {
       const result = await axios({
         method: "post",
-        url: "https://shoppet.site/api/coupon/update/" + coupon,
+        url: "https://shoppet.fun/api/coupon/update/" + coupon,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + user?.token,

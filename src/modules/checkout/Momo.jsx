@@ -51,7 +51,7 @@ const Momo = ({ info, user, fee, sumf }) => {
           try {
             const response = await axios({
               method: "post",
-              url: "https://shoppet.site/api/coupon/delete_user_coupon",
+              url: "https://shoppet.fun/api/coupon/delete_user_coupon",
               headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + user?.token,
@@ -65,7 +65,7 @@ const Momo = ({ info, user, fee, sumf }) => {
 
         const result = await axios({
           method: "post",
-          url: "https://shoppet.site/api/bill/add",
+          url: "https://shoppet.fun/api/bill/add",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + user?.token,
@@ -78,7 +78,7 @@ const Momo = ({ info, user, fee, sumf }) => {
 
         const response = await axios({
           method: "post",
-          url: "https://shoppet.site/api/momo",
+          url: "https://shoppet.fun/api/momo",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + user?.token,

@@ -31,7 +31,7 @@ const ListBills = () => {
     setLoading(true);
     try {
       const respone = await axios.get(
-        `https://shoppet.site/api/bill/listBillAdmin?page=${page}&query=${query}&status=${status}`,
+        `https://shoppet.fun/api/bill/listBillAdmin?page=${page}&query=${query}&status=${status}`,
         {
           headers: { Authorization: "Bearer " + user?.token },
         }

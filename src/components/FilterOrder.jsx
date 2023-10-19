@@ -58,7 +58,7 @@ const FilterOrder = () => {
       const response = await axios({
         method: "POST",
 
-        url: "https://shoppet.site/api/bill/getAllFilter?page=" + page,
+        url: "https://shoppet.fun/api/bill/getAllFilter?page=" + page,
 
 
 
@@ -115,7 +115,7 @@ const FilterOrder = () => {
       formData.append("valueTo", valueToNew);
       const response = await axios({
         method: "POST",
-        url: "https://shoppet.site/api/bill/exportExcelFilter",
+        url: "https://shoppet.fun/api/bill/exportExcelFilter",
 
         headers: { Authorization: "Bearer " + user?.token },
         data: formData,
