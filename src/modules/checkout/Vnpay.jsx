@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { analytics } from "../../firebase/firebase-config";
 
-const Vnpay = ({ user, info, fee, sumf }) => {
+const Vnpay = ({ user, info, fee, sumf,applyToGHN }) => {
   const navigate = useNavigate();
   const handleVnpay = async () => {
     logEvent(analytics,"Thanh toán VNpay")
@@ -67,7 +67,8 @@ const Vnpay = ({ user, info, fee, sumf }) => {
           }
         }
         const infoVoucher = localStorage.removeItem("infoVoucher");
-
+        const res =  await applyToGHN();
+        formData.append("order_id_ghn", res?.data.data.order_code);
         const result = await axios({
           method: "post",
           url: "https://shoppet.fun/api/bill/add",

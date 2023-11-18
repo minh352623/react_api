@@ -1,5 +1,5 @@
 import * as React from "react";
-// import * as mobilenet from "@tensorflow-models/mobilenet";
+import * as mobilenet from "@tensorflow-models/mobilenet";
 
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -218,45 +218,45 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
   const fileInputRef = React.useRef()
 
   const loadModel = async () => {
-      // setIsModelLoading(true)
-      // try {
-      //     const model = await mobilenet.load()
-      //     setModel(model)
-      //     setIsModelLoading(false)
-      // } catch (error) {
-      //     console.log(error)
-      //     setIsModelLoading(false)
-      // }
+      setIsModelLoading(true)
+      try {
+          const model = await mobilenet.load()
+          setModel(model)
+          setIsModelLoading(false)
+      } catch (error) {
+          console.log(error)
+          setIsModelLoading(false)
+      }
   }
 
   const uploadImage = (e) => {
-      // const { files } = e.target
-      // if (files.length > 0) {
-      //     const url = URL.createObjectURL(files[0])
-      //     setImageURL(url)
-      // } else {
-      //     setImageURL(null)
-      // }
+      const { files } = e.target
+      if (files.length > 0) {
+          const url = URL.createObjectURL(files[0])
+          setImageURL(url)
+      } else {
+          setImageURL(null)
+      }
   }
 
   const identify = async () => {
-    // console.log(imageRef.current);
-    //   const results = await model.classify(imageRef.current)
-    //   return results
+    console.log(imageRef.current);
+      const results = await model.classify(imageRef.current)
+      return results
   }
 
   const triggerUpload = () => {
-      // fileInputRef.current.click()
+      fileInputRef.current.click()
   }
 
   React.useEffect(() => {
-      // loadModel()
+      loadModel()
   }, [])
 
   React.useEffect(() => {
-      // if (imageURL) {
-      //     setHistory([imageURL, ...history])
-      // }
+      if (imageURL) {
+          setHistory([imageURL, ...history])
+      }
   }, [imageURL])
 
   //end search image

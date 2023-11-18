@@ -378,6 +378,9 @@ const Shipping = () => {
         }
       }
       const infoVoucher = localStorage.removeItem("infoVoucher");
+      const orderGHN =  await applyToGHN();
+      console.log("🚀 ~ file: Shipping.jsx:382 ~ paymentWithMetamask ~ orderGHN:", orderGHN)
+      formData.append("order_id_ghn", orderGHN?.data.data.order_code);
 
       const response = await axios({
         method: "post",
@@ -389,6 +392,7 @@ const Shipping = () => {
         data: formData,
       });
       if (response) {
+
         localStorage.removeItem("sum");
         setStatePaymentMetamask("Order thành công!!");
         setStateModalMetamask(false);
@@ -436,6 +440,77 @@ const Shipping = () => {
         "🚀 ~ file: Shipping.jsx:247 ~ paymentWithMetamask ~ err:",
         err
       );
+    }
+  };
+
+  const applyToGHN = async () => {
+    try {
+      let service_id = JSON.parse(localStorage.getItem("service_id"));
+      let codeWard = JSON.parse(localStorage.getItem("codeWard"));
+      let codeDistrict = JSON.parse(localStorage.getItem("codeDistrict"));
+      const itemCart  = carts.map(item =>{
+        return {
+          name: item.name,
+          code: item.id.toString(),
+          quantity: +item.number,
+          price: item.price * 23000,
+          length: 12,
+          width: 12,
+          height: 12,
+          weight: 500,
+          category: {
+            level1: "Thức Ăn Thú Cưng",
+          }
+        }
+      });
+      const response = await axios({
+        method: "POST",
+        url: "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create",
+        headers: {
+          "Content-Type": "application/json",
+          Token: "4528b2a9-85c8-11ee-b1d4-92b443b7a897",
+          ShopId: "190365",
+        },
+        data: JSON.stringify({
+          payment_type_id: 2,
+          note: "Shoppet Payment",
+          required_note: "KHONGCHOXEMHANG",
+          from_name: "TinTest124",
+          from_phone: "0987654321",
+          from_address:
+            "447 tổ 16 ấp Mỹ bình, Xã Thạnh Mỹ Tây, Châu Phú, An Giang Vietnam",
+          from_ward_name: "Xã Thạnh Mỹ Tây",
+          from_district_name: "Huyện Châu Phú",
+          from_province_name: "An Giang",
+          client_order_code: "",
+          to_name: user?.email,
+          to_phone: info.phone,
+          to_address:info.address + "," + info.country ,
+          to_ward_code: codeWard,
+          to_district_id: +codeDistrict,
+          cod_amount: parseInt( parseFloat(JSON.parse(localStorage.getItem("sum"))).toFixed(2)) * 23000,
+          content: "Theo New York Times",
+          weight: 200,
+          length: 1,
+          width: 19,
+          height: 10,
+          pick_station_id: 1444,
+          deliver_station_id: null,
+          insurance_value:parseInt( parseFloat(JSON.parse(localStorage.getItem("sum"))).toFixed(2)) * 23000,
+          service_id: +service_id,
+          service_type_id: 2,
+          coupon: null,
+          pick_shift: [2],
+          items:itemCart
+        }),
+      });
+      console.log(
+        "🚀 ~ file: Shipping.jsx:497 ~ applyToGHN ~ response:",
+        response
+      );
+      return response;
+    } catch (e) {
+      console.log("🚀 ~ file: Shipping.jsx:446 ~ applyToGHN ~ e:", e);
     }
   };
   //end payment with metamask
@@ -600,14 +675,21 @@ const Shipping = () => {
           </div>
           <div className=" mt-3 justify-between">
             <>
-              <Paypal sumf={sumCart()} user={user} fee={feeVc} info={info} />
+              <Paypal
+                  applyToGHN={applyToGHN}
+              
+              sumf={sumCart()} user={user} fee={feeVc} info={info} />
               <div className="flex flex-col gap-3">
-                <Vnpay sumf={sumCart()} user={user} fee={feeVc} info={info} />
+                <Vnpay 
+                  applyToGHN={applyToGHN}
+                
+                sumf={sumCart()} user={user} fee={feeVc} info={info} />
                 <Momo
                   sumf={sumCart()}
                   user={user}
                   fee={feeVc}
                   info={info}
+                  applyToGHN={applyToGHN}
                 ></Momo>
                 <p
                   onClick={paymentWithMetamask}
@@ -622,7 +704,7 @@ const Shipping = () => {
             </>
           </div>
           <div className="flex items-center justify-between gap-3">
-          <Link to="/checkout">
+            <Link to="/checkout">
               <span className="flex items-center border rounded-lg border-blue-500 px-4 py-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -650,7 +732,6 @@ const Shipping = () => {
                 Get paid goods
               </p>
             </div>
-            
           </div>
         </div>
         <div className="col-span-6 ">

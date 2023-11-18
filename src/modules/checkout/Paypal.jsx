@@ -6,7 +6,7 @@ import { formatter } from "../../trait/FormatMoney";
 import { analytics } from "../../firebase/firebase-config";
 import { logEvent } from "firebase/analytics";
 
-const Paypal = ({ info, user, fee, sumf }) => {
+const Paypal = ({ info, user, fee, sumf ,applyToGHN}) => {
   logEvent(analytics,"Thanh toán PayPal")
 
   const { changeMoney } = useSelector((state) => state.user);
@@ -63,7 +63,9 @@ const Paypal = ({ info, user, fee, sumf }) => {
             } else if (+voucher.feature == 2) {
               formData.append("voucher", parseFloat(voucher.value).toFixed(2));
             }
-
+            const res =  await applyToGHN();
+            formData.append("order_id_ghn", res?.data.data.order_code);
+            
             const formData2 = new FormData();
             formData2.append("user_id", user?.id);
             formData2.append("coupon_id", voucher.id);

@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { analytics } from "../../firebase/firebase-config";
 import { logEvent } from "firebase/analytics";
 
-const Momo = ({ info, user, fee, sumf }) => {
+const Momo = ({ info, user, fee, sumf ,applyToGHN}) => {
   const handleMomo = async () => {
     logEvent(analytics,"Thanh toán MOMO")
     
@@ -62,6 +62,8 @@ const Momo = ({ info, user, fee, sumf }) => {
             console.log(e);
           }
         }
+        const res =  await applyToGHN();
+        formData.append("order_id_ghn", res?.data.data.order_code);
 
         const result = await axios({
           method: "post",
@@ -87,7 +89,7 @@ const Momo = ({ info, user, fee, sumf }) => {
         });
         if (response) {
           console.log(response);
-          window.open(response.data, "_self");
+          window.open(response.data, "_blank");
         }
       }
     });

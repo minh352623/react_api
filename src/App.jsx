@@ -140,24 +140,24 @@ function App() {
     }
   };
   useEffect(() => {
-    const socket_connect = io("http://localhost:8080");
-    setSocket(socket_connect);
-    socket_connect?.off("socket_laravel_order");
-    socket_connect?.off("socket_laravel_user_coupon");
-    socket_connect?.on("socket_laravel_order", (data) => {
-      console.log("🚀 ~ file: App.jsx:147 ~ socket?.on ~ data:", data)
-      toast.success("Order!", {
-        position: "top-left",
-        autoClose: 2000,
-      });
-    });
-    socket_connect?.on("socket_laravel_user_coupon", (data) => {
-      console.log("🚀 ~ file: App.jsx:151 ~ socket?.on ~ data:", data)
-      toast.success("User Compon!", {
-        position: "top-left",
-        autoClose: 2000,
-      });
-    });
+    // const socket_connect = io("http://localhost:8080");
+    // setSocket(socket_connect);
+    // socket_connect?.off("socket_laravel_order");
+    // socket_connect?.off("socket_laravel_user_coupon");
+    // socket_connect?.on("socket_laravel_order", (data) => {
+    //   console.log("🚀 ~ file: App.jsx:147 ~ socket?.on ~ data:", data)
+    //   toast.success("Order!", {
+    //     position: "top-left",
+    //     autoClose: 2000,
+    //   });
+    // });
+    // socket_connect?.on("socket_laravel_user_coupon", (data) => {
+    //   console.log("🚀 ~ file: App.jsx:151 ~ socket?.on ~ data:", data)
+    //   toast.success("User Compon!", {
+    //     position: "top-left",
+    //     autoClose: 2000,
+    //   });
+    // });
     calulatorRating();
   }, []);
 
