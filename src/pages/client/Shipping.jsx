@@ -435,6 +435,16 @@ const Shipping = () => {
             timer: 2000,
           });
           break;
+        default:
+          Swal.fire({
+            position: "center-center",
+            icon: "error",
+            title:
+              "Error from server",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          break;
       }
       console.log(
         "🚀 ~ file: Shipping.jsx:247 ~ paymentWithMetamask ~ err:",
@@ -453,7 +463,7 @@ const Shipping = () => {
           name: item.name,
           code: item.id.toString(),
           quantity: +item.number,
-          price: item.price * 23000,
+          price: parseFloat(item.price * 23000).toFixed(0),
           length: 12,
           width: 12,
           height: 12,
