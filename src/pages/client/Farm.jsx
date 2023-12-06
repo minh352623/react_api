@@ -489,12 +489,12 @@ const Farm = () => {
           <div className="vp rounded-lg w-[50%] z-[999] m-auto bg-slate-50 h-[90%]">
             <div className="header_vp leading-none items-center flex justify-between h-[8%] px-4 py-2 bg-orange-500 rounded-t-lg text-xl text-slate-50 text-center font-bold">
               <span></span>
-              <span>Danh sách bạn bè đang chơi nông trại</span>
+              <span>List friend</span>
               <span
                 onClick={() => setShowFriend(false)}
                 className="block cursor-pointer hover:text-blue-500"
               >
-                Đóng
+                Close
               </span>
             </div>
 
@@ -516,7 +516,7 @@ const Farm = () => {
         </div>
       )}
       <div className="bg_farm w-screen h-screen relative">
-        {audioBg ? (
+        {/* {audioBg ? (
           <p
             onClick={() => {
               console.log("audio");
@@ -536,7 +536,7 @@ const Farm = () => {
           >
             Bật nhạc
           </p>
-        )}
+        )} */}
         <FacebookShareCount url="https://main--leafy-trifle-205341.netlify.app/seo/home-page" />
         {mission && (
           <div className="bg-[rgba(0,0,0,0.3)] transition-all fixed z-[100] m-auto flex items-center justify-center top-0 bottom-0 left-0 right-0 ">

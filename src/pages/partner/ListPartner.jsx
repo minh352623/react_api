@@ -209,7 +209,7 @@ const ListPartner = () => {
                   <TableRow>
                     <TableCell colSpan="6">
                       <span className=" text-center block text-xl text-red-500">
-                        Không có dữ liệu
+                        No data
                       </span>
                     </TableCell>
                   </TableRow>

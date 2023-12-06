@@ -281,7 +281,7 @@ const ShopClient = () => {
 
               {products?.data?.length <= 0 && !loading && (
                 <div className=" flex h-[80%] items-center justify-center flex-col border rounded-2xl bg-gray-200 border-gray-500">
-                  <h2 className="text-center text-red-500">Không có dữ liệu</h2>
+                  <h2 className="text-center text-red-500">No data</h2>
                 </div>
               )}
 

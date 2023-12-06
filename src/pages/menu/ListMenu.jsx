@@ -208,7 +208,7 @@ const ListMenu = () => {
                   <TableRow>
                     <TableCell colSpan="6">
                       <span className="text-red-500 text-xl block text-center">
-                        Không có dữ liệu
+                        No data
                       </span>
                     </TableCell>
                   </TableRow>

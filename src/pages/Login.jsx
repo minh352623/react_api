@@ -333,7 +333,7 @@ const Login = () => {
               />
             </Form.Group>
             <Link to="/forgorpassword" className="my-3">
-              Quên mật khẩu?
+              Forgot password?
             </Link>
 
             <div className="flex justify-between my-2">

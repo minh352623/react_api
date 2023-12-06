@@ -326,7 +326,7 @@ const TabDetail = ({ description, product, isShow }) => {
               ))}
             {comments?.data.length <= 0 && (
               <div className="text-gray-500 p-3 text-center mt-5">
-                Bạn có thể là người bình luân đầu tiên ngay bây giờ
+                Add new comment
               </div>
             )}
             <ReactPaginate

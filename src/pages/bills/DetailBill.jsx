@@ -50,11 +50,11 @@ const DetailBill = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    let content = "Đang chuẩn bị hàng";
+    let content = "Preparing goods";
     if (+status == 1) {
-      content = "Đơn hàng của bạn đang vận chuyển";
+      content = "Your order is shipping";
     } else if (+status == 2) {
-      content = "Đơn hàng của bạn đã được giao";
+      content = "Your order has been delivered";
     }
     formData.append("status", status);
     try {

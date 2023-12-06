@@ -351,7 +351,7 @@ const ListUser = () => {
                     <TableCell colSpan="7">
                       <span className="text-center text-red-500 block text-xl">
                         {" "}
-                        Không có dữ liệu
+                        No data
                       </span>
                     </TableCell>
                   </TableRow>

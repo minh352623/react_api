@@ -218,7 +218,7 @@ const ListCategory = () => {
                   >
                     <TableCell colSpan="6">
                       <span className="text-center text-red-500 block text-xl">
-                        Không có dữ liệu
+                        No data
                       </span>
                     </TableCell>
                   </TableRow>

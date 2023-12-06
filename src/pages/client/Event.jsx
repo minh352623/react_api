@@ -2231,7 +2231,7 @@ const Event = () => {
             }}
             type="button"
           >
-            Về trang chủ
+            Home
           </button>
 
           <div class="credits">

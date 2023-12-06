@@ -599,7 +599,7 @@ const EventZoonbie = () => {
         }}
         type="button"
       >
-        Về trang chủ
+        Home
       </button>
       <a
         href="https://github.com/eliorshalev/zombie-mayhem"

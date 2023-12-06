@@ -20,6 +20,7 @@ import { logEvent } from "firebase/analytics";
 import { analytics } from "../../firebase/firebase-config";
 import { ethers } from "ethers";
 import Swal from "sweetalert2";
+import { ABI, address } from "../../trait/ABI";
 
 const style = {
   position: "absolute",
@@ -159,7 +160,8 @@ const Shipping = () => {
       setFee(result.data.data.service_fee / 23000);
     }
   };
-  React.useEffect(() => {
+  React.useEffect(async() => {
+    
     fee();
   }, []);
 
@@ -243,6 +245,8 @@ const Shipping = () => {
   //payment with metamask
   const [provider, setProvider] = useState(null);
   const [singer, setSinger] = useState(null);
+  const [contract, setContract] = useState(null);
+
   const [statePaymentMetamask, setStatePaymentMetamask] = useState("");
   const [stateModalMetamask, setStateModalMetamask] = useState(false);
   const initializeProvider = async () => {
@@ -260,6 +264,11 @@ const Shipping = () => {
           "🚀 ~ file: Shipping.jsx:256 ~ initializeProvider ~ singer:",
           singer
         );
+        const contract = new ethers.Contract(
+          address,
+          JSON.parse(JSON.stringify(ABI)),
+          singer
+        );
         // const contract = new ethers.Contract(
         //   address,
         //   JSON.parse(JSON.stringify(ABI)),
@@ -269,8 +278,11 @@ const Shipping = () => {
         //   "🚀 ~ file: Blockchain.jsx:27 ~ initializeProvider ~ contract:",
         //   contract
         // );
+        const res = await contract.getOrderById(1);
+        console.log("🚀 ~ file: Shipping.jsx:165 ~ React.useEffect ~ res:", res)
         setProvider(providerInstance);
         setSinger(singer);
+        setContract(contract)
       } catch (error) {
         console.log(
           "🚀 ~ file: HeaderClient.jsx:289 ~ initializeProvider ~ error:",
@@ -392,7 +404,8 @@ const Shipping = () => {
         data: formData,
       });
       if (response) {
-
+        const res = contract.addOrder(response.data.id_bill.toString() ?? "N/A",user.email ?? "test@gmail.com", response.data.total.toString()  ?? "10000",Date.now().toString());
+    
         localStorage.removeItem("sum");
         setStatePaymentMetamask("Order thành công!!");
         setStateModalMetamask(false);
@@ -463,7 +476,7 @@ const Shipping = () => {
           name: item.name,
           code: item.id.toString(),
           quantity: +item.number,
-          price: parseFloat(item.price * 23000).toFixed(0),
+          price: parseInt(parseFloat(item.price * 23000).toFixed(0)),
           length: 12,
           width: 12,
           height: 12,

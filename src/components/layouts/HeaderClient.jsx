@@ -595,7 +595,7 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
                         to="/"
                         className="text-slate-900 rounded-lg hover:text-white hover:bg-orange-400 p-2 block"
                       >
-                        Đổi mật khẩu
+                        Change passowrd
                       </Link>
                     </li>
                     <li className="text-center">
@@ -603,7 +603,7 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
                         to="/info"
                         className="text-slate-900 rounded-lg hover:text-white hover:bg-orange-400 p-2 block"
                       >
-                        Thông tin cá nhân
+                        Profile
                       </Link>
                     </li>
                     <li className="text-center">
@@ -611,7 +611,7 @@ const HeaderClient = ({ check, data = [], settings = [], fixed }) => {
                         to="/mybill"
                         className="text-slate-900 rounded-lg hover:text-white hover:bg-orange-400 p-2 block"
                       >
-                        Đơn hàng của tôi
+                        My order
                       </Link>
                     </li>
                   </ul>

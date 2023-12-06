@@ -158,13 +158,13 @@ const Coin = () => {
                       type="submit"
                       className="w-full py-3 flex items-center justify-center text-2xl bg-orange-400 rounded-xl font-bold text-slate-50 cursor-pointer"
                     >
-                      Điểm danh ngay
+                      Take attendance now
                     </button>
                   )}
                 </>
               ) : (
                 <p className="w-full py-3 flex items-center justify-center text-2xl bg-orange-400 rounded-xl font-bold text-slate-50 cursor-pointer opacity-30">
-                  Quay lại vào ngày mai
+                  Come back tomorrow
                 </p>
               )}
             </form>
@@ -180,7 +180,7 @@ const Coin = () => {
                   />
                 </Link>
                 <span className=" text-event py-2 block  text-center right-0 left-0  text-red-500 font-bold">
-                  Chơi game nhận quà hấp dẫn
+                  Play games to receive attractive gifts
                 </span>
               </div>
               <div className="col-span-3 top-1/3 right-[30px]  shadow rounded-xl">
@@ -195,7 +195,7 @@ const Coin = () => {
                   />
                 </Link>
                 <span className=" text-event py-2 block  text-center right-0 left-0  text-red-500 font-bold">
-                  Chơi game nhận quà hấp dẫn
+                  Play games to receive attractive gifts
                 </span>
               </div>
               <div className="col-span-3 top-1/3 left-[30px]  shadow rounded-xl">
@@ -210,7 +210,7 @@ const Coin = () => {
                   />
                 </Link>
                 <span className=" text-event py-2 block  text-center right-0 left-0  text-red-500 font-bold">
-                  Chơi game nhận quà hấp dẫn
+                  Play games to receive attractive gifts
                 </span>
               </div>
               <div className="col-span-3 top-1/3 left-[30px]  shadow rounded-xl">
@@ -225,7 +225,7 @@ const Coin = () => {
                   />
                 </Link>
                 <span className=" text-event py-2 block  text-center right-0 left-0  text-red-500 font-bold">
-                  Chơi game nhận quà hấp dẫn
+                  Play games to receive attractive gifts
                 </span>
               </div>
             </div>

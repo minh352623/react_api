@@ -16,12 +16,12 @@ const ItemCoupon = ({ item, createUserCoupon }) => {
             <p className="m-0 font-semibold">Đơn tối thiểu 0$</p>
 
             <p className="m-0">Số lượng còn lại: {item.number}</p>
-            <span>
+            {/* <span>
               <span> HSD </span>
               {moment(item.expires)
                 .tz("Asia/Bangkok")
                 .format("DD/MM/YYYY h:mm:ss A")}
-            </span>
+            </span> */}
           </div>
           <p
             onClick={() => createUserCoupon(item.id, item.coin_dre)}
@@ -42,12 +42,12 @@ const ItemCoupon = ({ item, createUserCoupon }) => {
             <p className="m-0 font-semibold">Đơn tối thiểu 0$</p>
 
             <p className="m-0">Số lượng còn lại: {item.number}</p>
-            <span>
+            {/* <span>
               <span> HSD </span>
               {moment(item.expires)
                 .tz("Asia/Bangkok")
                 .format("DD/MM/YYYY h:mm:ss A")}
-            </span>
+            </span> */}
           </div>
           <p className=" font-bold self-center mb-0  transition-all   mr-3 inline-flex items-center justify-center text-end p-3 rounded-lg bg-orange-400 text-slate-50">
             Đã hết mã

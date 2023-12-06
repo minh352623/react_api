@@ -435,7 +435,7 @@ https://codepen.io/EduardoLopes/pen/IJnAr/license
         }}
         type="button"
       >
-        Về trang chủ
+        Home
       </button>
     </div>
   );
