@@ -48,7 +48,7 @@ const TopThreeLess = () => {
                 />
               </span>
               <div className="flex flex-col gap-2">
-                <span className="font-bold">{product.info_product.name}</span>
+                <span className="font-bold">{product.info_product?.name ?? "N/A"}</span>
                 <span className="price font-bold  text-orange-400">
                   {formatter.format(product.info_product?.price)}
                 </span>
@@ -62,7 +62,7 @@ const TopThreeLess = () => {
                   {/* <Rating name="half-rating" defaultValue={2.5} precision={1} /> */}
                   <Rating
                     name="half-rating-read"
-                    defaultValue={+product.info_product.start}
+                    defaultValue={+product.info_product?.start ?? 0}
                     precision={0.5}
                     readOnly
                   />

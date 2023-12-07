@@ -160,8 +160,7 @@ const Shipping = () => {
       setFee(result.data.data.service_fee / 23000);
     }
   };
-  React.useEffect(async() => {
-    
+  React.useEffect(async () => {
     fee();
   }, []);
 
@@ -242,6 +241,29 @@ const Shipping = () => {
     return null;
   };
 
+  const createOrderBlockchain = async (orderId, email, totalPrice, date) => {
+    try {
+      const res = await axios({
+        method: "post",
+        url: "https://chiase.shoppet.fun/api/blockchain/addOrder",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          idOrder: orderId,
+          email: email,
+          price: totalPrice,
+          date: date,
+        },
+      });
+    } catch (e) {
+      console.log(
+        "🚀 ~ file: Shipping.jsx:249 ~ createOrderBlockchain ~ e:",
+        e
+      );
+    }
+  };
+
   //payment with metamask
   const [provider, setProvider] = useState(null);
   const [singer, setSinger] = useState(null);
@@ -279,10 +301,13 @@ const Shipping = () => {
         //   contract
         // );
         const res = await contract.getOrderById(1);
-        console.log("🚀 ~ file: Shipping.jsx:165 ~ React.useEffect ~ res:", res)
+        console.log(
+          "🚀 ~ file: Shipping.jsx:165 ~ React.useEffect ~ res:",
+          res
+        );
         setProvider(providerInstance);
         setSinger(singer);
-        setContract(contract)
+        setContract(contract);
       } catch (error) {
         console.log(
           "🚀 ~ file: HeaderClient.jsx:289 ~ initializeProvider ~ error:",
@@ -390,8 +415,11 @@ const Shipping = () => {
         }
       }
       const infoVoucher = localStorage.removeItem("infoVoucher");
-      const orderGHN =  await applyToGHN();
-      console.log("🚀 ~ file: Shipping.jsx:382 ~ paymentWithMetamask ~ orderGHN:", orderGHN)
+      const orderGHN = await applyToGHN();
+      console.log(
+        "🚀 ~ file: Shipping.jsx:382 ~ paymentWithMetamask ~ orderGHN:",
+        orderGHN
+      );
       formData.append("order_id_ghn", orderGHN?.data.data.order_code);
 
       const response = await axios({
@@ -404,8 +432,13 @@ const Shipping = () => {
         data: formData,
       });
       if (response) {
-        const res = contract.addOrder(response.data.id_bill.toString() ?? "N/A",user.email ?? "test@gmail.com", response.data.total.toString()  ?? "10000",Date.now().toString());
-    
+        createOrderBlockchain(
+          response.data.id_bill.toString() ?? "N/A",
+          user.email ?? "test@gmail.com",
+          response.data.total.toString() ?? "10000",
+          Date.now().toString()
+        );
+
         localStorage.removeItem("sum");
         setStatePaymentMetamask("Order thành công!!");
         setStateModalMetamask(false);
@@ -452,8 +485,7 @@ const Shipping = () => {
           Swal.fire({
             position: "center-center",
             icon: "error",
-            title:
-              "Error from server",
+            title: "Error from server",
             showConfirmButton: false,
             timer: 2000,
           });
@@ -471,7 +503,7 @@ const Shipping = () => {
       let service_id = JSON.parse(localStorage.getItem("service_id"));
       let codeWard = JSON.parse(localStorage.getItem("codeWard"));
       let codeDistrict = JSON.parse(localStorage.getItem("codeDistrict"));
-      const itemCart  = carts.map(item =>{
+      const itemCart = carts.map((item) => {
         return {
           name: item.name,
           code: item.id.toString(),
@@ -483,8 +515,8 @@ const Shipping = () => {
           weight: 500,
           category: {
             level1: "Thức Ăn Thú Cưng",
-          }
-        }
+          },
+        };
       });
       const response = await axios({
         method: "POST",
@@ -508,10 +540,13 @@ const Shipping = () => {
           client_order_code: "",
           to_name: user?.email,
           to_phone: info.phone,
-          to_address:info.address + "," + info.country ,
+          to_address: info.address + "," + info.country,
           to_ward_code: codeWard,
           to_district_id: +codeDistrict,
-          cod_amount: parseInt( parseFloat(JSON.parse(localStorage.getItem("sum"))).toFixed(2)) * 23000,
+          cod_amount:
+            parseInt(
+              parseFloat(JSON.parse(localStorage.getItem("sum"))).toFixed(2)
+            ) * 23000,
           content: "Theo New York Times",
           weight: 200,
           length: 1,
@@ -519,12 +554,15 @@ const Shipping = () => {
           height: 10,
           pick_station_id: 1444,
           deliver_station_id: null,
-          insurance_value:parseInt( parseFloat(JSON.parse(localStorage.getItem("sum"))).toFixed(2)) * 23000,
+          insurance_value:
+            parseInt(
+              parseFloat(JSON.parse(localStorage.getItem("sum"))).toFixed(2)
+            ) * 23000,
           service_id: +service_id,
           service_type_id: 2,
           coupon: null,
           pick_shift: [2],
-          items:itemCart
+          items: itemCart,
         }),
       });
       console.log(
@@ -699,14 +737,20 @@ const Shipping = () => {
           <div className=" mt-3 justify-between">
             <>
               <Paypal
-                  applyToGHN={applyToGHN}
-              
-              sumf={sumCart()} user={user} fee={feeVc} info={info} />
+                applyToGHN={applyToGHN}
+                sumf={sumCart()}
+                user={user}
+                fee={feeVc}
+                info={info}
+              />
               <div className="flex flex-col gap-3">
-                <Vnpay 
+                <Vnpay
                   applyToGHN={applyToGHN}
-                
-                sumf={sumCart()} user={user} fee={feeVc} info={info} />
+                  sumf={sumCart()}
+                  user={user}
+                  fee={feeVc}
+                  info={info}
+                />
                 <Momo
                   sumf={sumCart()}
                   user={user}
