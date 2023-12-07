@@ -432,21 +432,20 @@ const Shipping = () => {
         data: formData,
       });
       if (response) {
-        createOrderBlockchain(
+        await createOrderBlockchain(
           response.data.id_bill.toString() ?? "N/A",
           user.email ?? "test@gmail.com",
           response.data.total.toString() ?? "10000",
-          Date.now().toString()
+          response.data.date.toString() ?? Date.now().toString()
         );
 
         localStorage.removeItem("sum");
-        setStatePaymentMetamask("Order thành công!!");
+        setStatePaymentMetamask("Order success!!");
         setStateModalMetamask(false);
 
         console.log(response);
-        setTimeout(() => {
-          navigate("/payment/" + response.data.id_bill);
-        }, 2000);
+        
+          window.location.href = "/payment/" + response.data.id_bill
       }
       //order
     } catch (err) {

@@ -77,11 +77,11 @@ const Layout = ({ children }) => {
   const showScrollTop = () => {
     if (window.scrollY > 50) {
       setIsFixed(true);
-      ScrollTop.current.style.visibility = "visible";
+      ScrollTop.current? ScrollTop.current.style.visibility = "visible": "";
     } else {
       setIsFixed(false);
 
-      ScrollTop.current.style.visibility = "hidden";
+      ScrollTop.current? ScrollTop.current.style.visibility = "hidden": "";
     }
   };
   useEffect(() => {

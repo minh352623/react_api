@@ -10,7 +10,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import ReactPaginate from "react-paginate";
 import Swal from "sweetalert2";
-
 import { useRef } from "react";
 import moment from "moment-timezone";
 import { Link, Navigate, useNavigate } from "react-router-dom";
@@ -20,6 +19,7 @@ import { formatter } from "../trait/FormatMoney";
 import { getStatusBill } from "../trait/GetStatusBill";
 import Loading from "./Loading";
 import { ExportExcel } from "../trait/ExportExcel";
+import Modal from "react-bootstrap/Modal";
 
 const FilterOrder = () => {
   const { user } = useSelector((state) => state.user);
@@ -32,6 +32,13 @@ const FilterOrder = () => {
   const [valueTo, setValueTo] = useState(date);
   const [showCalendarFrom, setShowCalendarFrom] = useState(false);
   const [showCalendarTo, setShowCalendarTo] = useState(false);
+  const [showMoal, setShowModal] = useState(false);
+  const [stateCompare, setStateCompare] = useState(false);
+  const [dataOrderOne, setDataOrderOne] = useState(false);
+  const [dataOrderTwo, setDataOrderTwo] = useState(false);
+
+
+
   const hadnleFilter = () => {
     console.log(valueFrom);
     console.log(valueTo);
@@ -140,7 +147,60 @@ const FilterOrder = () => {
     }
   };
   return (
-    <div>
+    <>
+       <Modal
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        show={showMoal}
+        onHide={() => setShowModal(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Compare</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="flex gap-3 flex-col">
+            {stateCompare == "Error" && stateCompare != null ? <span className="font-medium text-red-500">Error</span>
+            :
+            <span className="font-medium text-green-500">Success</span>
+            }
+
+            <table>
+              <thead>
+                <tr>
+                <th>Type</th>
+
+                  <th>Order Id</th>
+                  <th>Email</th>
+                  <th>Total Price</th>
+                  <th>Date</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Data Blockchain</td>
+                  <td>{dataOrderOne.orderId}</td>
+                  <td>{dataOrderOne.email}</td>
+                  <td>{dataOrderOne.totalPrice}</td>
+                  <td>{dataOrderOne.date}</td>
+
+
+                </tr>
+                <tr>
+                  <td>Data Database</td>
+                  <td>{dataOrderTwo.orderId}</td>
+                  <td>{dataOrderTwo.email}</td>
+                  <td>{dataOrderTwo.totalPrice}</td>
+                  <td>{dataOrderTwo.date}</td>
+
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </Modal.Body>
+      </Modal>
       <div className="flex justify-between px-3 py-2 rounded-2xl shadow_main">
         <div className="flex gap-3 items-center ">
           <span className="font-bold ">Từ:</span>
@@ -301,7 +361,8 @@ const FilterOrder = () => {
                         </>
                       </TableCell>
 
-                      <TableCell align="left">
+                      <TableCell align="center">
+                       
                         <Link to={"/bill/" + item.id}>
                           <span>
                             <svg
@@ -326,10 +387,49 @@ const FilterOrder = () => {
                             </svg>
                           </span>
                         </Link>
+                        <button onClick={async()=>{
+
+                          //8 = 215 order Id
+                          const res = await axios({
+                            url:"https://chiase.shoppet.fun/api/blockchain/getOrderById/8",
+                            method:"GET"
+                          });
+                          const data = (res.data);
+                          console.log("🚀 ~ file: FilterOrder.jsx:339 ~ <buttononClick={async ~ data:", data,data[0] == item.id.toString())
+                          setShowModal(true)
+                          if(data[0] == item.id.toString()){
+                            setDataOrderOne({orderId: data[0],email: data[1],totalPrice: data[2],date: data[3]})
+                            setDataOrderTwo({orderId: item.id,email: item.user.email,totalPrice: item.total,date: item.created_at})
+
+
+                            if(data[1] == item.user.email && data[2] == item.total && data[3] == item.created_at){
+                              setStateCompare("success");
+                            }else{
+                              setStateCompare("error");
+                            }
+                          }else{
+                            const oldOrderId = parseInt(data[0]);
+                            const id = +item.id - oldOrderId +8;
+                            console.log("🚀 ~ file: FilterOrder.jsx:374 ~ <buttononClick={async ~ id:", id)
+                            const res2 = await axios({
+                              url:"https://chiase.shoppet.fun/api/blockchain/getOrderById/"+id,
+                              method:"GET"
+                            }); 
+                            const data2 = res2.data;
+                            setDataOrderTwo({orderId: item.id,email: item.user.email,totalPrice: item.total,date: item.created_at})
+                            setDataOrderOne({orderId: data2[0],email: data2[1],totalPrice: data2[2],date: data2[3]})
+                            if(data2[1] == item.user.email && data2[2] == item.total && data2[3] == item.created_at){
+                              setStateCompare("success")
+                            }else{
+                              setStateCompare("error")
+                            }
+                            console.log("🚀 ~ file: FilterOrder.jsx:379 ~ <buttononClick={async ~ res2:", res2)
+                          }
+                        }} className="px-3 py-2 bg-orange-400 rounded-lg text-white ">Compare</button>
                       </TableCell>
                     </TableRow>
                   ))}
-                {bills?.data?.length <= 0 && (
+                {bills?.data2?.length <= 0 && (
                   <TableRow>
                     <TableCell colSpan="6">
                       <span className=" text-center block text-xl text-red-500">
@@ -383,7 +483,7 @@ const FilterOrder = () => {
         renderOnZeroPageCount={null}
         className="pagination"
       />
-    </div>
+    </>
   );
 };
 
