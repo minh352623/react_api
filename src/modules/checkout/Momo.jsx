@@ -74,6 +74,17 @@ const Momo = ({ info, user, fee, sumf ,applyToGHN}) => {
           },
           data: formData,
         });
+    if(e.response.data.status == "Hethang"){
+      Swal.fire({
+        position: "center-center",
+        icon: "error",
+        title: "Sản phẩm đã hết hàng!!!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      window.location.href = "/shop";
+    }
+        
         localStorage.removeItem("sum");
         createOrderBlockchain(result.data.id_bill.toString() ?? "N/A",
         user.email ?? "test@gmail.com",
