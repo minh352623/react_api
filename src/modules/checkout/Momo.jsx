@@ -64,26 +64,30 @@ const Momo = ({ info, user, fee, sumf ,applyToGHN}) => {
         }
         const res =  await applyToGHN();
         formData.append("order_id_ghn", res?.data.data.order_code);
+        try{
+          const result = await axios({
+            method: "post",
+            url: "https://shoppet.fun/api/bill/add",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + user?.token,
+            },
+            data: formData,
+          });
+        }catch (e) {
+          if(e.response.data.status == "Hethang"){
+            Swal.fire({
+              position: "center-center",
+              icon: "error",
+              title: "Sản phẩm đã hết hàng!!!",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+            window.location.href = "/shop";
+          }
+        }
+       
 
-        const result = await axios({
-          method: "post",
-          url: "https://shoppet.fun/api/bill/add",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + user?.token,
-          },
-          data: formData,
-        });
-    if(e.response.data.status == "Hethang"){
-      Swal.fire({
-        position: "center-center",
-        icon: "error",
-        title: "Sản phẩm đã hết hàng!!!",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-      window.location.href = "/shop";
-    }
         
         localStorage.removeItem("sum");
         createOrderBlockchain(result.data.id_bill.toString() ?? "N/A",
