@@ -4,10 +4,10 @@ import Swal from "sweetalert2";
 import { analytics } from "../../firebase/firebase-config";
 import { logEvent } from "firebase/analytics";
 
-const Momo = ({ info, user, fee, sumf ,applyToGHN}) => {
+const Momo = ({ info, user, fee, sumf, applyToGHN ,createOrderBlockchain}) => {
   const handleMomo = async () => {
-    logEvent(analytics,"Thanh toán MOMO")
-    
+    logEvent(analytics, "Thanh toán MOMO");
+
     let sum = JSON.parse(localStorage.getItem("sum"));
     sum = parseFloat(sum).toFixed(2);
     Swal.fire({
@@ -62,9 +62,9 @@ const Momo = ({ info, user, fee, sumf ,applyToGHN}) => {
             console.log(e);
           }
         }
-        const res =  await applyToGHN();
+        const res = await applyToGHN();
         formData.append("order_id_ghn", res?.data.data.order_code);
-        try{
+        try {
           const result = await axios({
             method: "post",
             url: "https://shoppet.fun/api/bill/add",
@@ -74,8 +74,14 @@ const Momo = ({ info, user, fee, sumf ,applyToGHN}) => {
             },
             data: formData,
           });
-        }catch (e) {
-          if(e.response.data.status == "Hethang"){
+          await createOrderBlockchain(
+            result.data.id_bill.toString() ?? "N/A",
+            user.email ?? "test@gmail.com",
+            result.data.total.toString() ?? "00000",
+            result.data.date.toString() ?? Date.now().toString()
+          );
+        } catch (e) {
+          if (e.response.data.status == "Hethang") {
             Swal.fire({
               position: "center-center",
               icon: "error",
@@ -86,14 +92,9 @@ const Momo = ({ info, user, fee, sumf ,applyToGHN}) => {
             window.location.href = "/shop";
           }
         }
-       
 
-        
         localStorage.removeItem("sum");
-        createOrderBlockchain(result.data.id_bill.toString() ?? "N/A",
-        user.email ?? "test@gmail.com",
-        result.data.total.toString() ?? "00000",
-        result.data.date.toString() ?? Date.now().toString())
+
         const infoVoucher = localStorage.removeItem("infoVoucher");
 
         const response = await axios({
