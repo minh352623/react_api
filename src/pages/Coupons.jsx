@@ -34,19 +34,27 @@ const Coupons = () => {
     if (coin) {
       formData.append("coin", coin);
     }
+    // url: "http://localhost:8080/gateway/v1/rate-limit-voucher",
+
     formData.append("user_id", user?.id);
     formData.append("coupon_id", id);
     try {
       setLoading(true);
       const result = await axios({
         method: "post",
-        url: "https://shoppet.fun/api/coupon/user_coupon",
+    url: "https://shoppet.fun/api/coupon/user_coupon",
+
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + user?.token,
+          "Authorization": "Bearer " + user?.token,
         },
-        data: formData,
+        data: {
+          coin: +coin,
+          user_id: user?.id,
+          coupon_id: id,
+        },
       });
+      console.log("🚀 ~ file: Coupons.jsx:56 ~ createUserCoupon ~ result:", result)
 
       if (result) {
         console.log(result);

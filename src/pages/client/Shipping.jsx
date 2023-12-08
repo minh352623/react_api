@@ -93,23 +93,39 @@ const Shipping = () => {
         console.log(e);
       }
     }
+    try{
+      const response = await axios({
+        method: "post",
+        url: "https://shoppet.fun/api/bill/add",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + user?.token,
+        },
+        data: formData,
+      });
+      if (response) {
+        const infoVoucher = localStorage.removeItem("infoVoucher");
+        localStorage.removeItem("sum");
+  
+        console.log(response);
+        navigate("/payment/" + response.data.id_bill);
+      }
+    }catch(e){
+    console.log("🚀 ~ file: Shipping.jsx:114 ~ handlePayment ~ e:", e.response.data.status);
+    if(e.response.data.status == "Hethang"){
+      Swal.fire({
+        position: "center-center",
+        icon: "error",
+        title: "Sản phẩm đã hết hàng!!!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      window.location.href = "/shop";
 
-    const response = await axios({
-      method: "post",
-      url: "https://shoppet.fun/api/bill/add",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + user?.token,
-      },
-      data: formData,
-    });
-    if (response) {
-      const infoVoucher = localStorage.removeItem("infoVoucher");
-      localStorage.removeItem("sum");
-
-      console.log(response);
-      navigate("/payment/" + response.data.id_bill);
     }
+
+    }
+    
   };
   const [feeVc, setFee] = React.useState(0);
   const sumCart = () => {
@@ -755,6 +771,7 @@ const Shipping = () => {
                   user={user}
                   fee={feeVc}
                   info={info}
+                  createOrderBlockchain={createOrderBlockchain}
                   applyToGHN={applyToGHN}
                 ></Momo>
                 <p

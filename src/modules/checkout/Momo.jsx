@@ -75,7 +75,10 @@ const Momo = ({ info, user, fee, sumf ,applyToGHN}) => {
           data: formData,
         });
         localStorage.removeItem("sum");
-
+        createOrderBlockchain(result.data.id_bill.toString() ?? "N/A",
+        user.email ?? "test@gmail.com",
+        result.data.total.toString() ?? "00000",
+        result.data.date.toString() ?? Date.now().toString())
         const infoVoucher = localStorage.removeItem("infoVoucher");
 
         const response = await axios({
